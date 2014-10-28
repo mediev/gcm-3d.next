@@ -14,7 +14,7 @@
 \usepackage[unicode]{hyperref}
 \usepackage{graphicx}
 \usepackage{color}
-%\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorinlistoftodos]{todonotes}
 \usepackage[format=hang, labelsep=period, margin=7pt, figurename=Рис.]{caption}
 \usepackage{listings}
 \usepackage{subcaption}
@@ -67,19 +67,41 @@
 	Уравнения \eqref{failure_equations} могут иметь различный вид. Пока у нас простейшие модели -- решение этих(этого) уравнения не составит труда. Дальше будем думать.
 	Вместо этих уравнений могут быть различные критерии.
 	
+
+\section{Общий подход}
+
+\subsection{Принципиальная архитектура}
+
+Код модульный. <<Большие>> сущности (модель, метод, сетка -- см.ниже) являются чисто описательными классами, содержащими соответствующие базовые <<кирпичики>> (корреторы, сеттеры, интерполяторы и т.д.).
+
+\subsection{Что задаётся в таске}
+
+В таске задаются:
+	\begin{itemize}
+		\item{физическая модель для неразрушенного тела (\textbf{DeformationModel} по тексту ниже),}
+		\item{физическая модель разрушения (\textbf{FailureModel} по тексту ниже),}
+		\item{численный метод (\textbf{Solver} по тексту ниже),}
+		\item{тип сетки (\textbf{Mesh} по тексту ниже),}
+		\item{интерполятор (\textbf{Interpolator} по тексту ниже, зависит от метода и сетки, фактически определяет порядок по пространству),}
+		\item{граничные и контактные условия (\textbf{Calculator} + область действия).}
+	\end{itemize}
+
 \section{Модель}
 \subsection{DeformationModel}
 	Для пущей структурированности и удобства имплементации различной физики предлагаю ввести класс \textbf{DeformationModel}.
 	
 	Переменная \textbf{DeformationModelName}.
-	
+
 	В этот класс предлагаю ввести следующие сущности:
 	\begin{itemize}
 		\item{\textbf{Material} material -- материал,}
-		\item{\textbf{typedef Node}'а -- тип \textbf{Node}'a ассоциированного с расчитываемой моделью, далее при создании сетки будут использоваться \textbf{Node}'ы этого типа,}
+		\item{Информация о требуемом типе \textbf{Node}'ов. Далее при создании сетки должны использоваться \textbf{Node}'ы этого типа. Вероятно, потребует шаблонизации класса сетки. Общая схема, вероятно, по аналогии текущим видом MeshLoader'ов -- модель создаёт сетку с нодами нужного типа, после чего Loader грузит геометрию,}
 		\item{\textbf{MatrixSetter} matrixSetter -- заполняет матрицы текущей модели,}
 		\item{\textbf{InGomogeniousSetter} inGomogeniousSetter -- заполняет правую часть уравнений,}
+		\item{\textbf{Correctors} correctors -- набор корректоров, если модель их подразумевает (пример - идеальная пластика на базе корректора.}
 	\end{itemize}
+
+	Внутри всего указанного неявно скрывается размерность вектора $\vec{u}$.
 	
 	Варианты моделей:
 	\begin{itemize}
@@ -91,18 +113,11 @@
 	\end{itemize}
 	
 \subsection{FailureModel}
-	По аналогии \textbf{FailureModel}.
+
+	\textbf{FailureModel} с хорошей точностью совпадает с текущей реализаций. Содержит набор критериев и корректоров. Критерии и корректоры логически включают в себя как уравнения, так и алгоритм их решения (не обращаются в общем случае к дополнительным внешним классам). 
 	
 	Переменная \textbf{FailureModelName}.
 	Переменная \textbf{FailureModelType} -- = \textbf{discrete} \textit{or} = \textbf{continuum}.
-	
-	Тут могла бы быть ВАША модель разрушения с обслуживающим персоналом:
-	\begin{itemize}
-		\item{\textbf{Setter} -- если нужен}
-		\item{\textbf{failureConstants} -- любые критические параметры разрушения,}
-		\item{\textbf{failureSolverPtr} -- ссылочка на используемую в методе сущность, отвечающую за разрушение.}
-	\end{itemize}	
-	И прочее.
 	
 	Примерные варианты реализаций(дочерние классы):
 	\begin{itemize}
@@ -120,8 +135,6 @@
 			\item{Failure2Order;}
 		\end{itemize}
 	\end{itemize}
-	
-	Я представляю это себе так: \textbf{Engine} создаёт \textbf{DeformationModel}, \textbf{FailureModel} и \textbf{GCMsolver}, указанные в таске. Причём у нас в программе есть "библиотека моделей" (со всеми константами) и мы по сути выбираем её или создаём свою, указывая все необходимые параметры.
 	
 \section{Метод}
 \subsection{GCMsolver}
@@ -141,36 +154,29 @@
 			\item{\textbf{MatrixSetter} matrixSetter -- заполняет матрицы,}
 			\item{\textbf{InGomogeniousSetter} inGomogeniousSetter -- заполняет правую часть уравнений,}
 		\end{itemize}
-		\item{\textbf{Decomposer} decomposer -- разлагает матрицы,}
-		\item{\textbf{InGomogeniousSolver} ingomogeniousSolver -- решает уравнение на перенос инвариантов $\vec{\xi}$:}
+		\item{\textbf{Decomposer} decomposer -- разлагает матрицы (солвер несёт с собой <<декомпозер по умолчанию>>, модель может (как именно?) сказать, что нужен другой декомпозер (пример -- у меня изотропное тело и линейная упругость, разложение матриц известно в явном виде)),}
+		\item{\textbf{InGomogeniousSolver} ingomogeniousSolver -- используется для моделей с правой частью, решает уравнение на перенос инвариантов $\vec{\xi}$:}
 		\begin{equation}
 			\label{invariant_equation}
 			\frac{\partial\vec{\xi}}{\partial{t}}=\mathbf{\Omega}\vec{F},
 		\end{equation}
-		\item{\textbf{Mesh} mesh \textit{or} \textbf{MeshPtr} meshPtr  -- сетка(её область -- шаблон) с обслуживающим персоналом:}
-		\begin{itemize}
-			\item{\textbf{Interpolator} interpolator -- интерполирует значения инвариантов в точке(из \textbf{Mesh}'a),}
-			\item{\textbf{MeshMover} meshMover -- двигает сетку(из \textbf{Mesh}'a);}
-		\end{itemize}
-		\item{\textbf{FailureSolver} failureSolver -- corrector или что-то другое, решающее уравнения \eqref{failure_equations} и модифицирующий материал, решение, добавляющий трещину, изменяющий область трещины и пр.}
+		\item{\textbf{Interpolator} interpolator -- интерполирует значения инвариантов в точке, зависит от типа \textbf{Mesh}'a (не всё ко всему применимо), полностью инкапсулирует логику получения нового значения (классический гибридный метод -- это фактически такой умный интерполятор, который использует то 1-ый, то 2-ой порядок), задаётся в таске (<<а давайте всё то же самое, но теперь вторым порядком>>),}
+		\item{\textbf{MeshMover} meshMover -- двигает узлы, решая уравнение \eqref{mesh_movement_equation} нужным порядком,}
+		\item{\textbf{FailureSolver} failureSolver -- отвечает за решение \eqref{failure_equations}, скорее всего, является просто методом, физически вызывая \textbf{FailureModel}, в которой критерии и корректоры содержат нужную математику целиком.}
 	\end{itemize}
 	
-	Реализации второго порядка идёт либо с использованием \textbf{InterpolatorLimiter} interpolatorLimiter, либо отдельная реализация с гибридной схемой, использующая сущности \textbf{Interpolator1Order} interpolator1Order, \textbf{Interpolator2Order} interpolator2Order.
-	Если кто знает TVD, ENO, аппроксимационную вязкость или любую вязкость -- милости просим.
+	Если кто знает TVD, ENO, аппроксимационную вязкость или любую вязкость -- милости просим. (В смысле, это будет отдельный солвер, возможно, завязанный на тип сетки, с которым умеет работать.)
 	
 	Основной метод \textbf{doNextTimeStep} -- выполняет следующий шаг по времени.
-	
-	Далее, \textbf{внимание, осторожно} -- методы класса:
+
+\subsection{Calculator'ы}
+	Собственно:
 	\begin{itemize}
 		\item{VolumeCalculator,}
 		\item{BorderCalculator,}
 		\item{ContactCalculator.}
 	\end{itemize}
-	Осторожно, потому, что не думаю, что \textbf{это} -- лучшая идея внедрения всех калькуляторов в класс \textbf{GCMsolver}.
-	Не лучшая потому, что логичнее их оставить отдельными сущностями -- классами, но тогда их нужно включать в верхний список, а остальное включать в них. Незнаю как лучше это организовать.
-	\textbf{ПАМАГИТЕ!}
-	
-	Тут возможно стоит ещё что-то добавить про параллельность. Возможно много, потому что в моём представлении, реализации данного класса различны для последовательной и параллельной версии исполнения программы.
+	Примерно в том виде, какой есть. Не все применимы ко всем моделям.
 
 \subsection{CrossPointFinder}
 	Родительский класс. Производные классы -- реализации конкретного порядка и просто разные реализации.
@@ -192,7 +198,7 @@
 		\end{itemize}
 
 \subsection{Interpolator}
-	Насколько я понимаю сущность из \textbf{Mesh}'a.
+	Зависит от типа \textbf{Mesh}'a (не все со всеми могут работать).
 	
 	Неоходимы отдельные реализации классов:
 	\begin{itemize}
@@ -246,29 +252,13 @@
 			\item{InGomogeniousSolver2Order.}
 		\end{itemize}
 
-\subsection{FailureSolver}
-	Переменная \textbf{timeOrder}.
-	Переменная \textbf{FailureModelType} -- = \textbf{discrete} \textit{or} = \textbf{continuum}.
-	
-	Решаем уравнение на инварианты \eqref{failure_equations} или запускаем корректоры.
-	
-	Примерные варианты реализаций:
+
+\section{Сетка}
+
+Более-менее соответствует нынешнему виду. Должна учитывать: 
 	\begin{itemize}
-		\item{FailureDiscrete,}
-		\begin{itemize}
-			\item{MisesCriterionCorrector,}
-			\item{MohrCoulombCriterionCorrector,}
-			\item{HashinCriterionCorrector,}
-			\item{TsaiHillCriterionCorrector,}
-			\item{TsaiWuCriterionCorrector;}
-		\end{itemize}
-		\item{FailureContinuumSolver,}
-		\begin{itemize}
-			\item{Failure1OrderSolver,}
-			\item{Failure2OrderSolver;}
-		\end{itemize}
+		\item{параллельность;}
+		\item{потенциальную возможность перестройки в ходе счёта.}
 	\end{itemize}
-	
-	Далее корректирует упругие постоянные, решение и пр.
 
 \end{document}
