@@ -1,0 +1,274 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{indentfirst}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{mathtext}
+\usepackage{cite}
+\usepackage{enumerate}
+\usepackage{float}
+\usepackage[top=1.5cm,bottom=1.5cm,left=2.5cm,right=1.5cm]{geometry}
+\usepackage[unicode]{hyperref}
+\usepackage{graphicx}
+\usepackage{color}
+%\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[format=hang, labelsep=period, margin=7pt, figurename=Рис.]{caption}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage[onehalfspacing, nodisplayskipstretch]{setspace}
+\usepackage{hyperref}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\numberwithin{equation}{section}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\begin{document}
+\section{Постановка задачи}
+
+\subsection{Цели и задачи модификации}	
+	\begin{itemize}
+		\item{обеспечить по итогам текущей модернизации кода удобство интегрирования новых 	реологических моделей МСС, новых численных алгоритмов, выполняющих расчёт этих моделей;}
+		\item{сделать код более структурированным, более понятным и простым для ознакомления и будующих расширений.}
+	\end{itemize}
+	
+\subsection{Постановка задачи}
+
+	На данный момент задача в самой общей постановке представляет собой систему \textit{N} квазилинейных гиперболических уравнений в частных производных:
+\begin{equation}
+	\label{main_equation}
+	\frac{\partial\vec{u}}{\partial{t}}+\mathbf{A}_x\frac{\partial\vec{u}}{\partial{x}}+
+	\mathbf{A}_y\frac{\partial\vec{u}}{\partial{y}}+
+	\mathbf{A}_z\frac{\partial\vec{u}}{\partial{z}}=\vec{f},
+\end{equation}
+	где $\mathbf{A}_x = \mathbf{A}_x(\vec{u}, \vec{r}, t)$, $\mathbf{A}_y = \mathbf{A}_y(\vec{u}, \vec{r}, t)$, $\mathbf{A}_z = \mathbf{A}_z(\vec{u}, \vec{r}, t)$, $\vec{f} = \vec{f}(\vec{u}, \vec{r}, t)$.
+	
+	Также движение сетки описывается уравнением:
+\begin{equation}
+	\label{mesh_movement_equation}
+	\frac{\partial\vec{r}}{\partial{t}}=\vec{v}.
+\end{equation}	
+	
+	Кинетика разрушений в общем случае описывается системой эволюционных уравнений:
+\begin{equation}
+	\label{failure_equations}
+	\frac{\partial{\vec{\chi}}}{\partial{t}}=\vec{F}(\vec{r}, t, \vec{u}, \vec{\chi}),
+\end{equation}		
+	где $\vec{\chi}$ -- так называемые внутренние параметры, характеризующие внутреннюю структуру материала (пористость, размер пор, повреждённость, параметр упрочнения и пр.).
+	
+	Уравнение \eqref{mesh_movement_equation} подразумевает замену дифференциального оператора разностным нужного порядка.
+	
+	Уравнения \eqref{failure_equations} могут иметь различный вид. Пока у нас простейшие модели -- решение этих(этого) уравнения не составит труда. Дальше будем думать.
+	Вместо этих уравнений могут быть различные критерии.
+	
+\section{Модель}
+\subsection{DeformationModel}
+	Для пущей структурированности и удобства имплементации различной физики предлагаю ввести класс \textbf{DeformationModel}.
+	
+	Переменная \textbf{DeformationModelName}.
+	
+	В этот класс предлагаю ввести следующие сущности:
+	\begin{itemize}
+		\item{\textbf{Material} material -- материал,}
+		\item{\textbf{typedef Node}'а -- тип \textbf{Node}'a ассоциированного с расчитываемой моделью, далее при создании сетки будут использоваться \textbf{Node}'ы этого типа,}
+		\item{\textbf{MatrixSetter} matrixSetter -- заполняет матрицы текущей модели,}
+		\item{\textbf{InGomogeniousSetter} inGomogeniousSetter -- заполняет правую часть уравнений,}
+	\end{itemize}
+	
+	Варианты моделей:
+	\begin{itemize}
+		\item{Elasticity,}
+		\item{ElasticityFiniteStrains,}
+		\item{NonLinearElasticity,}
+		\item{Plasticity,}
+		\item{ThermoElasticity.}
+	\end{itemize}
+	
+\subsection{FailureModel}
+	По аналогии \textbf{FailureModel}.
+	
+	Переменная \textbf{FailureModelName}.
+	Переменная \textbf{FailureModelType} -- = \textbf{discrete} \textit{or} = \textbf{continuum}.
+	
+	Тут могла бы быть ВАША модель разрушения с обслуживающим персоналом:
+	\begin{itemize}
+		\item{\textbf{Setter} -- если нужен}
+		\item{\textbf{failureConstants} -- любые критические параметры разрушения,}
+		\item{\textbf{failureSolverPtr} -- ссылочка на используемую в методе сущность, отвечающую за разрушение.}
+	\end{itemize}	
+	И прочее.
+	
+	Примерные варианты реализаций(дочерние классы):
+	\begin{itemize}
+		\item{FailureDiscrete,}
+		\begin{itemize}
+			\item{MisesCriterion,}
+			\item{MohrCoulombCriterion,}
+			\item{HashinCriterion,}
+			\item{TsaiHillCriterion,}
+			\item{TsaiWuCriterion;}
+		\end{itemize}
+		\item{FailureContinuum,}
+		\begin{itemize}
+			\item{Failure1Order,}
+			\item{Failure2Order;}
+		\end{itemize}
+	\end{itemize}
+	
+	Я представляю это себе так: \textbf{Engine} создаёт \textbf{DeformationModel}, \textbf{FailureModel} и \textbf{GCMsolver}, указанные в таске. Причём у нас в программе есть "библиотека моделей" (со всеми константами) и мы по сути выбираем её или создаём свою, указывая все необходимые параметры.
+	
+\section{Метод}
+\subsection{GCMsolver}
+	Родительский класс -- \textbf{GCMsolver}. Его предлагаю сделать обобщённым.
+	
+	Содержит переменные \textbf{spaceOrder}, \textbf{timeOrder}, \textbf{bufNodes}.
+	А также \textbf{bufСoefficients} -- наклоны характеристик, которые уточняются в процессе решения.
+	
+	Далее, флаг \textbf{HomogeniousSystem}. Необходимы отдельно метод для однородных систем и отдельно для неоднородных систем.
+	
+	Далее, поскольку у нас сеточно-характеристический метод и больше никого (появится FEM будет FEMsolver) разумно определить сюда базовые кирпичи GCM'а.
+	
+	\begin{itemize}
+		\item{\textbf{CrossPointFinder} сrossPointFinder - ищет точку пересечения характеристики,}
+		\item{\textbf{ModelPtr} -- ссылка на текущую модель,}
+		\begin{itemize}
+			\item{\textbf{MatrixSetter} matrixSetter -- заполняет матрицы,}
+			\item{\textbf{InGomogeniousSetter} inGomogeniousSetter -- заполняет правую часть уравнений,}
+		\end{itemize}
+		\item{\textbf{Decomposer} decomposer -- разлагает матрицы,}
+		\item{\textbf{InGomogeniousSolver} ingomogeniousSolver -- решает уравнение на перенос инвариантов $\vec{\xi}$:}
+		\begin{equation}
+			\label{invariant_equation}
+			\frac{\partial\vec{\xi}}{\partial{t}}=\mathbf{\Omega}\vec{F},
+		\end{equation}
+		\item{\textbf{Mesh} mesh \textit{or} \textbf{MeshPtr} meshPtr  -- сетка(её область -- шаблон) с обслуживающим персоналом:}
+		\begin{itemize}
+			\item{\textbf{Interpolator} interpolator -- интерполирует значения инвариантов в точке(из \textbf{Mesh}'a),}
+			\item{\textbf{MeshMover} meshMover -- двигает сетку(из \textbf{Mesh}'a);}
+		\end{itemize}
+		\item{\textbf{FailureSolver} failureSolver -- corrector или что-то другое, решающее уравнения \eqref{failure_equations} и модифицирующий материал, решение, добавляющий трещину, изменяющий область трещины и пр.}
+	\end{itemize}
+	
+	Реализации второго порядка идёт либо с использованием \textbf{InterpolatorLimiter} interpolatorLimiter, либо отдельная реализация с гибридной схемой, использующая сущности \textbf{Interpolator1Order} interpolator1Order, \textbf{Interpolator2Order} interpolator2Order.
+	Если кто знает TVD, ENO, аппроксимационную вязкость или любую вязкость -- милости просим.
+	
+	Основной метод \textbf{doNextTimeStep} -- выполняет следующий шаг по времени.
+	
+	Далее, \textbf{внимание, осторожно} -- методы класса:
+	\begin{itemize}
+		\item{VolumeCalculator,}
+		\item{BorderCalculator,}
+		\item{ContactCalculator.}
+	\end{itemize}
+	Осторожно, потому, что не думаю, что \textbf{это} -- лучшая идея внедрения всех калькуляторов в класс \textbf{GCMsolver}.
+	Не лучшая потому, что логичнее их оставить отдельными сущностями -- классами, но тогда их нужно включать в верхний список, а остальное включать в них. Незнаю как лучше это организовать.
+	\textbf{ПАМАГИТЕ!}
+	
+	Тут возможно стоит ещё что-то добавить про параллельность. Возможно много, потому что в моём представлении, реализации данного класса различны для последовательной и параллельной версии исполнения программы.
+
+\subsection{CrossPointFinder}
+	Родительский класс. Производные классы -- реализации конкретного порядка и просто разные реализации.
+	В зависимости от реализации получает набор нодов и реологических параметров
+	
+	Переменная \textbf{spaceOrder}.
+	
+	Флаг \textbf{linearCharateristics} -- если характеристики -- прямые линии, в соответствии с моделью тут следует использовать первый порядок, дающий точное положение. Такакя же ситуация как и с \textbf{HomogeneusSystem}.
+	Тут два варианта: 
+		\begin{itemize}
+			\item{отдельно метод второго порядка для прямых характеристик, с указанием нужного метода в модели;}
+			\item{На этапе инициализации \textbf{Model} программа понимает, что нужно использовать линейный \textbf{Finder} для метода второго порядка.}
+		\end{itemize}
+
+	Предполагаемые реализации:
+		\begin{itemize}
+			\item{CrossPointFinder1Order;}
+			\item{CrossPointFinder2Order.}
+		\end{itemize}
+
+\subsection{Interpolator}
+	Насколько я понимаю сущность из \textbf{Mesh}'a.
+	
+	Неоходимы отдельные реализации классов:
+	\begin{itemize}
+		\item{Interpolator1Order;}
+		\item{Interpolator2Order;}
+		\begin{itemize}
+				\item{Interpolator2Order;}
+				\item{InterpolatorLimiter,}
+				\begin{itemize}
+					\item{InterpolatorLimiterMinMax,}
+					\item{InterpolatorLimiterLinear.}
+				\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	
+\subsection{MatrixSetter}
+	Получает \textbf{curNode} и заполняет матрицы $\mathbf{A}_x$, $\mathbf{A}_y$, $\mathbf{A}_z$ в соответствии с моделью.
+	
+\subsection{InGomogeniousSetter}
+	Получает \textbf{curNode} и заполняет правую часть неоднородного уравнения $\vec{F}$ в соответствии с моделью.
+	
+\subsection{MeshMover}
+	Переменная \textbf{timeOrder}.
+	Решает уравнение \eqref{mesh_movement_equation} в соответствии с порядком:
+	\begin{itemize}
+		\item{MeshMover1Order;}
+		\item{MeshMover2Order.}
+	\end{itemize}	
+	
+	Получает \textbf{curNode} и двигает его в соответствии с решением.
+
+\subsection{Decomposer}
+	Реализации:
+	\begin{itemize}
+			\item{NumericalDecomposer;}
+			\item{AnalyticalDecomposer,}
+			\begin{itemize}
+					\item{IsotropicDecomposer,}
+					\item{GeneralAnalyticalDecomposer.}
+			\end{itemize}
+	\end{itemize}
+
+\subsection{InGomogeniousSolver}
+	Переменная \textbf{timeOrder}.
+	
+	Решаем уравнение на инварианты \eqref{invariant_equation}.
+	
+	Предполагаемые реализации:
+		\begin{itemize}
+			\item{InGomogeniousSolver1Order;}
+			\item{InGomogeniousSolver2Order.}
+		\end{itemize}
+
+\subsection{FailureSolver}
+	Переменная \textbf{timeOrder}.
+	Переменная \textbf{FailureModelType} -- = \textbf{discrete} \textit{or} = \textbf{continuum}.
+	
+	Решаем уравнение на инварианты \eqref{failure_equations} или запускаем корректоры.
+	
+	Примерные варианты реализаций:
+	\begin{itemize}
+		\item{FailureDiscrete,}
+		\begin{itemize}
+			\item{MisesCriterionCorrector,}
+			\item{MohrCoulombCriterionCorrector,}
+			\item{HashinCriterionCorrector,}
+			\item{TsaiHillCriterionCorrector,}
+			\item{TsaiWuCriterionCorrector;}
+		\end{itemize}
+		\item{FailureContinuumSolver,}
+		\begin{itemize}
+			\item{Failure1OrderSolver,}
+			\item{Failure2OrderSolver;}
+		\end{itemize}
+	\end{itemize}
+	
+	Далее корректирует упругие постоянные, решение и пр.
+
+\end{document}
