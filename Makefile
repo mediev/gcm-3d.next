@@ -3,6 +3,9 @@ PLFLAGS=-halt-on-error
 default: build
 
 build:
+	
+
+blueprint:
 	pdflatex ${PLFLAGS} spaceship.tex
 	pdflatex ${PLFLAGS} spaceship.tex
 
