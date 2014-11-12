@@ -7,6 +7,20 @@
 
 #include "libgcm/node/CalcNode.hpp"
 
+#include "libgcm/failureModels/FailureModel.hpp"
+#include "libgcm/failureModels/NoFailureModel.hpp"
+#include "libgcm/failureModels/CrackFailureModel.hpp"
+#include "libgcm/failureModels/ScalarFailureModel.hpp"
+#include "libgcm/failureModels/ContinualFailureModel.hpp"
+#include "libgcm/failureModels/DebugFailureModel.hpp"
+#include "libgcm/failureModels/HashinFailureModel.hpp"
+#include "libgcm/failureModels/TsaiHillFailureModel.hpp"
+#include "libgcm/failureModels/TsaiWuFailureModel.hpp"
+#include "libgcm/failureModels/DruckerPragerFailureModel.hpp"
+#include "libgcm/failureModels/PuckFailureModel.hpp"
+
+#include "libgcm/rheologyModels/Material.hpp"
+
 
 namespace gcm {
 

@@ -3,15 +3,10 @@
 
 #include <memory>
 
-#include "libgcm/node/ICalcNode.hpp"
-#include "libgcm/util/matrixes.hpp"
-#include "libgcm/Exception.hpp"
-#include "libgcm/util/Types.hpp"
-#include "libgcm/util/Assertion.hpp"
-#include "libgcm/rheology/Material.hpp"
-#include "libgcm/rheology/setters/ISetter.hpp"
-#include "libgcm/rheology/decomposers/IDecomposer.hpp"
-#include "libgcm/rheology/correctors/ICorrector.hpp"
+#include "libgcm/rheologyModels/matrixSetters/RheologyMatrixSetter.hpp"
+#include "libgcm/rheologyModels/Material.hpp"
+#include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
+
 
 
 namespace gcm
@@ -20,7 +15,7 @@ namespace gcm
     /**
      * Holds rheology matrix A and provides a way to compute «decomposition» of
      * original matrix to 3 matrices \f$U\f$, \f$\Lambda\f$, \f$U^{-1}\f$
-     * that  \f$U^{-2} * \Lambda * U == A\f$.
+     * that  \f$U^{-1} * \Lambda * U == A\f$.
      */
 
     class RheologyMatrix

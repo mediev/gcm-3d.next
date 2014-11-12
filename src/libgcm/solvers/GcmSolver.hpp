@@ -5,6 +5,15 @@
 
 #include "libgcm/mesh/Mesh.hpp"
 
+#include "libgcm/calc/volume/VolumeCalculator.hpp"
+#include "libgcm/calc/border/BorderCalculator.hpp"
+#include "libgcm/calc/contact/ContactCalculator.hpp"
+#include "libgcm/interpolator/TetrInterpolator.hpp"
+#include "libgcm/interpolator/TetrFirstOrderInterpolator.hpp"
+#include "libgcm/interpolator/TetrSecondOrderMinMaxInterpolator.hpp"
+#include "libgcm/interpolator/LineFirstOrderInterpolator.hpp"
+
+
 namespace gcm {
     /*
      * Numerical method

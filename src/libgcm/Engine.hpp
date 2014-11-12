@@ -12,30 +12,12 @@
 #include <limits>
 #include <functional>
 
-#include "libgcm/calc/volume/VolumeCalculator.hpp"
-#include "libgcm/calc/border/BorderCalculator.hpp"
-#include "libgcm/calc/contact/ContactCalculator.hpp"
+
 #include "libgcm/util/forms/PulseForm.hpp"
 #include "libgcm/util/areas/BoxArea.hpp"
 #include "libgcm/method/NumericalMethod.hpp"
-#include "libgcm/interpolator/TetrInterpolator.hpp"
-#include "libgcm/interpolator/TetrFirstOrderInterpolator.hpp"
-#include "libgcm/interpolator/TetrSecondOrderMinMaxInterpolator.hpp"
-#include "libgcm/interpolator/LineFirstOrderInterpolator.hpp"
 
-#include "libgcm/failure/FailureModel.hpp"
-#include "libgcm/failure/NoFailureModel.hpp"
-#include "libgcm/failure/CrackFailureModel.hpp"
-#include "libgcm/failure/ScalarFailureModel.hpp"
-#include "libgcm/failure/ContinualFailureModel.hpp"
-#include "libgcm/failure/DebugFailureModel.hpp"
-#include "libgcm/failure/HashinFailureModel.hpp"
-#include "libgcm/failure/TsaiHillFailureModel.hpp"
-#include "libgcm/failure/TsaiWuFailureModel.hpp"
-#include "libgcm/failure/DruckerPragerFailureModel.hpp"
-#include "libgcm/failure/PuckFailureModel.hpp"
 
-#include "libgcm/rheology/Material.hpp"
 #include "libgcm/rheology/RheologyCalculator.hpp"
 #include "libgcm/rheology/DummyRheologyCalculator.hpp"
 #include "libgcm/GCMDispatcher.hpp"
