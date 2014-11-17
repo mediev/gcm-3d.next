@@ -29,7 +29,15 @@ namespace gcm {
         RheologyModel();
         ~RheologyModel();
         std::string getType();
-        
+		/**
+		 * Number of values to calculate
+		 */
+		int valNum;
+		/**
+		 * Number of values who eigenvalue is equil to zero
+		 */
+		int zeroNum;
+		
         // TODO: is it possible to make all these entities singletons?
         // It's not clear if they have internal state or are completely stateless.
 
