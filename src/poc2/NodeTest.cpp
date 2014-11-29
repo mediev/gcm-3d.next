@@ -13,7 +13,7 @@
 // Real parameters that matter
 #define sizeOfVectorInPDE 10
 #define sizeOfValuesInODEs 3
-#define numberOfNodes 10000000
+#define numberOfNodes 1000000
 #define readIterations 100
 
 
