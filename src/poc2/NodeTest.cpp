@@ -4,6 +4,7 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include <new>
 
 #include<math.h>
 #include<stdlib.h>
@@ -92,18 +93,19 @@ public:
     double *valuesInODEs;
     double coords[3];
     
-    Node1();
+    Node1(double *data1, int i);
     ~Node1();
 };
 
-Node1::Node1() {
-    vectorInPDE = new double[sizeOfVectorInPDE];
-    valuesInODEs = new double[sizeOfValuesInODEs];
+Node1::Node1(double *data1, int i) {
+	vectorInPDE = new (data1 + i * (sizeOfVectorInPDE + sizeOfValuesInODEs)) double[sizeOfVectorInPDE]; 
+	new double[50];
+	valuesInODEs = new (data1 + i * (sizeOfVectorInPDE + sizeOfValuesInODEs) + sizeOfVectorInPDE) double[sizeOfValuesInODEs]; 
 }
 
 Node1::~Node1() {
-    delete [] vectorInPDE;
-    delete [] valuesInODEs;
+    //delete [] vectorInPDE;
+    //delete [] valuesInODEs;
 }
 
 
@@ -118,6 +120,7 @@ public:
 };
 
 Node2::Node2() {
+new double[50];
 }
 
 Node2::~Node2() {
@@ -126,7 +129,13 @@ Node2::~Node2() {
 
 int main()
 {
-    Node1* n1 = new Node1[numberOfNodes];
+Node1* n1 = static_cast<Node1*>(operator new[] (numberOfNodes * sizeof(Node1)));
+double* data1 = static_cast<double*>(operator new[] (numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE) * sizeof(double)));
+for (int i = 0; i < numberOfNodes; i++)
+  {
+      new (n1 + i) Node1(data1, i); 
+  }
+
     Node2* n2 = new Node2[numberOfNodes];
     
     // Fill nodes
@@ -205,6 +214,16 @@ int main()
     
     print_test_results("Non-aligned", t1, "Aligned", t2);
     
+
+for (int i = 0; i < numberOfNodes; i++)
+  {
+     n1[i].~Node1();
+  }
+  operator delete[] (n1);
+  operator delete[] (data1);
+
     return 0;
 }
+
+
 
