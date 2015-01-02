@@ -93,14 +93,19 @@ public:
     double *valuesInODEs;
     double coords[3];
     
-    Node1(double *data1, int i);
+    Node1();
     ~Node1();
+    void initMemory(double *buffer, int nodeNum);
 };
 
-Node1::Node1(double *data1, int i) {
-	vectorInPDE = new (data1 + i * (sizeOfVectorInPDE + sizeOfValuesInODEs)) double[sizeOfVectorInPDE]; 
-	new double[50];
-	valuesInODEs = new (data1 + i * (sizeOfVectorInPDE + sizeOfValuesInODEs) + sizeOfVectorInPDE) double[sizeOfValuesInODEs]; 
+Node1::Node1() {
+}
+
+void Node1::initMemory(double *buffer, int nodeNum) {
+    double* startAddr = buffer + nodeNum * (sizeOfVectorInPDE + sizeOfValuesInODEs);
+    vectorInPDE = new (startAddr) double[sizeOfVectorInPDE];
+    new double[50];
+    valuesInODEs = new (startAddr + sizeOfVectorInPDE) double[sizeOfValuesInODEs];
 }
 
 Node1::~Node1() {
@@ -120,7 +125,7 @@ public:
 };
 
 Node2::Node2() {
-new double[50];
+    new double[50];
 }
 
 Node2::~Node2() {
@@ -129,12 +134,11 @@ Node2::~Node2() {
 
 int main()
 {
-Node1* n1 = static_cast<Node1*>(operator new[] (numberOfNodes * sizeof(Node1)));
-double* data1 = static_cast<double*>(operator new[] (numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE) * sizeof(double)));
-for (int i = 0; i < numberOfNodes; i++)
-  {
-      new (n1 + i) Node1(data1, i); 
-  }
+    Node1* n1 = new Node1[numberOfNodes];
+    double* buffer = new double[(numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE) * sizeof(double))];
+    for (int i = 0; i < numberOfNodes; i++) {
+        n1[i].initMemory(buffer, i);
+    }
 
     Node2* n2 = new Node2[numberOfNodes];
     
@@ -215,15 +219,9 @@ for (int i = 0; i < numberOfNodes; i++)
     print_test_results("Non-aligned", t1, "Aligned", t2);
     
 
-for (int i = 0; i < numberOfNodes; i++)
-  {
-     n1[i].~Node1();
-  }
-  operator delete[] (n1);
-  operator delete[] (data1);
+    delete[] (n1);
+    delete[] (n2);
+    delete[] (buffer);
 
     return 0;
 }
-
-
-
