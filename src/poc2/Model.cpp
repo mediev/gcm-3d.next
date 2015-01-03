@@ -12,7 +12,6 @@ ModelTwo::ModelTwo() {
 	printf("ModelTwo();\tSizeOfVectorInPDE = %d\n", sizeOfVectorInPDE);
 }
 
-
 ModelThree::ModelThree() {
 	printf("ModelThree();\tSizeOfVectorInPDE = %d\n", sizeOfVectorInPDE);
 }

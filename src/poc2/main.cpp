@@ -15,7 +15,7 @@ public:
 		mesh(mesh), solver(solver), model(model) {};
 	void doCalc()
 	{
-		solver->doCalc(mesh->getNode(0));
+		solver->doCalc(mesh->getNodeWrapper());
 	}
 };
 
@@ -40,11 +40,12 @@ Body loadBody(std::string modelType, std::string solverType, std::string meshTyp
 
 	if (meshType == "tetrMesh") {
 		mesh = new TetrMesh();
-		mesh->load(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs());
 	} else if (meshType == "cubicMesh") {
 		mesh = new CubicMesh();
-		mesh->load(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs());
 	}
+
+	mesh->setModel(model);
+	mesh->load();
 
 	return Body(mesh, solver, model);
 };

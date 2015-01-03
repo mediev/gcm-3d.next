@@ -3,12 +3,18 @@
 #include "Solver.hpp"
 
 
-void DefaultSolver::doCalc(Node& node)
+void DefaultSolver::doCalc(NodeWrapper* node)
 {
-	printf("DefaultSolver: vector size = %d\n", node.sizeOfVectorInPDE);
+	CalcNodeWrapper* cnode = (CalcNodeWrapper*)node;
+	// Just test that method exists
+	cnode->getFoo();
+	printf("DefaultSolver: vector size = %d\n", cnode->getSizeOfVectorInPDE());
 }
 
-void CustomSolver::doCalc(Node& node)
+void CustomSolver::doCalc(NodeWrapper* node)
 {
-	printf("CustomSolver: vector size = %d\n", node.sizeOfVectorInPDE);
+	CustomNodeWrapper* cnode = (CustomNodeWrapper*)node;
+	// Just test that method exists
+	cnode->getTemperature();
+	printf("CustomSolver: vector size = %d\n", cnode->getSizeOfVectorInPDE());
 }

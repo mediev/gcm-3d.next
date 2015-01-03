@@ -135,7 +135,7 @@ Node2::~Node2() {
 int main()
 {
     Node1* n1 = new Node1[numberOfNodes];
-    double* buffer = new double[(numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE) * sizeof(double))];
+    double* buffer = new double[numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE)];
     for (int i = 0; i < numberOfNodes; i++) {
         n1[i].initMemory(buffer, i);
     }

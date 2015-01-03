@@ -1,6 +1,6 @@
 all:
-	g++ -c *.cpp
-	g++ -o test *.o
+	g++ --std=c++11 -c `ls *.cpp | grep -v Test`
+	g++ --std=c++11 -o test *.o
 
 run-perf-test:
 	g++ -O0 --std=c++11 -o node_perf_test NodeTest.cpp
