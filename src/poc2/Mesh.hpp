@@ -19,7 +19,7 @@ public:
 	virtual void load() = 0;
 	//FIXME TODO@avasyukov: how can we resize mesh on the fly?
 	void initContainer(unsigned int numberOfNodes);
-	NodeWrapper* getNodeWrapper();
+	NodeWrapper& getNodeWrapper();
 	void setModel(Model* _model);
 	void addNode(Node node);
 	Node& createNode();

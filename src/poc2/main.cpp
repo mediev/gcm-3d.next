@@ -15,7 +15,9 @@ public:
 		mesh(mesh), solver(solver), model(model) {};
 	void doCalc()
 	{
-		solver->doCalc(mesh->getNodeWrapper());
+		NodeWrapper& nodes = mesh->getNodeWrapper();
+		for(int i = 0; i < nodes.getNodesNumber(); i++)
+			solver->doCalc(nodes.getNode(i));
 	}
 };
 
@@ -80,10 +82,26 @@ void testD() {
 	printf("\n");
 }
 
+void testE() {
+	printf("==== Test E ====\n");
+	Body b = loadBody("modelOne", "customSolver", "tetrMesh");
+	b.doCalc();
+	printf("\n");
+}
+
+void testF() {
+	printf("==== Test F ====\n");
+	Body b = loadBody("modelTwo", "defaultSolver", "tetrMesh");
+	b.doCalc();
+	printf("\n");
+}
+
 int main() {
 	testA();
 	testB();
 	testC();
 	testD();
+	testE();
+	testF();
 	return 0;
 }

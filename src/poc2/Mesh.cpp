@@ -2,6 +2,8 @@
 
 #include "Mesh.hpp"
 
+#define NODES_IN_TEST_MESH 3
+
 Mesh::Mesh() {
 	container = NULL;
 }
@@ -27,8 +29,8 @@ Node& Mesh::getNode(unsigned int n) {
 	return nodes[n];
 }
 
-NodeWrapper* Mesh::getNodeWrapper() {
-	return model->getNodeWrapper(&nodes[0]);
+NodeWrapper& Mesh::getNodeWrapper() {
+	return model->getNodeWrapper(&nodes[0], nodes.size());
 }
 
 void Mesh::setModel(Model* _model) {
@@ -44,8 +46,8 @@ void Mesh::initContainer(unsigned int numberOfNodes) {
 
 void TetrMesh::load() {
 	// We should pre-read number of nodes somehow
-	initContainer(10);
-	for(int i = 0; i < 10; i++) {
+	initContainer(NODES_IN_TEST_MESH);
+	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
 		Node& newNode = createNode();
 		//Fill node
 	}
@@ -54,8 +56,8 @@ void TetrMesh::load() {
 
 void CubicMesh::load() {
 	// We should pre-read number of nodes somehow
-	initContainer(10);
-	for(int i = 0; i < 10; i++) {
+	initContainer(NODES_IN_TEST_MESH);
+	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
 		Node& newNode = createNode();
 		//Fill node
 	}

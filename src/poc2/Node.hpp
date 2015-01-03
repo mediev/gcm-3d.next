@@ -25,11 +25,22 @@ private:
 class NodeWrapper
 {
 protected:
-	const Node* node;
+	Node* baseNode;
+	Node* node;
+	unsigned int nodesNumber;
 	
 public:
-	NodeWrapper(const Node* node): node(node)
+	NodeWrapper(Node* baseNode, unsigned int nodesNumber): baseNode(baseNode), nodesNumber(nodesNumber)
 	{
+	}
+	
+	unsigned int getNodesNumber() {
+		return nodesNumber;
+	}
+	
+	NodeWrapper& getNode(int number) {
+		node = baseNode + number;
+		return *this;
 	}
 	
 	//TODO: do we really need it?
@@ -69,7 +80,7 @@ class CalcNodeWrapper: public NodeWrapper
 {
 	
 public:
-	CalcNodeWrapper(const Node* node): NodeWrapper(node)
+	CalcNodeWrapper(Node* node, unsigned int nodesNumber): NodeWrapper(node, nodesNumber)
 	{
 		// TODO@avasyukov: assert values size
 	}
@@ -100,7 +111,7 @@ class CustomNodeWrapper: public NodeWrapper
 {
 	
 public:
-	CustomNodeWrapper(const Node* node): NodeWrapper(node)
+	CustomNodeWrapper(Node* node, unsigned int nodesNumber): NodeWrapper(node, nodesNumber)
 	{
 		// TODO@avasyukov: assert values size
 	}
