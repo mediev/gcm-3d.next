@@ -42,13 +42,13 @@ public:
 class ModelThree : public Model {
 	static const unsigned char sizeOfVectorInPDE = 11;
 	static const unsigned char sizeOfValuesInODEs = 5;
-	CustomNodeWrapper* nodeWrapper;
+	AnotherCustomNodeWrapper* nodeWrapper;
 public:
 	ModelThree();
 	unsigned char getSizeOfVectorInPDE() {return sizeOfVectorInPDE;};
 	unsigned char getSizeOfValuesInODEs() {return sizeOfValuesInODEs;};
 	NodeWrapper& getNodeWrapper(Node* container, unsigned int size) {
-		nodeWrapper = new CustomNodeWrapper(container, size);
+		nodeWrapper = new AnotherCustomNodeWrapper(container, size);
 		return *nodeWrapper;
 	}
 };

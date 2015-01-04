@@ -36,9 +36,10 @@ Node::~Node() {
 }
 
 void Node::operator=(const Node& orig) {
-	// TODO: asserts that memory is initialized and size is correct
-	sizeOfValuesInODEs = orig.sizeOfValuesInODEs;
-	sizeOfVectorInPDE = orig.sizeOfVectorInPDE;
+	assert(sizeOfValuesInODEs == orig.sizeOfValuesInODEs);
+	assert(sizeOfVectorInPDE = orig.sizeOfVectorInPDE);
+	assert(vectorInPDE != NULL);
+	assert(valuesInODEs != NULL);
 	coords[0] = orig.coords[0];
 	coords[1] = orig.coords[1];
 	coords[2] = orig.coords[2];

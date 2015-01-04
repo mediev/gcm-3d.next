@@ -14,7 +14,10 @@ Mesh::~Mesh() {
 }
 
 void Mesh::addNode(Node node) {
-	//TODO@avasyukov: assert node size against current model params and node memory initialization
+	assert(node.sizeOfVectorInPDE == model->getSizeOfVectorInPDE());
+	assert(node.sizeOfValuesInODEs == model->getSizeOfValuesInODEs());
+	assert(node.vectorInPDE != NULL);
+	assert(node.valuesInODEs != NULL);
 	nodes.push_back(node);
 }
 
@@ -38,7 +41,7 @@ void Mesh::setModel(Model* _model) {
 }
 
 void Mesh::initContainer(unsigned int numberOfNodes) {
-	//TODO@avasyukov: assert model
+	assert(model != NULL);
 	unsigned char sizeOfValuesInODEs = model->getSizeOfVectorInPDE();
 	unsigned char sizeOfVectorInPDE = model->getSizeOfValuesInODEs();
 	container = new double[numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE)];

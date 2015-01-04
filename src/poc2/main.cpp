@@ -61,7 +61,7 @@ void testA() {
 
 void testB() {
 	printf("==== Test B ====\n");
-	Body b = loadBody("modelTwo", "defaultSolver", "cubicMesh");
+	Body b = loadBody("modelTwo", "customSolver", "cubicMesh");
 	b.doCalc();
 	printf("\n");
 }
