@@ -3,20 +3,20 @@
 #include "Solver.hpp"
 
 
-void DefaultSolver::doCalc(NodeWrapper& node)
+void DefaultSolver::doCalc(CalcNode& node)
 {
-	assert(node.getType() == CalcNodeWrapper::CALC_NODE_WRAPPER_TYPE);
-	CalcNodeWrapper& cnode = (CalcNodeWrapper&)node;
+	assert(node.getType() == DefaultNode::CALC_NODE_TYPE);
+	DefaultNode& cnode = (DefaultNode&)node;
 	// Just test that method exists
 	cnode.getFoo();
 	printf("DefaultSolver: vector size = %d\n", cnode.getSizeOfVectorInPDE());
 }
 
-void CustomSolver::doCalc(NodeWrapper& node)
+void CustomSolver::doCalc(CalcNode& node)
 {
-	assert(node.getType() == CustomNodeWrapper::CUSTOM_NODE_WRAPPER_TYPE
-		|| node.getType() == AnotherCustomNodeWrapper::ANOTHER_CUSTOM_NODE_WRAPPER_TYPE);
-	CustomNodeWrapper& cnode = (CustomNodeWrapper&)node;
+	assert(node.getType() == CustomNode::CUSTOM_NODE_TYPE
+		|| node.getType() == AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE);
+	CustomNode& cnode = (CustomNode&)node;
 	// Just test that method exists
 	cnode.getTemperature();
 	printf("CustomSolver: vector size = %d\n", cnode.getSizeOfVectorInPDE());

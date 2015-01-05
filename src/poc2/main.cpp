@@ -15,7 +15,7 @@ public:
 		mesh(mesh), solver(solver), model(model) {};
 	void doCalc()
 	{
-		NodeWrapper& nodes = mesh->getNodeWrapper();
+		CalcNode& nodes = mesh->getNodes();
 		for(int i = 0; i < nodes.getNodesNumber(); i++)
 			solver->doCalc(nodes.getNode(i));
 	}

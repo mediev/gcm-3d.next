@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-class Node {
+class RawNode {
 public:
 	
 	double *vectorInPDE;
@@ -12,49 +12,49 @@ public:
 	unsigned char sizeOfVectorInPDE;
 	unsigned char sizeOfValuesInODEs;
 	
-	Node(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs);
+	RawNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs);
 	void initMemory(double *buffer, int nodeNum);
 	// TODO@avasyukov: implement it correctly
 	//Node(const Node &orig);
-	~Node();
-	void operator=(const Node& orig);
+	~RawNode();
+	void operator=(const RawNode& orig);
 	
 private:
 
 };
 
 
-class NodeWrapper
+class CalcNode
 {
 protected:
-	Node* baseNode;
-	Node* node;
+	RawNode* baseNode;
+	RawNode* node;
 	unsigned int nodesNumber;
 	unsigned char TYPE;
 	
 public:
 	
-	static const unsigned char GENERIC_WRAPPER_TYPE = 0;
+	static const unsigned char GENERIC_NODE_TYPE = 0;
 	
 	unsigned char getType() {
 		return TYPE;
 	}
 	
-	NodeWrapper(Node* baseNode, unsigned int nodesNumber): baseNode(baseNode), nodesNumber(nodesNumber)
+	CalcNode(RawNode* baseNode, unsigned int nodesNumber): baseNode(baseNode), nodesNumber(nodesNumber)
 	{
-		TYPE = GENERIC_WRAPPER_TYPE;
+		TYPE = GENERIC_NODE_TYPE;
 	}
 	
 	unsigned int getNodesNumber() {
 		return nodesNumber;
 	}
 	
-	NodeWrapper& getNode(int number) {
+	CalcNode& getNode(int number) {
 		node = baseNode + number;
 		return *this;
 	}
 	
-	NodeWrapper& operator++()
+	CalcNode& operator++()
 	{
 		node++;
 	}
@@ -86,17 +86,17 @@ public:
 };
 
 
-class CalcNodeWrapper: public NodeWrapper
+class DefaultNode: public CalcNode
 {
 	
 public:
-	static const unsigned char CALC_NODE_WRAPPER_TYPE = 1;
+	static const unsigned char CALC_NODE_TYPE = 1;
 	
-	CalcNodeWrapper(Node* node, unsigned int nodesNumber): NodeWrapper(node, nodesNumber)
+	DefaultNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
 	{
 		assert(node->sizeOfVectorInPDE == 9);
 		assert(node->sizeOfValuesInODEs == 0);
-		TYPE = CALC_NODE_WRAPPER_TYPE;
+		TYPE = CALC_NODE_TYPE;
 	}
 	
 	double getVx()
@@ -121,17 +121,17 @@ public:
 };
 
 
-class CustomNodeWrapper: public NodeWrapper
+class CustomNode: public CalcNode
 {
 	
 public:
-	static const unsigned char CUSTOM_NODE_WRAPPER_TYPE = 2;
+	static const unsigned char CUSTOM_NODE_TYPE = 2;
 	
-	CustomNodeWrapper(Node* node, unsigned int nodesNumber): NodeWrapper(node, nodesNumber)
+	CustomNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
 	{
 		assert(node->sizeOfVectorInPDE == 11);
 		assert(node->sizeOfValuesInODEs == 2);
-		TYPE = CUSTOM_NODE_WRAPPER_TYPE;
+		TYPE = CUSTOM_NODE_TYPE;
 	}
 	
 	double getVx()
@@ -160,17 +160,17 @@ public:
 	}
 };
 
-class AnotherCustomNodeWrapper: public NodeWrapper
+class AnotherCustomNode: public CalcNode
 {
 	
 public:
-	static const unsigned char ANOTHER_CUSTOM_NODE_WRAPPER_TYPE = 3;
+	static const unsigned char ANOTHER_CUSTOM_NODE_TYPE = 3;
 	
-	AnotherCustomNodeWrapper(Node* node, unsigned int nodesNumber): NodeWrapper(node, nodesNumber)
+	AnotherCustomNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
 	{
 		assert(node->sizeOfVectorInPDE == 11);
 		assert(node->sizeOfValuesInODEs == 5);
-		TYPE = ANOTHER_CUSTOM_NODE_WRAPPER_TYPE;
+		TYPE = ANOTHER_CUSTOM_NODE_TYPE;
 	}
 	
 	double getVx()

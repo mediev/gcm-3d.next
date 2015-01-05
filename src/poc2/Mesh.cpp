@@ -13,7 +13,7 @@ Mesh::~Mesh() {
 		delete[] container;
 }
 
-void Mesh::addNode(Node node) {
+void Mesh::addNode(RawNode node) {
 	assert(node.sizeOfVectorInPDE == model->getSizeOfVectorInPDE());
 	assert(node.sizeOfValuesInODEs == model->getSizeOfValuesInODEs());
 	assert(node.vectorInPDE != NULL);
@@ -21,19 +21,19 @@ void Mesh::addNode(Node node) {
 	nodes.push_back(node);
 }
 
-Node& Mesh::createNode() {
+RawNode& Mesh::createNode() {
 	unsigned int nodeNum = nodes.size();
-	nodes.push_back(Node(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs()));
+	nodes.push_back(RawNode(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs()));
 	nodes[nodeNum].initMemory(container, nodeNum);
 	return nodes[nodeNum];
 }
 
-Node& Mesh::getNode(unsigned int n) {
+RawNode& Mesh::getNode(unsigned int n) {
 	return nodes[n];
 }
 
-NodeWrapper& Mesh::getNodeWrapper() {
-	return model->getNodeWrapper(&nodes[0], nodes.size());
+CalcNode& Mesh::getNodes() {
+	return model->castNodes(&nodes[0], nodes.size());
 }
 
 void Mesh::setModel(Model* _model) {
@@ -51,7 +51,7 @@ void TetrMesh::load() {
 	// We should pre-read number of nodes somehow
 	initContainer(NODES_IN_TEST_MESH);
 	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
-		Node& newNode = createNode();
+		RawNode& newNode = createNode();
 		//Fill node
 	}
 	printf("TetrMesh loaded: node size = %d\n", nodes[0].sizeOfVectorInPDE);
@@ -61,7 +61,7 @@ void CubicMesh::load() {
 	// We should pre-read number of nodes somehow
 	initContainer(NODES_IN_TEST_MESH);
 	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
-		Node& newNode = createNode();
+		RawNode& newNode = createNode();
 		//Fill node
 	}
 	printf("CubicMesh loaded: node size = %d\n", nodes[0].sizeOfVectorInPDE);

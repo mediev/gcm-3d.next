@@ -3,14 +3,14 @@
 
 using namespace std;
 
-Node::Node(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs) {
+RawNode::RawNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs) {
 	sizeOfValuesInODEs = _sizeOfValuesInODEs;
 	sizeOfVectorInPDE = _sizeOfVectorInPDE; 
 	vectorInPDE = NULL;
 	valuesInODEs = NULL;
 }
 
-void Node::initMemory(double *buffer, int nodeNum) {
+void RawNode::initMemory(double *buffer, int nodeNum) {
 	double* startAddr = buffer + nodeNum * (sizeOfVectorInPDE + sizeOfValuesInODEs);
 	vectorInPDE = new (startAddr) double[sizeOfVectorInPDE];
 	valuesInODEs = new (startAddr + sizeOfVectorInPDE) double[sizeOfValuesInODEs];
@@ -31,11 +31,11 @@ void Node::initMemory(double *buffer, int nodeNum) {
 }*/
 
 
-Node::~Node() {
+RawNode::~RawNode() {
 	// No delete[] calls here, since we use placement new 
 }
 
-void Node::operator=(const Node& orig) {
+void RawNode::operator=(const RawNode& orig) {
 	assert(sizeOfValuesInODEs == orig.sizeOfValuesInODEs);
 	assert(sizeOfVectorInPDE = orig.sizeOfVectorInPDE);
 	assert(vectorInPDE != NULL);
