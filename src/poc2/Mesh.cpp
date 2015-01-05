@@ -14,6 +14,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::addNode(CalcNode node) {
+	assert(node.TYPE == model->getNodeType());
 	assert(node.sizeOfVectorInPDE == model->getSizeOfVectorInPDE());
 	assert(node.sizeOfValuesInODEs == model->getSizeOfValuesInODEs());
 	assert(node.vectorInPDE != NULL);

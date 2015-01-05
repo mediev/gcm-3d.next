@@ -37,6 +37,7 @@ CalcNode::~CalcNode() {
 }
 
 void CalcNode::operator=(const CalcNode& orig) {
+	assert(TYPE == orig.TYPE);
 	assert(sizeOfValuesInODEs == orig.sizeOfValuesInODEs);
 	assert(sizeOfVectorInPDE = orig.sizeOfVectorInPDE);
 	assert(vectorInPDE != NULL);
