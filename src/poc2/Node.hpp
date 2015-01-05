@@ -3,85 +3,56 @@
 
 #include <assert.h>
 
-class RawNode {
-public:
+class CalcNode {
 	
+public:
+	static const unsigned char GENERIC_NODE_TYPE = 0;
+	
+	unsigned char TYPE;
 	double *vectorInPDE;
 	double *valuesInODEs;
 	double coords[3];
 	unsigned char sizeOfVectorInPDE;
 	unsigned char sizeOfValuesInODEs;
 	
-	RawNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs);
+	CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs);
 	void initMemory(double *buffer, int nodeNum);
 	// TODO@avasyukov: implement it correctly
 	//Node(const Node &orig);
-	~RawNode();
-	void operator=(const RawNode& orig);
-	
-private:
+	~CalcNode();
+	void operator=(const CalcNode& orig);
 
-};
-
-
-class CalcNode
-{
-protected:
-	RawNode* baseNode;
-	RawNode* node;
-	unsigned int nodesNumber;
-	unsigned char TYPE;
-	
-public:
-	
-	static const unsigned char GENERIC_NODE_TYPE = 0;
+	void setType(unsigned char type) {
+		TYPE = type;
+	}
 	
 	unsigned char getType() {
 		return TYPE;
 	}
-	
-	CalcNode(RawNode* baseNode, unsigned int nodesNumber): baseNode(baseNode), nodesNumber(nodesNumber)
-	{
-		TYPE = GENERIC_NODE_TYPE;
-	}
-	
-	unsigned int getNodesNumber() {
-		return nodesNumber;
-	}
-	
-	CalcNode& getNode(int number) {
-		node = baseNode + number;
-		return *this;
-	}
-	
-	CalcNode& operator++()
-	{
-		node++;
-	}
-	
-	double getX()
-	{
-		return (node->coords)[0];
-	}
-	
-	double getY()
-	{
-		return (node->coords)[1];
-	}
-	
-	double getZ()
-	{
-		return (node->coords)[2];
-	}
-	
+
 	unsigned int getSizeOfVectorInPDE()
 	{
-		return node->sizeOfVectorInPDE;
+		return sizeOfVectorInPDE;
 	}
 	
 	unsigned int getSizeOfValuesInODEs()
 	{
-		return node->sizeOfValuesInODEs;
+		return sizeOfValuesInODEs;
+	}
+	
+	double getX()
+	{
+		return coords[0];
+	}
+	
+	double getY()
+	{
+		return coords[1];
+	}
+	
+	double getZ()
+	{
+		return coords[2];
 	}
 };
 
@@ -90,33 +61,33 @@ class DefaultNode: public CalcNode
 {
 	
 public:
-	static const unsigned char CALC_NODE_TYPE = 1;
 	
-	DefaultNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
+	static const unsigned char DEFAULT_NODE_TYPE = 1;
+	
+	DefaultNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
+				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
 	{
-		assert(node->sizeOfVectorInPDE == 9);
-		assert(node->sizeOfValuesInODEs == 0);
-		TYPE = CALC_NODE_TYPE;
+		TYPE = DEFAULT_NODE_TYPE;
 	}
 	
 	double getVx()
 	{
-		return (node->vectorInPDE)[0];
+		return vectorInPDE[0];
 	}
 	
 	double getVy()
 	{
-		return (node->vectorInPDE)[1];
+		return vectorInPDE[1];
 	}
 	
 	double getVz()
 	{
-		return (node->vectorInPDE)[2];
+		return vectorInPDE[2];
 	}
 
 	double getFoo()
 	{
-		return (node->vectorInPDE)[8];
+		return vectorInPDE[8];
 	}
 };
 
@@ -125,38 +96,38 @@ class CustomNode: public CalcNode
 {
 	
 public:
+	
 	static const unsigned char CUSTOM_NODE_TYPE = 2;
 	
-	CustomNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
+	CustomNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
+				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
 	{
-		assert(node->sizeOfVectorInPDE == 11);
-		assert(node->sizeOfValuesInODEs == 2);
 		TYPE = CUSTOM_NODE_TYPE;
 	}
 	
 	double getVx()
 	{
-		return (node->vectorInPDE)[0];
+		return vectorInPDE[0];
 	}
 	
 	double getVy()
 	{
-		return (node->vectorInPDE)[1];
+		return vectorInPDE[1];
 	}
 	
 	double getVz()
 	{
-		return (node->vectorInPDE)[2];
+		return vectorInPDE[2];
 	}
 	
 	double getRho()
 	{
-		return (node->vectorInPDE)[9];
+		return vectorInPDE[9];
 	}
 	
 	double getTemperature()
 	{
-		return (node->vectorInPDE)[10];
+		return vectorInPDE[10];
 	}
 };
 
@@ -166,36 +137,35 @@ class AnotherCustomNode: public CalcNode
 public:
 	static const unsigned char ANOTHER_CUSTOM_NODE_TYPE = 3;
 	
-	AnotherCustomNode(RawNode* node, unsigned int nodesNumber): CalcNode(node, nodesNumber)
+	AnotherCustomNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
+				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
 	{
-		assert(node->sizeOfVectorInPDE == 11);
-		assert(node->sizeOfValuesInODEs == 5);
 		TYPE = ANOTHER_CUSTOM_NODE_TYPE;
 	}
 	
 	double getVx()
 	{
-		return (node->vectorInPDE)[0];
+		return vectorInPDE[0];
 	}
 	
 	double getVy()
 	{
-		return (node->vectorInPDE)[1];
+		return vectorInPDE[1];
 	}
 	
 	double getVz()
 	{
-		return (node->vectorInPDE)[2];
+		return vectorInPDE[2];
 	}
 	
 	double getRho()
 	{
-		return (node->vectorInPDE)[9];
+		return vectorInPDE[9];
 	}
 	
 	double getTemperature()
 	{
-		return (node->vectorInPDE)[10];
+		return vectorInPDE[10];
 	}
 };
 

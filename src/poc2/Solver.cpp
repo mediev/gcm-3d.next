@@ -5,7 +5,7 @@
 
 void DefaultSolver::doCalc(CalcNode& node)
 {
-	assert(node.getType() == DefaultNode::CALC_NODE_TYPE);
+	assert(node.getType() == DefaultNode::DEFAULT_NODE_TYPE);
 	DefaultNode& cnode = (DefaultNode&)node;
 	// Just test that method exists
 	cnode.getFoo();

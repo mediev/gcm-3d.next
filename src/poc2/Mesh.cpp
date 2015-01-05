@@ -13,7 +13,7 @@ Mesh::~Mesh() {
 		delete[] container;
 }
 
-void Mesh::addNode(RawNode node) {
+void Mesh::addNode(CalcNode node) {
 	assert(node.sizeOfVectorInPDE == model->getSizeOfVectorInPDE());
 	assert(node.sizeOfValuesInODEs == model->getSizeOfValuesInODEs());
 	assert(node.vectorInPDE != NULL);
@@ -21,20 +21,25 @@ void Mesh::addNode(RawNode node) {
 	nodes.push_back(node);
 }
 
-RawNode& Mesh::createNode() {
+CalcNode& Mesh::createNode() {
 	unsigned int nodeNum = nodes.size();
-	nodes.push_back(RawNode(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs()));
+	nodes.push_back(CalcNode(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs()));
 	nodes[nodeNum].initMemory(container, nodeNum);
+	nodes[nodeNum].setType(model->getNodeType());
 	return nodes[nodeNum];
 }
 
-RawNode& Mesh::getNode(unsigned int n) {
+CalcNode& Mesh::getNode(unsigned int n) {
 	return nodes[n];
 }
 
-CalcNode& Mesh::getNodes() {
-	return model->castNodes(&nodes[0], nodes.size());
+unsigned int Mesh::getNodesNumber() {
+	return nodes.size();
 }
+
+//CalcNode& Mesh::getNodes() {
+//	return model->castNodes(&nodes[0], nodes.size());
+//}
 
 void Mesh::setModel(Model* _model) {
 	model = _model;
@@ -51,7 +56,7 @@ void TetrMesh::load() {
 	// We should pre-read number of nodes somehow
 	initContainer(NODES_IN_TEST_MESH);
 	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
-		RawNode& newNode = createNode();
+		CalcNode& newNode = createNode();
 		//Fill node
 	}
 	printf("TetrMesh loaded: node size = %d\n", nodes[0].sizeOfVectorInPDE);
@@ -61,7 +66,7 @@ void CubicMesh::load() {
 	// We should pre-read number of nodes somehow
 	initContainer(NODES_IN_TEST_MESH);
 	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
-		RawNode& newNode = createNode();
+		CalcNode& newNode = createNode();
 		//Fill node
 	}
 	printf("CubicMesh loaded: node size = %d\n", nodes[0].sizeOfVectorInPDE);

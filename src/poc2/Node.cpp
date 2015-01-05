@@ -3,14 +3,15 @@
 
 using namespace std;
 
-RawNode::RawNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs) {
+CalcNode::CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs) {
+	TYPE = GENERIC_NODE_TYPE;
 	sizeOfValuesInODEs = _sizeOfValuesInODEs;
 	sizeOfVectorInPDE = _sizeOfVectorInPDE; 
 	vectorInPDE = NULL;
 	valuesInODEs = NULL;
 }
 
-void RawNode::initMemory(double *buffer, int nodeNum) {
+void CalcNode::initMemory(double *buffer, int nodeNum) {
 	double* startAddr = buffer + nodeNum * (sizeOfVectorInPDE + sizeOfValuesInODEs);
 	vectorInPDE = new (startAddr) double[sizeOfVectorInPDE];
 	valuesInODEs = new (startAddr + sizeOfVectorInPDE) double[sizeOfValuesInODEs];
@@ -31,11 +32,11 @@ void RawNode::initMemory(double *buffer, int nodeNum) {
 }*/
 
 
-RawNode::~RawNode() {
+CalcNode::~CalcNode() {
 	// No delete[] calls here, since we use placement new 
 }
 
-void RawNode::operator=(const RawNode& orig) {
+void CalcNode::operator=(const CalcNode& orig) {
 	assert(sizeOfValuesInODEs == orig.sizeOfValuesInODEs);
 	assert(sizeOfVectorInPDE = orig.sizeOfVectorInPDE);
 	assert(vectorInPDE != NULL);

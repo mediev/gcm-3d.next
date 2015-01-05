@@ -15,9 +15,9 @@ public:
 		mesh(mesh), solver(solver), model(model) {};
 	void doCalc()
 	{
-		CalcNode& nodes = mesh->getNodes();
-		for(int i = 0; i < nodes.getNodesNumber(); i++)
-			solver->doCalc(nodes.getNode(i));
+		unsigned int size = mesh->getNodesNumber();
+		for(int i = 0; i < size; i++)
+			solver->doCalc(mesh->getNode(i));
 	}
 };
 

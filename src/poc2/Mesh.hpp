@@ -9,7 +9,7 @@
 
 class Mesh {
 protected:
-	std::vector<RawNode> nodes;
+	std::vector<CalcNode> nodes;
 	double *container;
 	Model* model;
  	
@@ -19,11 +19,13 @@ public:
 	virtual void load() = 0;
 	//FIXME TODO@avasyukov: how can we resize mesh on the fly?
 	void initContainer(unsigned int numberOfNodes);
-	CalcNode& getNodes();
 	void setModel(Model* _model);
-	void addNode(RawNode node);
-	RawNode& createNode();
-	RawNode& getNode(unsigned int n);
+	//TODO@avasyukov - do we need it?
+	//CalcNode& getNodes();
+	void addNode(CalcNode node);
+	CalcNode& createNode();
+	CalcNode& getNode(unsigned int n);
+	unsigned int getNodesNumber();
 private:
 
 };
