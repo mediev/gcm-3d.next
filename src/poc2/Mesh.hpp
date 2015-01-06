@@ -20,6 +20,7 @@ public:
 	//FIXME TODO@avasyukov: how can we resize mesh on the fly?
 	void initContainer(unsigned int numberOfNodes);
 	void setModel(Model* _model);
+	Model *getModel();
 	//TODO@avasyukov - do we need it?
 	//CalcNode& getNodes();
 	void addNode(CalcNode node);

@@ -15,9 +15,7 @@ public:
 		mesh(mesh), solver(solver), model(model) {};
 	void doCalc()
 	{
-		unsigned int size = mesh->getNodesNumber();
-		for(int i = 0; i < size; i++)
-			solver->doCalc(mesh->getNode(i));
+		solver->calculateMesh(mesh);
 	}
 };
 

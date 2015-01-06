@@ -4,7 +4,10 @@
 #include "Node.hpp"
 
 class Model {
+protected:
+	const char *modelName;
 public:
+	const char *getName();
 	virtual unsigned char getSizeOfVectorInPDE() = 0;
 	virtual unsigned char getSizeOfValuesInODEs() = 0;
 	virtual unsigned char getNodeType() = 0;

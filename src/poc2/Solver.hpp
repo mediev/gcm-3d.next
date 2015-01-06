@@ -1,11 +1,12 @@
 #ifndef SOLVER_HPP
 #define	SOLVER_HPP
 
-#include "Node.hpp"
+#include "Mesh.hpp"
 
 class Solver
 {
 public:
+	void calculateMesh(Mesh *mesh);
 	virtual void doCalc(CalcNode& node) = 0;
 };
 

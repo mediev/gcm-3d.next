@@ -46,6 +46,10 @@ void Mesh::setModel(Model* _model) {
 	model = _model;
 }
 
+Model *Mesh::getModel() {
+	return model;
+}
+
 void Mesh::initContainer(unsigned int numberOfNodes) {
 	assert(model != NULL);
 	unsigned char sizeOfValuesInODEs = model->getSizeOfVectorInPDE();
