@@ -1,10 +1,9 @@
-#include <stdio.h>
-
 #include "Solver.hpp"
-#include "Mesh.hpp"
 
 void Solver::calculateMesh(Mesh* mesh) {
-	printf("In solver : Model = %s\n", mesh->getModel()->getName());
+	Model *model = mesh->getModel();
+	printf("In solver : Model = %s\n", model->getName());
+	model->getRheologyMatrix()->decompose();
 	unsigned int size = mesh->getNodesNumber();
 	for (int i = 0; i < size; i++)
 		doCalc(mesh->getNode(i));

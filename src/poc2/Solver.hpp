@@ -1,6 +1,7 @@
 #ifndef SOLVER_HPP
 #define	SOLVER_HPP
 
+#include <stdio.h>
 #include "Mesh.hpp"
 
 class Solver
