@@ -2,6 +2,8 @@
 #define	MESH_HPP
 
 #include <vector>
+#include <stdio.h>
+#include <string>
 
 #include "Node.hpp"
 #include "Model.hpp"
@@ -12,6 +14,7 @@ protected:
 	std::vector<CalcNode> nodes;
 	double *container;
 	Model* model;
+	double elem_size;
  	
 public:
 	Mesh();
@@ -27,6 +30,9 @@ public:
 	CalcNode& createNode();
 	CalcNode& getNode(unsigned int n);
 	unsigned int getNodesNumber();
+	double getH();
+	double getMinH();
+	bool checkTopology();
 private:
 
 };
