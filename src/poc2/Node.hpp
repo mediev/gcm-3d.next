@@ -15,7 +15,7 @@ public:
 	unsigned char sizeOfVectorInPDE;
 	unsigned char sizeOfValuesInODEs;
 	
-	CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs);
+	CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs, unsigned char _type);
 	void initMemory(double *buffer, int nodeNum);
 	// TODO@avasyukov: implement it correctly
 	//Node(const Node &orig);
@@ -63,11 +63,9 @@ class DefaultNode: public CalcNode
 public:
 	
 	static const unsigned char DEFAULT_NODE_TYPE = 1;
-	
-	DefaultNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
-				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
+
+	DefaultNode() : CalcNode(9, 0, DEFAULT_NODE_TYPE)
 	{
-		TYPE = DEFAULT_NODE_TYPE;
 	}
 	
 	double getVx()
@@ -98,13 +96,11 @@ class CustomNode: public CalcNode
 public:
 	
 	static const unsigned char CUSTOM_NODE_TYPE = 2;
-	
-	CustomNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
-				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
+
+	CustomNode() : CalcNode(11, 0, CUSTOM_NODE_TYPE)
 	{
-		TYPE = CUSTOM_NODE_TYPE;
 	}
-	
+
 	double getVx()
 	{
 		return vectorInPDE[0];
@@ -136,11 +132,9 @@ class AnotherCustomNode: public CalcNode
 	
 public:
 	static const unsigned char ANOTHER_CUSTOM_NODE_TYPE = 3;
-	
-	AnotherCustomNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs)
-				: CalcNode(_sizeOfVectorInPDE, _sizeOfValuesInODEs)
+
+	AnotherCustomNode() : CalcNode(11, 2, ANOTHER_CUSTOM_NODE_TYPE)
 	{
-		TYPE = ANOTHER_CUSTOM_NODE_TYPE;
 	}
 	
 	double getVx()
@@ -168,5 +162,7 @@ public:
 		return vectorInPDE[10];
 	}
 };
+
+CalcNode newNode(unsigned char nodeType);
 
 #endif	/* NODE_HPP */

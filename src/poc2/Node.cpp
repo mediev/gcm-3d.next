@@ -3,8 +3,8 @@
 
 using namespace std;
 
-CalcNode::CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs) {
-	TYPE = GENERIC_NODE_TYPE;
+CalcNode::CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs, unsigned char _type) {
+	TYPE = _type;
 	sizeOfValuesInODEs = _sizeOfValuesInODEs;
 	sizeOfVectorInPDE = _sizeOfVectorInPDE; 
 	vectorInPDE = NULL;
@@ -49,4 +49,18 @@ void CalcNode::operator=(const CalcNode& orig) {
 		vectorInPDE[i] = orig.vectorInPDE[i];
 	for (int i = 0; i < sizeOfValuesInODEs; i++)
 		valuesInODEs[i] = orig.valuesInODEs[i];
+}
+
+CalcNode newNode(unsigned char nodeType)
+{
+	switch (nodeType)
+	{
+		case DefaultNode::DEFAULT_NODE_TYPE:
+			return DefaultNode();
+		case CustomNode::CUSTOM_NODE_TYPE:
+			return CustomNode();
+		case AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE:
+			return AnotherCustomNode();
+	}
+			
 }

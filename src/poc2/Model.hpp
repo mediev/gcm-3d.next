@@ -17,15 +17,11 @@ public:
 	};
 	virtual RheologyMatrix *getRheologyMatrix() = 0;
 	
-	virtual unsigned char getSizeOfVectorInPDE() = 0;
-	virtual unsigned char getSizeOfValuesInODEs() = 0;
 	virtual unsigned char getNodeType() = 0;
 };
 
 
 class ModelOne : public Model {
-	static const unsigned char sizeOfVectorInPDE = 9;
-	static const unsigned char sizeOfValuesInODEs = 0;
 public:
 	ModelOne();
 	
@@ -40,14 +36,10 @@ public:
 		return &modelOneRheologyMatrix;
 	};
 	
-	unsigned char getSizeOfVectorInPDE() {return sizeOfVectorInPDE;};
-	unsigned char getSizeOfValuesInODEs() {return sizeOfValuesInODEs;};
 	unsigned char getNodeType() {return DefaultNode::DEFAULT_NODE_TYPE;};
 };
 
 class ModelTwo : public Model {
-	static const unsigned char sizeOfVectorInPDE = 11;
-	static const unsigned char sizeOfValuesInODEs = 2;
 public:
 	ModelTwo();
 	
@@ -62,14 +54,10 @@ public:
 		return &modelTwoRheologyMatrix;
 	};
 	
-	unsigned char getSizeOfVectorInPDE() {return sizeOfVectorInPDE;};
-	unsigned char getSizeOfValuesInODEs() {return sizeOfValuesInODEs;};
 	unsigned char getNodeType() {return CustomNode::CUSTOM_NODE_TYPE;};
 };
 
 class ModelThree : public Model {
-	static const unsigned char sizeOfVectorInPDE = 11;
-	static const unsigned char sizeOfValuesInODEs = 5;
 public:
 	ModelThree();
 	
@@ -84,8 +72,6 @@ public:
 		return &modelThreeRheologyMatrix;
 	};
 	
-	unsigned char getSizeOfVectorInPDE() {return sizeOfVectorInPDE;};
-	unsigned char getSizeOfValuesInODEs() {return sizeOfValuesInODEs;};
 	unsigned char getNodeType() {return AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE;};
 };
 

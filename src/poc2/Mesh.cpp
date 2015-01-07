@@ -15,8 +15,6 @@ Mesh::~Mesh() {
 
 void Mesh::addNode(CalcNode node) {
 	assert(node.TYPE == model->getNodeType());
-	assert(node.sizeOfVectorInPDE == model->getSizeOfVectorInPDE());
-	assert(node.sizeOfValuesInODEs == model->getSizeOfValuesInODEs());
 	assert(node.vectorInPDE != NULL);
 	assert(node.valuesInODEs != NULL);
 	nodes.push_back(node);
@@ -24,9 +22,8 @@ void Mesh::addNode(CalcNode node) {
 
 CalcNode& Mesh::createNode() {
 	unsigned int nodeNum = nodes.size();
-	nodes.push_back(CalcNode(model->getSizeOfVectorInPDE(), model->getSizeOfValuesInODEs()));
+	nodes.push_back(newNode(model->getNodeType()));
 	nodes[nodeNum].initMemory(container, nodeNum);
-	nodes[nodeNum].setType(model->getNodeType());
 	return nodes[nodeNum];
 }
 
@@ -52,8 +49,10 @@ Model *Mesh::getModel() {
 
 void Mesh::initContainer(unsigned int numberOfNodes) {
 	assert(model != NULL);
-	unsigned char sizeOfValuesInODEs = model->getSizeOfVectorInPDE();
-	unsigned char sizeOfVectorInPDE = model->getSizeOfValuesInODEs();
+	CalcNode tmpNode = newNode(model->getNodeType());
+	unsigned char sizeOfValuesInODEs = tmpNode.getSizeOfVectorInPDE();
+	unsigned char sizeOfVectorInPDE = tmpNode.getSizeOfValuesInODEs();
+	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n", sizeOfValuesInODEs + sizeOfVectorInPDE);
 	container = new double[numberOfNodes * (sizeOfValuesInODEs + sizeOfVectorInPDE)];
 }
 
