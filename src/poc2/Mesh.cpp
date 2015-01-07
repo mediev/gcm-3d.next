@@ -50,6 +50,21 @@ Model *Mesh::getModel() {
 	return model;
 }
 
+double Mesh::getH() {
+	return elem_size;
+}
+
+bool Mesh::checkTopology()
+{
+	// FIXME@mediev: write appropriate code
+	return true;
+}
+
+double Mesh::getMinH() {
+	// FIXME@mediev: write appropriate code
+	return elem_size;
+}
+
 void Mesh::initContainer(unsigned int numberOfNodes) {
 	assert(model != NULL);
 	unsigned char sizeOfValuesInODEs = model->getSizeOfVectorInPDE();
