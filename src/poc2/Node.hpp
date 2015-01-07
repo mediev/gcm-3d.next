@@ -3,10 +3,15 @@
 
 #include <assert.h>
 
+#define GENERIC_NODE_TYPE 0
+#define DEFAULT_NODE_TYPE 1
+#define CUSTOM_NODE_TYPE 2
+#define ANOTHER_CUSTOM_NODE_TYPE 3
+
 class CalcNode {
 	
 public:
-	static const unsigned char GENERIC_NODE_TYPE = 0;
+	//static const unsigned char GENERIC_NODE_TYPE = 0;
 	
 	unsigned char TYPE;
 	double *vectorInPDE;
@@ -62,7 +67,7 @@ class DefaultNode: public CalcNode
 	
 public:
 	
-	static const unsigned char DEFAULT_NODE_TYPE = 1;
+	//static const unsigned char DEFAULT_NODE_TYPE = 1;
 
 	DefaultNode() : CalcNode(9, 0, DEFAULT_NODE_TYPE)
 	{
@@ -95,7 +100,7 @@ class CustomNode: public CalcNode
 	
 public:
 	
-	static const unsigned char CUSTOM_NODE_TYPE = 2;
+	//static const unsigned char CUSTOM_NODE_TYPE = 2;
 
 	CustomNode() : CalcNode(11, 0, CUSTOM_NODE_TYPE)
 	{
@@ -131,7 +136,7 @@ class AnotherCustomNode: public CalcNode
 {
 	
 public:
-	static const unsigned char ANOTHER_CUSTOM_NODE_TYPE = 3;
+	//static const unsigned char ANOTHER_CUSTOM_NODE_TYPE = 3;
 
 	AnotherCustomNode() : CalcNode(11, 2, ANOTHER_CUSTOM_NODE_TYPE)
 	{

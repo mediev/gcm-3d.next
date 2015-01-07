@@ -11,7 +11,7 @@ void Solver::calculateMesh(Mesh* mesh) {
 
 void DefaultSolver::doCalc(CalcNode& node)
 {
-	assert(node.getType() == DefaultNode::DEFAULT_NODE_TYPE);
+	assert(node.getType() == DEFAULT_NODE_TYPE);
 	DefaultNode& cnode = (DefaultNode&)node;
 	// Just test that method exists
 	cnode.getFoo();
@@ -20,8 +20,8 @@ void DefaultSolver::doCalc(CalcNode& node)
 
 void CustomSolver::doCalc(CalcNode& node)
 {
-	assert(node.getType() == CustomNode::CUSTOM_NODE_TYPE
-		|| node.getType() == AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE);
+	assert(node.getType() == CUSTOM_NODE_TYPE
+		|| node.getType() == ANOTHER_CUSTOM_NODE_TYPE);
 	CustomNode& cnode = (CustomNode&)node;
 	// Just test that method exists
 	cnode.getTemperature();

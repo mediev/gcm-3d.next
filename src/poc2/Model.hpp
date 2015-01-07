@@ -36,7 +36,7 @@ public:
 		return &modelOneRheologyMatrix;
 	};
 	
-	unsigned char getNodeType() {return DefaultNode::DEFAULT_NODE_TYPE;};
+	unsigned char getNodeType() {return DEFAULT_NODE_TYPE;};
 };
 
 class ModelTwo : public Model {
@@ -54,7 +54,7 @@ public:
 		return &modelTwoRheologyMatrix;
 	};
 	
-	unsigned char getNodeType() {return CustomNode::CUSTOM_NODE_TYPE;};
+	unsigned char getNodeType() {return CUSTOM_NODE_TYPE;};
 };
 
 class ModelThree : public Model {
@@ -72,7 +72,7 @@ public:
 		return &modelThreeRheologyMatrix;
 	};
 	
-	unsigned char getNodeType() {return AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE;};
+	unsigned char getNodeType() {return ANOTHER_CUSTOM_NODE_TYPE;};
 };
 
 #endif	/* MODEL_HPP */

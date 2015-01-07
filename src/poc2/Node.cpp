@@ -55,11 +55,11 @@ CalcNode newNode(unsigned char nodeType)
 {
 	switch (nodeType)
 	{
-		case DefaultNode::DEFAULT_NODE_TYPE:
+		case DEFAULT_NODE_TYPE:
 			return DefaultNode();
-		case CustomNode::CUSTOM_NODE_TYPE:
+		case CUSTOM_NODE_TYPE:
 			return CustomNode();
-		case AnotherCustomNode::ANOTHER_CUSTOM_NODE_TYPE:
+		case ANOTHER_CUSTOM_NODE_TYPE:
 			return AnotherCustomNode();
 	}
 			
