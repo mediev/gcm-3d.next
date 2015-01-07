@@ -3,18 +3,18 @@
 
 ModelOne::ModelOne() {
 	modelName = "ModelOne";
-	printf("ModelOne();\tSizeOfVectorInPDE = %d\n", sizeOfVectorInPDE);
+	printf("ModelOne();\tNodeType = %d\n", getNodeType());
 }
 
 
 ModelTwo::ModelTwo() {
 	modelName = "ModelTwo";
-	printf("ModelTwo();\tSizeOfVectorInPDE = %d\n", sizeOfVectorInPDE);
+	printf("ModelTwo();\tNodeType = %d\n", getNodeType());
 }
 
 ModelThree::ModelThree() {
 	modelName = "ModelThree";
-	printf("ModelThree();\tSizeOfVectorInPDE = %d\n", sizeOfVectorInPDE);
+	printf("ModelThree();\tNodeType = %d\n", getNodeType());
 }
 
 const char*Model::getName() {
