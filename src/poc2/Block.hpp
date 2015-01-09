@@ -22,7 +22,6 @@ class Block
 		void setModel();
 		void load(std::vector<CalcNode>& vertices, unsigned char indx);
 		bool checkTopology();
-		void initContainer(double* container);
 		Model* getModel();
 };
 

@@ -22,7 +22,7 @@ public:
 	~Mesh();
 	virtual void load(std::vector<CalcNode>& vertices, unsigned char indx) = 0;
 	//FIXME TODO@avasyukov: how can we resize mesh on the fly?
-	void initContainer(double* _container);
+	void initContainer(unsigned int numberOfNodes);
 	void setModel(Model* _model);
 	Model *getModel();
 	//TODO@avasyukov - do we need it?
