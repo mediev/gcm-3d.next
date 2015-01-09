@@ -3,40 +3,16 @@
 
 #include "Block.hpp"
 
-class BodyConfig
-{
-	public:
-		struct BlockConfig {
-			struct Vertex {	double x;	double y;	double z; };
-			Vertex vertices[8];
-			std::string name;
-			std::string meshType;
-			std::string solverType;
-			std::string modelType;
-		};
-		
-		unsigned char blocksNum;
-		BlockConfig* blocksConf;
-		
-		BodyConfig() { };
-		BodyConfig(unsigned char _blocksNum) {
-			blocksNum = _blocksNum;
-			blocksConf = new BlockConfig [blocksNum];
-		}
-		~BodyConfig() {
-			delete[] blocksConf;	
-		}
-};
-
 class Body {
 protected:
-	BodyConfig* bodyConf;
 	std::vector<Block> blocks;
 public:
-	Body(BodyConfig* _bodyConf) : bodyConf(_bodyConf) {};
+	Body() {};
 	bool checkTopology();
+	void addBlock(Block block);
+	void setModel(unsigned char i);
+	void load(std::vector<CalcNode>& vertices);
 	void doCalc();
-	void load();
 };
 
 #endif	/* BODY_HPP */

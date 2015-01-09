@@ -1,7 +1,4 @@
 #include "Node.hpp"
-#include <iostream>
-
-using namespace std;
 
 CalcNode::CalcNode(unsigned char _sizeOfVectorInPDE, unsigned char _sizeOfValuesInODEs, unsigned char _type) {
 	TYPE = _type;

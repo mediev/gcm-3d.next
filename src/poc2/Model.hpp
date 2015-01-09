@@ -73,12 +73,14 @@ protected:
 	const char *modelName;
 	RheologyMatrix* matrix;
 public:
-	const char *getName();
+	const char *getName() {
+		return modelName;
+	}
 	
 	RheologyMatrix* getRheologyMatrix() {
 		return matrix;
 	}
-	
+	virtual std::string getType() = 0;
 	virtual unsigned char getNodeType() = 0;
 };
 
@@ -88,6 +90,7 @@ public:
 	ModelOne();
 	
 	unsigned char getNodeType() {return DEFAULT_NODE_TYPE;};
+	std::string getType() override;
 };
 
 class ModelTwo : public Model {
@@ -95,6 +98,7 @@ public:
 	ModelTwo();
 	
 	unsigned char getNodeType() {return CUSTOM_NODE_TYPE;};
+	std::string getType() override;
 };
 
 class ModelThree : public Model {
@@ -102,6 +106,7 @@ public:
 	ModelThree();
 	
 	unsigned char getNodeType() {return ANOTHER_CUSTOM_NODE_TYPE;};
+	std::string getType() override;
 };
 
 #endif	/* MODEL_HPP */
