@@ -2,6 +2,7 @@
 #define	NODE_HPP
 
 #include <assert.h>
+#include <string>
 
 #define GENERIC_NODE_TYPE 0
 #define DEFAULT_NODE_TYPE 1

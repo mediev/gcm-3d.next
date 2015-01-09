@@ -8,6 +8,7 @@
 #include "Node.hpp"
 #include "Model.hpp"
 
+#define NODES_IN_TEST_MESH 8
 
 class Mesh {
 protected:
@@ -19,9 +20,9 @@ protected:
 public:
 	Mesh();
 	~Mesh();
-	virtual void load() = 0;
+	virtual void load(std::vector<CalcNode>& vertices, unsigned char indx) = 0;
 	//FIXME TODO@avasyukov: how can we resize mesh on the fly?
-	void initContainer(unsigned int numberOfNodes);
+	void initContainer(double* _container);
 	void setModel(Model* _model);
 	Model *getModel();
 	//TODO@avasyukov - do we need it?
@@ -39,12 +40,12 @@ private:
 
 class TetrMesh : public Mesh {
 public:
-	void load();
+	void load(std::vector<CalcNode>& vertices, unsigned char indx);
 };
 
 class CubicMesh : public Mesh {
 public:
-	void load();
+	void load(std::vector<CalcNode>& vertices, unsigned char indx);
 };
 
 #endif	/* MESH_HPP */

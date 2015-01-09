@@ -20,8 +20,10 @@ class Block
 		
 		void doCalc();
 		void setModel();
-		void load();
+		void load(std::vector<CalcNode>& vertices, unsigned char indx);
 		bool checkTopology();
+		void initContainer(double* container);
+		Model* getModel();
 };
 
 #endif	/* BLOCK_HPP */

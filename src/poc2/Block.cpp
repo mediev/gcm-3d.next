@@ -1,13 +1,23 @@
 #include "Block.hpp"
 
-void Block::load()
+void Block::load(std::vector<CalcNode>& vertices, unsigned char indx)
 {
-	mesh->load();
+	mesh->load(vertices, indx);
+}
+
+void Block::initContainer(double* container)
+{
+	mesh->initContainer(container);
 }
 
 void Block::setModel()
 {
 	mesh->setModel(model);
+}
+
+Model* Block::getModel()
+{
+	return model;
 }
 
 void Block::doCalc()
