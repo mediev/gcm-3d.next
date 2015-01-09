@@ -3,6 +3,7 @@
 void Solver::calculateMesh(Mesh* mesh) {
 	Model *model = mesh->getModel();
 	printf("In solver : Model = %s\n", model->getName());
+	printf("In solver : Matrix size = %d\n", model->getRheologyMatrix()->getA()->getSize());
 	model->getRheologyMatrix()->decompose();
 	unsigned int size = mesh->getNodesNumber();
 	for (int i = 0; i < size; i++)
