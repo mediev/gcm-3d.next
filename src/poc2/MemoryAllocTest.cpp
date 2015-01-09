@@ -191,22 +191,23 @@ int main()
         }
     }, readIterations);
 
+    int nodesInBlock = numberOfNodes/numberOfBlocks;
     // Benchmark reading n2
     double r2 = 0.0;
     auto t2 = measure_time(
     [&]()
     {
-        for(int i = 0; i < numberOfNodes; i++) {
-			blockIndx = ceil((double)(i + 1) / (double)(numberOfNodes/numberOfBlocks)) - 1;
-			nodeIndx = i - blockIndx * numberOfNodes / numberOfBlocks;
-            for(int j = 0; j < 3; j++) {
-                r2 += n2[blockIndx][nodeIndx].coords[j];
-            }
-            for(int j = 0; j < sizeOfValuesInODEs; j++) {
-                r2 += n2[blockIndx][nodeIndx].valuesInODEs[j];
-            }
-            for(int j = 0; j < sizeOfVectorInPDE; j++) {
-                r2 += n2[blockIndx][nodeIndx].vectorInPDE[j];
+        for(int blockIndx = 0; blockIndx < numberOfBlocks; blockIndx++) {
+            for(int nodeIndx = 0; nodeIndx < nodesInBlock; nodeIndx++) {
+                for(int j = 0; j < 3; j++) {
+                    r2 += n2[blockIndx][nodeIndx].coords[j];
+                }
+                for(int j = 0; j < sizeOfValuesInODEs; j++) {
+                    r2 += n2[blockIndx][nodeIndx].valuesInODEs[j];
+                }
+                for(int j = 0; j < sizeOfVectorInPDE; j++) {
+                   r2 += n2[blockIndx][nodeIndx].vectorInPDE[j];
+               }
             }
         }
     }, readIterations);
