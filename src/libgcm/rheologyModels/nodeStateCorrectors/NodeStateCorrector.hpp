@@ -1,12 +1,12 @@
 #ifndef ICORRECTOR_HPP
 #define ICORRECTOR_HPP 
 
-#include "libgcm/node/CalcNode.hpp"
-
 #include <memory>
 
 namespace gcm
 {
+    class CalcNode;
+    
     /**
      * Interface to implement for rheology matrix corrector. Corrector is supposed to
      * perform node state correction after the main step is done 

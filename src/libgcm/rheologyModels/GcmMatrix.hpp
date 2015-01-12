@@ -2,31 +2,31 @@
 #define _GCM_GcmMatrix_H  1
 
 #include <iostream>
-#include <math.h>
-#include <string.h>
-#include <assert.h>
 
-#include "libgcm/Logging.hpp"
-
-#define GCM_MATRIX_SIZE 9
+#include "libgcm/util/Logging.hpp"
+#include "libgcm/util/Types.hpp"
 
 namespace gcm {
 
     class GcmMatrix {
     public:
-        GcmMatrix();
+        // Just a remark: we do not use templates here because of
+        // http://stackoverflow.com/questions/1724036/splitting-templated-c-classes-into-hpp-cpp-files-is-it-possible
+        GcmMatrix(uchar size);
         ~GcmMatrix();
         
         // Basic operators
         
+        // Get matrix size
+        uchar getSize() const;
         // Assign matrix
         GcmMatrix& operator=(const GcmMatrix &A);
         // Check for matrix equality
         bool operator==(const GcmMatrix &A) const;
         bool operator!=(const GcmMatrix &A) const;
         // Get elements - read-write and read-only options
-        gcm::real& operator()(uint i, uint j);
-        gcm::real get(uint i, uint j) const;
+        gcm::real& operator()(int i, int j);
+        gcm::real get(int i, int j) const;
         // Matrix operations
         GcmMatrix operator+(const GcmMatrix &A) const;
         GcmMatrix operator-(const GcmMatrix &A) const;
@@ -54,7 +54,8 @@ namespace gcm {
 
     protected:
         // Real matrix data lives here
-        gcm::real p[GCM_MATRIX_SIZE][GCM_MATRIX_SIZE];
+        gcm::real** p;
+        uchar size;
         
     private:
         USE_LOGGER;
@@ -64,9 +65,10 @@ namespace gcm {
 namespace std {
 
     inline std::ostream& operator<<(std::ostream &os, const gcm::GcmMatrix &matrix) {
-        for (int r = 0; r < GCM_MATRIX_SIZE; r++) {
-            for (int c = 0; c < GCM_MATRIX_SIZE; c++)
-                os << matrix.p[r][c] << " ";
+        unsigned char size = matrix.getSize();
+        for (int r = 0; r < size; r++) {
+            for (int c = 0; c < size; c++)
+                os << matrix.get(r, c) << " ";
             os << std::endl;
         }
         return os;

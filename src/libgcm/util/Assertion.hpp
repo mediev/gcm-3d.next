@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "libgcm/Exception.hpp"
+#include "libgcm/util/Exception.hpp"
 #include "libgcm/util/Macros.hpp"
 #include "libgcm/config.hpp"
 

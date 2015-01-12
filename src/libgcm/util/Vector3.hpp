@@ -2,6 +2,7 @@
 #define	GCM_VECTOR3_HPP
 
 #include "libgcm/util/Types.hpp"
+#include "libgcm/util/Assertion.hpp"
 
 namespace gcm
 {
@@ -267,4 +268,3 @@ namespace gcm
 
 }
 #endif	/* GCM_VECTOR3_HPP */
-

@@ -1,7 +1,7 @@
-#ifndef IDECOMPOSER_HPP
-#define IDECOMPOSER_HPP 
+#ifndef RheologyMatrixDecomposer_HPP
+#define RheologyMatrixDecomposer_HPP 
 
-#include "libgcm/util/matrixes.hpp"
+#include "libgcm/rheologyModels/GcmMatrix.hpp"
 
 #include <memory>
 
@@ -13,34 +13,34 @@ namespace gcm
      */
     class RheologyMatrixDecomposer
     {
-        public:
-            /**
-             * Computes decomposition for matrix in X direction.
-             *
-             * @param a Matrix to decompose.
-             * @param u Matrix to store \f$U\f$
-             * @param l Matrix to store \f$\Lambda\f$
-             * @param u1 Matrix to store \f$U^{-1}\f$
-             */
-            virtual void decomposeX(const gcm_matrix& a, gcm_matrix& u, gcm_matrix& l, gcm_matrix& u1) const = 0;
-            /**
-             * Computes decomposition for matrix in Y direction.
-             *
-             * @param a Matrix to decompose.
-             * @param u Matrix to store \f$U\f$
-             * @param l Matrix to store \f$\Lambda\f$
-             * @param u1 Matrix to store \f$U^{-1}\f$
-             */
-            virtual void decomposeY(const gcm_matrix& a, gcm_matrix& u, gcm_matrix& l, gcm_matrix& u1) const = 0;
-            /**
-             * Computes decomposition for matrix in Z direction.
-             *
-             * @param a Matrix to decompose.
-             * @param u Matrix to store \f$U\f$
-             * @param l Matrix to store \f$\Lambda\f$
-             * @param u1 Matrix to store \f$U^{-1}\f$
-             */
-            virtual void decomposeZ(const gcm_matrix& a, gcm_matrix& u, gcm_matrix& l, gcm_matrix& u1) const = 0;
+    public:
+        /**
+         * Computes decomposition for matrix in X direction.
+         *
+         * @param a Matrix to decompose.
+         * @param u Matrix to store \f$U\f$
+         * @param l Matrix to store \f$\Lambda\f$
+         * @param u1 Matrix to store \f$U^{-1}\f$
+         */
+        virtual void decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const = 0;
+        /**
+         * Computes decomposition for matrix in Y direction.
+         *
+         * @param a Matrix to decompose.
+         * @param u Matrix to store \f$U\f$
+         * @param l Matrix to store \f$\Lambda\f$
+         * @param u1 Matrix to store \f$U^{-1}\f$
+         */
+        virtual void decomposeY(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const = 0;
+        /**
+         * Computes decomposition for matrix in Z direction.
+         *
+         * @param a Matrix to decompose.
+         * @param u Matrix to store \f$U\f$
+         * @param l Matrix to store \f$\Lambda\f$
+         * @param u1 Matrix to store \f$U^{-1}\f$
+         */
+        virtual void decomposeZ(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const = 0;
     };
 
     typedef std::shared_ptr<RheologyMatrixDecomposer> DecomposerPtr;
@@ -52,4 +52,4 @@ namespace gcm
     }
 };
 
-#endif /* IDECOMPOSER_HPP */
+#endif /* RheologyMatrixDecomposer_HPP */

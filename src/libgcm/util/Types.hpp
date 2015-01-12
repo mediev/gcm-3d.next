@@ -1,13 +1,11 @@
 #ifndef GCM_TYPES
 #define GCM_TYPES
 
-#include "libgcm/util/Assertion.hpp"
-
-#include <cmath>
+#define EQUALITY_TOLERANCE 0.00001
 
 namespace gcm
 {
-    
+
     #ifndef GCM_DOUBLE_PRECISION
     typedef float real;
     #else

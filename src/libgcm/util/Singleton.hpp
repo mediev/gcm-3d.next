@@ -53,4 +53,3 @@ T* gcm::Singleton<T>::instance_ = nullptr;
 
 
 #endif    /* SINGLETON_H */
-

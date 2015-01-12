@@ -2,53 +2,43 @@
 #define GCM_RheologyModel_H
 
 #include <string>
+#include <vector>
 
-#include "libgcm/Logging.hpp"
-
-#include "libgcm/node/CalcNode.hpp"
-
-#include "libgcm/failureModels/FailureModel.hpp"
-#include "libgcm/failureModels/NoFailureModel.hpp"
-#include "libgcm/failureModels/CrackFailureModel.hpp"
-#include "libgcm/failureModels/ScalarFailureModel.hpp"
-#include "libgcm/failureModels/ContinualFailureModel.hpp"
-#include "libgcm/failureModels/DebugFailureModel.hpp"
-#include "libgcm/failureModels/HashinFailureModel.hpp"
-#include "libgcm/failureModels/TsaiHillFailureModel.hpp"
-#include "libgcm/failureModels/TsaiWuFailureModel.hpp"
-#include "libgcm/failureModels/DruckerPragerFailureModel.hpp"
-#include "libgcm/failureModels/PuckFailureModel.hpp"
-
-#include "libgcm/rheologyModels/Material.hpp"
-
+#include "libgcm/util/Logging.hpp"
+#include "libgcm/rheologyModels/RheologyMatrix.hpp"
+#include "libgcm/rheologyModels/matrixSetters/RheologyMatrixSetter.hpp"
+#include "libgcm/rheologyModels/rightHandSideSetters/RightHandSideSetter.hpp"
+#include "libgcm/rheologyModels/nodeStateCorrectors/NodeStateCorrector.hpp"
+#include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
 
 namespace gcm {
 
     class RheologyModel {
     public:
-        RheologyModel();
+        RheologyModel(std::string modelType, uchar nodeType, SetterPtr matrixSetter, DecomposerPtr matrixDecomposer);
         ~RheologyModel();
-        std::string getType();
-		/**
-		 * Number of values to calculate
-		 */
-		int valNum;
-		/**
-		 * Number of values who eigenvalue is equil to zero
-		 */
-		int zeroNum;
-		
-        // TODO: is it possible to make all these entities singletons?
-        // It's not clear if they have internal state or are completely stateless.
+        std::string getType() const;
+        uchar getNodeType() const;
+        uchar getSizeOfValuesInPDE() const;
+        uchar getSizeOfValuesInODE() const;
+        //const RheologyMatrixPtr getRheologyMatrix() const;
 
         // TODO: does it mean that we create Model for each body?
         // BTW, do we need a concept of 'Body' in new code structure?
-        virtual const Material& getMaterial() const = 0;
+        // virtual const Material& getMaterial() const = 0;
         // TODO: how do we identify required node type?
-        virtual const RheologyMatrixSetter& getRheologyMatrixSetter() const = 0;
+        const SetterPtr getRheologyMatrixSetter() const;
+        const DecomposerPtr getRheologyMatrixDecomposer() const;
         virtual const RightHandSideSetter& getRightHandSideSetter() const = 0;
-        virtual const vector<NodeStateCorrector>& getNodeStateCorrectors() const = 0;
+        virtual const std::vector<NodeStateCorrector>& getNodeStateCorrectors() const = 0;
+
     protected:
+        std::string modelType;
+        uchar nodeType;
+        SetterPtr matrixSetter;
+        DecomposerPtr matrixDecomposer;
+        //RheologyMatrixPtr rheologyMatrix;
+
     private:
         USE_LOGGER;
     };

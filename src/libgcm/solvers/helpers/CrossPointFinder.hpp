@@ -1,9 +1,11 @@
 #ifndef CrossPointFinder_HPP
 #define CrossPointFinder_HPP 
 
-#include "libgcm/util/matrixes.hpp"
-#include "libgcm/rheology/Material.hpp"
-#include "libgcm/node/CalcNode.hpp"
+#include "libgcm/rheologyModels/GcmMatrix.hpp"
+#include "libgcm/rheologyModels/Material.hpp"
+#include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/util/Logging.hpp"
+#include "libgcm/util/Vector3.hpp"
 #include "libgcm/util/Types.hpp"
 
 #include <memory>
@@ -26,7 +28,7 @@ namespace gcm
              * @param tau Time step
              * @param points Vector3r for writing found coordinates
              */
-            virtual void find(const Node& curNode, RheologyMatrixPtr matrix, const gcm::real tau, vector3r* points);
+            virtual void find(const CalcNode& curNode, RheologyMatrixPtr matrix, const gcm::real tau, vector3r* points) = 0;
             /**
              * Finds coordinates of crossing point of the one characteritic and previous time layer
              * @param curNode Node where characteristics are let out
@@ -34,7 +36,7 @@ namespace gcm
              * @param tau Time step
              * @param num Sequence number of the characteritic
              */
-			virtual vector3r find(const Node& curNode, RheologyMatrixPtr matrix, const gcm::real tau, int num);
+			virtual vector3r find(const CalcNode& curNode, RheologyMatrixPtr matrix, const gcm::real tau, int num) = 0;
     };
 }
 #endif /* CrossPointFinder_HPP */

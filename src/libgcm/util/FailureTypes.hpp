@@ -1,5 +1,5 @@
-#ifndef FAILURE_HPP
-#define FAILURE_HPP 
+#ifndef FAILURE_TYPES_HPP
+#define FAILURE_TYPES_HPP 
 
 #include <string>
 
@@ -23,20 +23,3 @@ namespace gcm
     const std::string FAILURE_MODE_CONTINUAL = "continualFailure";
 }
 #endif /* PLASTICITY_HPP */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
