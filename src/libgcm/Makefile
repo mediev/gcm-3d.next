@@ -8,7 +8,7 @@ OBJECTS = $(SOURCES:%.cpp=%.o)
 all: $(OBJECTS)
 
 %.o: %.cpp
-	$(CPP) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
+	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS)

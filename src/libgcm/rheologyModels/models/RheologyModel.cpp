@@ -1,4 +1,4 @@
-#include "libgcm/rheologyModels/RheologyModel.hpp"
+#include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/util/NodeTypes.hpp"
 #include "libgcm/util/Assertion.hpp"
 

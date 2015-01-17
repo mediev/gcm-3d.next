@@ -1,6 +1,8 @@
 #ifndef GCM_CALC_NODE_H_
 #define GCM_CALC_NODE_H_
 
+#include <cmath>
+
 #include "libgcm/util/Types.hpp"
 #include "libgcm/util/Vector3.hpp"
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
@@ -49,7 +51,7 @@ namespace gcm {
         } ErrorFlags;
 
         /**
-         * Node public flags. These flags are to synchrinized using MPI.
+         * Node public flags. These flags are to synchronized using MPI.
          */
         PublicFlags publicFlags;
         /**

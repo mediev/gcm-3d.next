@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "libgcm/util/Logging.hpp"
-#include "libgcm/rheologyModels/RheologyModel.hpp"
+#include "libgcm/rheologyModels/models/RheologyModel.hpp"
 
 namespace gcm {
 

@@ -25,8 +25,6 @@ namespace gcm {
          */
         IdealElasticNode();
 
-		/***/
-		IdealElasticNode(uchar numOfPDE, uchar numOfODE, uchar type);
         /**
          * Velocity vector x component.
          */

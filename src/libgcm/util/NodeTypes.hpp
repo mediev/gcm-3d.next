@@ -11,6 +11,7 @@ namespace gcm
     const uchar GENERIC_NODE_TYPE = 0;
     const uchar IDEAL_ELASTIC_NODE_TYPE = 1;
     const uchar IDEAL_ELASTIC_WITH_MICROCRACKS_NODE_TYPE = 2;
+	const uchar IDEAL_ELASTIC_CONTINUAL_DAMAGE_NODE_TYPE = 3;
     
     CalcNode newNode(uchar nodeType);
 }

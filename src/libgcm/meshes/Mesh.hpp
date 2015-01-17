@@ -5,9 +5,8 @@
 #include <string>
 #include <algorithm>
 
-#include "libgcm/util/AABB.hpp"
-#include "libgcm/node/Node.hpp"
-#include "libgcm/snapshot/SnapshotWriter.hpp"
+#include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/rheologyModels/models/RheologyModel.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
@@ -24,16 +23,19 @@ namespace gcm {
         std::string id;
 
         // TODO - restructure it after we have a concept regarding parallel impl
-        AABB outline;
-        AABB expandedOutline;
-        AABB syncedArea;
-        AABB areaOfInterest;
+//        s
+		RheologyModel* rheologyModel;
 
         /*
          * List of mesh nodes.
          */
         std::vector<CalcNode> nodes;
+		/*
+		 * Memory to store values of nodes
+		 */
+		real *valuesInNodes;
         std::vector<CalcNode> newNodes;
+		real *valuesInNewNodes;
         // Maps 'global' ids of nodes to local indexes in node storage
         std::unordered_map<int, int> nodesMap;
         // TODO: do we need these as separate fields?
@@ -46,8 +48,8 @@ namespace gcm {
         USE_LOGGER;
 
         // Compatible snapshotter and dumper
-        virtual const SnapshotWriter& getSnaphotter() const = 0;
-        virtual const SnapshotWriter& getDumper() const = 0;
+//        virtual const SnapshotWriter& getSnaphotter() const = 0;
+//        virtual const SnapshotWriter& getDumper() const = 0;
 
     public:
         /*
@@ -155,7 +157,10 @@ namespace gcm {
         int getNumberOfLocalNodes();
         void createNodes(int number);
         void initNewNodes();
-        bool hasNode(int index);
+		void initValuesContainer(unsigned int numberOfNodes);
+        void setRheologyModel(RheologyModel *_model);
+		RheologyModel *getRheologyModel();
+		bool hasNode(int index);
         CalcNode& getNode(int index);
         CalcNode& getNewNode(int index);
         int getNodeLocalIndex(int index) const;
@@ -179,25 +184,25 @@ namespace gcm {
         bool getMovable();
 
         virtual void createOutline();
-        AABB getOutline();
-        const AABB& getExpandedOutline() const;
+//        AABB getOutline();
+//        const AABB& getExpandedOutline() const;
 
         void preProcess();
 
-        void setInitialState(Area* area, float* values);
-		void setBorderCondition(Area* area, unsigned int num);
-		void setContactCondition(Area* area, unsigned int num);
-        void setRheology(unsigned char matId);
-        void setRheology(unsigned char matId, Area* area);
+//        void setInitialState(Area* area, float* values);
+//		void setBorderCondition(Area* area, unsigned int num);
+//		void setContactCondition(Area* area, unsigned int num);
+//        void setRheology(unsigned char matId);
+//        void setRheology(unsigned char matId, Area* area);
 
         virtual void transfer(float x, float y, float z);
 		void scale(float x0, float y0, float z0, 
 				float scaleX, float scaleY, float scaleZ);
-        void applyRheology(RheologyCalculator* rc);
+//        void applyRheology(RheologyCalculator* rc);
         void clearContactState();
         void clearNodesState();
         void processStressState();
-        void processMaterialFailure(FailureModel* failureModel, const float tau);
+//        void processMaterialFailure(FailureModel* failureModel, const float tau);
         void applyCorrectors();
         virtual void moveCoords(float tau);
 

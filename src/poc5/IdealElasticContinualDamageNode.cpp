@@ -2,15 +2,11 @@
 #include "libgcm/util/Assertion.hpp"
 #include "libgcm/util/Math.hpp"
 
+#include <cmath>
 
 using namespace gcm;
 
 IdealElasticNode::IdealElasticNode() : CalcNode(9, 0, gcm::IDEAL_ELASTIC_NODE_TYPE)
-{
-}
-
-IdealElasticNode::IdealElasticNode(uchar numOfPDE, uchar numOfODE, uchar type) :
-											CalcNode(numOfPDE, numOfODE, type)
 {
 }
 
