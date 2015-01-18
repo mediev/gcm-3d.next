@@ -100,7 +100,7 @@ GcmMatrix GcmMatrix::operator*(const GcmMatrix &A) const
 GcmMatrix GcmMatrix::operator/(const GcmMatrix &A) const
 {
     assert_true(size == A.size);
-    return (*this * A.inv());
+    return (*this * A.inv(size));
 };
 
 GcmMatrix GcmMatrix::operator*(const gcm::real &a) const
@@ -158,26 +158,26 @@ void GcmMatrix::clear()
     memset(p, 0, size * size * sizeof (gcm::real));
 };
 
-void GcmMatrix::setColumn(gcm::real *Clmn, int num)
+void GcmMatrix::setColumn(double *Clmn, uchar numOfClmn, uchar numOfStrings)
 {
-    for (int i = 0; i < size; i++)
-        p[i][num] = Clmn[i];
+    for (int i = 0; i < numOfStrings; i++)
+        p[i][numOfClmn] = Clmn[i];
+	for (int i = numOfStrings; i < size; i++)
+		p[i][numOfClmn] = 0;
 };
 
-GcmMatrix GcmMatrix::inv() const
+GcmMatrix GcmMatrix::inv(uchar realSize) const
 {
-    GcmMatrix res_matrix(size);
     // Invert the matrix using gsl library
-
     gsl_set_error_handler_off();
 
-    gsl_matrix* Z1 = gsl_matrix_alloc(size, size);
-    gsl_matrix* Z = gsl_matrix_alloc(size, size);
-    gsl_permutation* perm = gsl_permutation_alloc(size);
+    gsl_matrix* Z1 = gsl_matrix_alloc(realSize, realSize);
+    gsl_matrix* Z = gsl_matrix_alloc(realSize, realSize);
+    gsl_permutation* perm = gsl_permutation_alloc(realSize);
     int k;
 
-    for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
+    for (int i = 0; i < realSize; i++)
+        for (int j = 0; j < realSize; j++)
             gsl_matrix_set(Z1, i, j, p[i][j]);
 
     int status = gsl_linalg_LU_decomp(Z1, perm, &k);
@@ -190,8 +190,11 @@ GcmMatrix GcmMatrix::inv() const
         LOG_DEBUG("gsl_linalg_LU_invert failed");
         THROW_INVALID_ARG("gsl_linalg_LU_invert failed");
     }
-    for (int i = 0; i < size; i++)
-        for (int j = 0; j < size; j++)
+	
+	GcmMatrix res_matrix(size);
+	res_matrix.clear();
+    for (int i = 0; i < realSize; i++)
+        for (int j = 0; j < realSize; j++)
             res_matrix.p[i][j] = gsl_matrix_get(Z, i, j);
 
     gsl_permutation_free(perm);

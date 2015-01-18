@@ -10,7 +10,7 @@ using namespace gcm;
  * All the roots are real
  * See http://ru.wikipedia.org/wiki/Тригонометрическая_формула_Виета for algo
  */
-void solvePolynomialThirdOrder(gcm::real a, gcm::real b, gcm::real c, gcm::real& root1, gcm::real& root2, gcm::real& root3)
+void solvePolynomialThirdOrder(double a, double b, double c, double& root1, double& root2, double& root3)
 {
     long double p = b - a * a / 3.0;
     assert_lt(p, EQUALITY_TOLERANCE * (1 + fabs(b)));

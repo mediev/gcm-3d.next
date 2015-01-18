@@ -3,6 +3,7 @@
 
 #include "libgcm/rheologyModels/GcmMatrix.hpp"
 
+#include <cmath>
 #include <memory>
 
 namespace gcm

@@ -39,7 +39,7 @@ namespace gcm {
         // Divide two matrixes element by element (e.g. c[i][j] = a[i][j] / b[i][j])
         GcmMatrix operator%(const GcmMatrix &A) const;
         // Get inverse matrix
-        GcmMatrix inv() const;
+        GcmMatrix inv(uchar realSize) const;
 
         // TODO: do we really need these functions?
         // They are meant to reduce the number of code lines around matrixes.
@@ -50,7 +50,7 @@ namespace gcm {
         // Create unit matrix
         void createE();
         // Set matrix column to certain values
-        void setColumn(gcm::real *clmn, int num);
+        void setColumn(double *Clmn, uchar numOfClmn, uchar numOfStrings);
 
     protected:
         // Real matrix data lives here

@@ -1,7 +1,5 @@
 #include "libgcm/solvers/matrixDecomposers/IsotropicElasticRheologyMatrixDecomposer.hpp"
 
-#include <cmath>
-
 using namespace gcm;
 
 void IsotropicElasticRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
