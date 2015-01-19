@@ -29,9 +29,12 @@ namespace gcm {
         // TODO: how do we identify required node type?
         const SetterPtr getRheologyMatrixSetter() const;
         const DecomposerPtr getRheologyMatrixDecomposer() const;
+		
+		/*	Comment until it will be realized in derived classes
         virtual const RightHandSideSetter& getRightHandSideSetter() const = 0;
         virtual const std::vector<NodeStateCorrector>& getNodeStateCorrectors() const = 0;
-
+		 */
+		
     protected:
         std::string modelType;
         uchar nodeType;

@@ -9,7 +9,8 @@ namespace gcm {
 		TetrahedronMesh();
 		TetrahedronMesh(const TetrahedronMesh& orig);
 		~TetrahedronMesh();
-		void load(std::vector<CalcNode>& vertices, unsigned char indx);
+		void load(std::vector<CalcNode>& vertices, unsigned char indx) override;
+		void checkTopology(float tau) override;
 	private:
 
 	};

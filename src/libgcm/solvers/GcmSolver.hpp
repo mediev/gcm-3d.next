@@ -2,16 +2,17 @@
 #define GCM_SOLVER_H
 
 #include <string>
+#include <iostream>
 
-#include "libgcm/mesh/Mesh.hpp"
+#include "libgcm/meshes/Mesh.hpp"
 
-#include "libgcm/calc/volume/VolumeCalculator.hpp"
-#include "libgcm/calc/border/BorderCalculator.hpp"
-#include "libgcm/calc/contact/ContactCalculator.hpp"
-#include "libgcm/interpolator/TetrInterpolator.hpp"
-#include "libgcm/interpolator/TetrFirstOrderInterpolator.hpp"
-#include "libgcm/interpolator/TetrSecondOrderMinMaxInterpolator.hpp"
-#include "libgcm/interpolator/LineFirstOrderInterpolator.hpp"
+//#include "libgcm/calc/volume/VolumeCalculator.hpp"
+//#include "libgcm/calc/border/BorderCalculator.hpp"
+//#include "libgcm/calc/contact/ContactCalculator.hpp"
+//#include "libgcm/interpolator/TetrInterpolator.hpp"
+//#include "libgcm/interpolator/TetrFirstOrderInterpolator.hpp"
+//#include "libgcm/interpolator/TetrSecondOrderMinMaxInterpolator.hpp"
+//#include "libgcm/interpolator/LineFirstOrderInterpolator.hpp"
 
 
 namespace gcm {
@@ -19,6 +20,8 @@ namespace gcm {
      * Numerical method
      */
     class GcmSolver {
+	protected:
+		std::string type;
     public:
         /*
          * Constructor
@@ -33,10 +36,13 @@ namespace gcm {
          * Computes next state (after the next part step) for the given node
          */
         // TODO: does it mean that solver will contain everything that is in Engine now?
-        virtual void doNextTimeStep() = 0;
+        virtual void doNextTimeStep(Mesh *mesh) = 0;
 
-        virtual std::string getType() = 0;
+        std::string getType() {
+			return type;
+		};
 
+		/*	Comment until it will be realized in derived classes
         int getSpaceOrder();
         int getTimeOrder();
 
@@ -49,6 +55,7 @@ namespace gcm {
         // TODO: how can we make Solver working with different meshes?
         virtual const Interpolator& getInterpolator() const = 0;
         virtual const MeshMover& getMeshMover() const = 0;
+		*/
     };
 }
 

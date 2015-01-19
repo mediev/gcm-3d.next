@@ -1,7 +1,10 @@
 #ifndef GCM_MATH_H
 #define GCM_MATH_H
 
+#include <cmath>
 #include "libgcm/util/Types.hpp"
+#include "libgcm/util/Assertion.hpp"
+
 
 namespace gcm
 {

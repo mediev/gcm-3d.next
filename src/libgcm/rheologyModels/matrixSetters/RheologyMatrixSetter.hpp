@@ -18,10 +18,6 @@ namespace gcm
     {
     public:
         /**
-         * Destructor.
-         */
-        virtual ~RheologyMatrixSetter() = 0;
-        /**
          * Returns number of matrix states after decompositions. This method is supposed to be used to
          * preallocate memory for matrices cache.
          *

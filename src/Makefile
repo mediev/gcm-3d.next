@@ -1,14 +1,21 @@
 CPP    = /usr/bin/g++
 CFLAGS = --std=c++11 -Wall
-INCLUDEDIR = $(PWD)/../
+INCLUDEDIR = $(PWD)
+SOURCEDIR = libgcm
 
 SOURCES = $(shell find $(SOURCEDIR) -name '*.cpp')
 OBJECTS = $(SOURCES:%.cpp=%.o)
 
-all: $(OBJECTS)
+EXECUTABLE=gcm
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CPP) $(OBJECTS) -o $@ -lgsl -lgslcblas -lm
 
 %.o: %.cpp
 	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS)
+	rm -f $(EXECUTABLE)

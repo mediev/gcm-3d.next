@@ -1,7 +1,5 @@
 #include "libgcm/util/Math.hpp"
-#include "libgcm/util/Assertion.hpp"
 
-#include <cmath>
 
 using namespace gcm;
 

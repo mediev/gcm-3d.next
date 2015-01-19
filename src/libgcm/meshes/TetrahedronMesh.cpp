@@ -3,6 +3,7 @@
 using namespace gcm;
 
 TetrahedronMesh::TetrahedronMesh() {
+	type = "TetrahedronMesh";
 }
 
 TetrahedronMesh::TetrahedronMesh(const TetrahedronMesh& orig) {
@@ -11,6 +12,18 @@ TetrahedronMesh::TetrahedronMesh(const TetrahedronMesh& orig) {
 TetrahedronMesh::~TetrahedronMesh() {
 }
 
-void TetrahedronMesh::load(std::vector<CalcNode>& vertices, unsigned char indx) {
+void TetrahedronMesh::checkTopology(float tau) {
+	
 }
 
+void TetrahedronMesh::load(std::vector<CalcNode>& vertices, unsigned char indx) {
+	// We should pre-read number of nodes somehow
+	initValuesInNodes(NODES_IN_TEST_MESH);
+	for(int i = 0; i < NODES_IN_TEST_MESH; i++) {
+		CalcNode& newNode = createNode();
+		newNode.coords[0] = vertices[indx+i].coords[0];
+		newNode.coords[1] = vertices[indx+i].coords[1];
+		newNode.coords[2] = vertices[indx+i].coords[2];
+	}
+	printf("TetrMesh loaded\n");
+}

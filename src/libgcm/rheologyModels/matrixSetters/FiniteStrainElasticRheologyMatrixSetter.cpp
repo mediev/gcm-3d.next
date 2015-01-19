@@ -16,7 +16,7 @@ void FiniteStrainElasticRheologyMatrixSetter::setX(GcmMatrix& a, const MaterialP
     a.clear();
 	
 	auto p = material->getRheologyProperties();
-	const FiniteStrainIdealElasticNode &node1 = reinterpret_cast<const FiniteStrainIdealElasticNode&> (node);
+	const FiniteStrainIdealElasticNode &node1 = static_cast<const FiniteStrainIdealElasticNode&> (node);
 	auto rho = node1.getRho();
 	auto sxx = node1.getSxx();
 	auto sxy = node1.getSxy();
@@ -42,7 +42,7 @@ void FiniteStrainElasticRheologyMatrixSetter::setY(GcmMatrix& a, const MaterialP
     a.clear();
     
     auto p = material->getRheologyProperties();
-	const FiniteStrainIdealElasticNode &node1 = reinterpret_cast<const FiniteStrainIdealElasticNode&> (node);
+	const FiniteStrainIdealElasticNode &node1 = static_cast<const FiniteStrainIdealElasticNode&> (node);
 	auto rho = node1.getRho();
 	auto sxx = node1.getSxx();
 	auto sxy = node1.getSxy();
@@ -68,7 +68,7 @@ void FiniteStrainElasticRheologyMatrixSetter::setZ(GcmMatrix& a, const MaterialP
     a.clear();
     
     auto p = material->getRheologyProperties();
-	const FiniteStrainIdealElasticNode &node1 = reinterpret_cast<const FiniteStrainIdealElasticNode&> (node);
+	const FiniteStrainIdealElasticNode &node1 = static_cast<const FiniteStrainIdealElasticNode&> (node);
 	auto rho = node1.getRho();
 	auto sxx = node1.getSxx();
 	auto sxy = node1.getSxy();

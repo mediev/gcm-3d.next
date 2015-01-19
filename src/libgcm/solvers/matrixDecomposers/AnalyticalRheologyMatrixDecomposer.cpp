@@ -444,7 +444,7 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findRoots(const GcmMatrix &A, int 
         THROW_BAD_CONFIG("Wrong stage number");
     }
 
-    solvePolynomialThirdOrder(a, b, c, r1, r2, r3);
+//	solvePolynomialThirdOrder(a, b, c, r1, r2, r3);
     
     if( r1 < 0 || r2 < 0 || r3 < 0 )
         THROW_INVALID_INPUT("Root < 0");

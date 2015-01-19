@@ -113,11 +113,6 @@ namespace gcm {
          */
         void setType(uchar type);
 
-        /**
-         * Allocates memory for all variables (both for PDE and ODEs) using placement new.
-         */
-        // TODO: documentation - links to reasoning of using placement new and having separate initMemory() at all
-        void initMemory(real *buffer, int nodeNum);
 
     public:
 
@@ -179,6 +174,8 @@ namespace gcm {
          * Contact direction. FIXME
          */
         uchar contactDirection;
+
+		void initMemory(real *buffer, int nodeNum);
 
         /** 
          * Returns node type. The value is an id of some Node subclass.

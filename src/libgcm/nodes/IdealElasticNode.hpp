@@ -4,6 +4,9 @@
 #include "libgcm/util/Types.hpp"
 #include "libgcm/util/NodeTypes.hpp"
 #include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/util/Math.hpp"
+#include "libgcm/util/Assertion.hpp"
+
 
 namespace gcm {
 

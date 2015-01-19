@@ -9,7 +9,9 @@ namespace gcm {
 		CubicMesh();
 		CubicMesh(const CubicMesh& orig);
 		~CubicMesh();
-		void load(std::vector<CalcNode>& vertices, unsigned char indx);
+		void load(std::vector<CalcNode>& vertices, unsigned char indx) override;
+		void checkTopology(float tau) override;
+
 	private:
 
 	};
