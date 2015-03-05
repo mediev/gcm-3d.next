@@ -1,5 +1,5 @@
-#ifndef IDEALELASTICGCMSOLVER_HPP
-#define	IDEALELASTICGCMSOLVER_HPP
+#ifndef IDEAL_ELASTIC_GCM_SOLVER_HPP
+#define	IDEAL_ELASTIC_GCM_SOLVER_HPP
 
 #include "libgcm/solvers/GcmSolver.hpp"
 
@@ -13,5 +13,5 @@ namespace gcm {
 
 	};
 }
-#endif	/* IDEALELASTICGCMSOLVER_HPP */
+#endif	/* IDEAL_ELASTIC_GCM_SOLVER_HPP */
 

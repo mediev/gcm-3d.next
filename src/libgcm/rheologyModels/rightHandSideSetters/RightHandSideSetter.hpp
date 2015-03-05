@@ -1,19 +1,29 @@
 #ifndef RightHandSideSetter_HPP
 #define RightHandSideSetter_HPP 
 
-#include "libgcm/rheologyModels/GcmMatrix.hpp"
 #include "libgcm/rheologyModels/Material.hpp"
-
-#include <memory>
-#include <vector>
+#include "libgcm/nodes/IdealElasticNode.hpp"
+#include "libgcm/nodes/CalcNode.hpp"
 
 namespace gcm
 {
-    class RightHandSideSetter
-    {
-        public:
-            virtual ~RightHandSideSetter() = 0;
-            virtual void setVector(std::vector<int>/*FIXME*/& f, const MaterialPtr& material, const CalcNode& node) = 0;
-    };
+/**
+ * Base class to fill in the right-hand side f(u, t) of the equation 
+ * " du/dt + A_x_i * du/dx_i = f(u, t) "
+ */
+class RightHandSideSetter
+{
+public:
+	/**
+	 * Fill in the right-hand side f(u, t) of the equation 
+	 * " du/dt + A_x_i * du/dx_i = f(u, t) "
+	 * @param f f(u, t) vectors u and f have the same size so values 
+	 * f(i) are stored at u(i) in this help node f 
+	 * @param material pointer to material of the node
+	 * @param node node to fill in right-hand side for
+	 */
+	virtual void setVector(CalcNode& f, const CalcNode& node) const = 0;
+};
 }
+
 #endif /* RightHandSideSetter_HPP */

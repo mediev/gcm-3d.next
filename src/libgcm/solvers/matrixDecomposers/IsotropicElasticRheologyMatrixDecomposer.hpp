@@ -1,5 +1,5 @@
-#ifndef IsotropicElasticRheologyMatrixDecomposer_HPP
-#define IsotropicElasticRheologyMatrixDecomposer_HPP
+#ifndef ISOTROPIC_ELASTIC_RHEOLOGY_MATRIX_DECOMPOSER_HPP
+#define ISOTROPIC_ELASTIC_RHEOLOGY_MATRIX_DECOMPOSER_HPP
 
 #include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
 
@@ -38,4 +38,4 @@ namespace gcm
     };
 };
 
-#endif /* IsotropicElasticRheologyMatrixDecomposer_HPP */
+#endif /* ISOTROPIC_ELASTIC_RHEOLOGY_MATRIX_DECOMPOSER_HPP */

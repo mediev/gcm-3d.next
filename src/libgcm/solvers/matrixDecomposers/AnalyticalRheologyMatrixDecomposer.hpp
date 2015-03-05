@@ -1,5 +1,5 @@
-#ifndef ANALYTICALRHEOLOGYMATRIXDECOMPOSER_HPP
-#define ANALYTICALRHEOLOGYMATRIXDECOMPOSER_HPP
+#ifndef ANALYTICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP
+#define ANALYTICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP
 
 #include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
 #include "libgcm/util/Math.hpp"
@@ -53,4 +53,4 @@ namespace gcm
     };
 }
 
-#endif /* ANALYTICALRHEOLOGYMATRIXDECOMPOSER_HPP */
+#endif /* ANALYTICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP */

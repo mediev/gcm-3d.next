@@ -1,5 +1,5 @@
-#ifndef FiniteStrainIdealElasticNode_H_
-#define FiniteStrainIdealElasticNode_H_
+#ifndef FINITE_STRAIN_IDEAL_ELASTIC_NODE_HPP
+#define FINITE_STRAIN_IDEAL_ELASTIC_NODE_HPP
 
 #include "libgcm/util/Types.hpp"
 #include "libgcm/util/NodeTypes.hpp"
@@ -37,4 +37,4 @@ namespace gcm {
 	
 }
 
-#endif
+#endif /* FINITE_STRAIN_IDEAL_ELASTIC_NODE_HPP */

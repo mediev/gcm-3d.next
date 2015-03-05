@@ -1,5 +1,5 @@
-#ifndef NUMERICALRHEOLOGYMATRIXDECOMPOSER_HPP
-#define NUMERICALRHEOLOGYMATRIXDECOMPOSER_HPP 
+#ifndef NUMERICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP
+#define NUMERICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP 
 
 #include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
 #include "libgcm/util/Exception.hpp"
@@ -73,4 +73,4 @@ namespace gcm
 	};
 };
 
-#endif /* NUMERICALRHEOLOGYMATRIXDECOMPOSER_HPP */
+#endif /* NUMERICAL_RHEOLOGY_MATRIX_DECOMPOSER_HPP */

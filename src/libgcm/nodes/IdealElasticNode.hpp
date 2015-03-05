@@ -1,5 +1,5 @@
-#ifndef IdealElasticNode_H_
-#define IdealElasticNode_H_
+#ifndef IDEAL_ELASTIC_NODE_HPP
+#define IDEAL_ELASTIC_NODE_HPP
 
 #include "libgcm/util/Types.hpp"
 #include "libgcm/util/NodeTypes.hpp"
@@ -147,4 +147,4 @@ namespace gcm {
     };
 }
 
-#endif
+#endif /* IDEAL_ELASTIC_NODE_HPP */

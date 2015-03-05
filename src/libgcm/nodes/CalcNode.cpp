@@ -4,9 +4,23 @@
 using namespace gcm;
 using std::copy;
 
-CalcNode::CalcNode(uchar sizeOfValuesInPDE, uchar sizeOfValuesInODE, uchar nodeType) 
-        : nodeType(nodeType), sizeOfValuesInPDE(sizeOfValuesInPDE), sizeOfValuesInODE(sizeOfValuesInODE)
+CalcNode::CalcNode(uchar nodeType,
+                   uchar sizeOfValuesInPDE,
+                   uchar sizeOfValuesInODE) :
+                   nodeType(nodeType),
+                   sizeOfValuesInPDE(sizeOfValuesInPDE), 
+                   sizeOfValuesInODE(sizeOfValuesInODE)
 {
+}
+
+CalcNode::~CalcNode()
+{
+    // No delete[] calls here, since we use placement new 
+}
+
+void CalcNode::clear() {
+	memset(valuesInPDE, 0, sizeOfValuesInPDE * sizeof (gcm::real));
+	memset(valuesInODE, 0, sizeOfValuesInODE * sizeof (gcm::real));
 }
 
 void CalcNode::initMemory(real *buffer, int nodeNum) {
@@ -15,10 +29,6 @@ void CalcNode::initMemory(real *buffer, int nodeNum) {
     valuesInODE = new (startAddr + sizeOfValuesInPDE) real[sizeOfValuesInODE];
 }
 
-CalcNode::~CalcNode()
-{
-    // No delete[] calls here, since we use placement new 
-}
 
 void CalcNode::operator=(const CalcNode& orig) {
     assert_true(nodeType == orig.nodeType);

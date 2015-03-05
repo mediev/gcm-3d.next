@@ -1,5 +1,5 @@
-#ifndef IdealElasticWithMicrocracksNode_H_
-#define IdealElasticWithMicrocracksNode_H_
+#ifndef IDEAL_ELASTIC_WITH_MICROCRACKS_NODE_HPP
+#define IDEAL_ELASTIC_WITH_MICROCRACKS_NODE_HPP
 
 #include "libgcm/nodes/IdealElasticNode.hpp"
 #include "libgcm/util/Types.hpp"
@@ -38,4 +38,4 @@ namespace gcm {
     };
 }
 
-#endif
+#endif /* IDEAL_ELASTIC_WITH_MICROCRACKS_NODE_HPP */

@@ -1,5 +1,5 @@
-#ifndef RheologyMatrixDecomposer_HPP
-#define RheologyMatrixDecomposer_HPP 
+#ifndef RHEOLOGY_MATRIX_DECOMPOSER_HPP
+#define RHEOLOGY_MATRIX_DECOMPOSER_HPP 
 
 #include "libgcm/rheologyModels/GcmMatrix.hpp"
 
@@ -53,4 +53,4 @@ namespace gcm
     }
 };
 
-#endif /* RheologyMatrixDecomposer_HPP */
+#endif /* RHEOLOGY_MATRIX_DECOMPOSER_HPP */

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <df root="." name="0">
+      <df name="libgcm">
+        <df name="bodies">
+          <in>BorderCondition.hpp</in>
+          <in>ContactCondition.hpp</in>
+        </df>
+        <df name="calculators">
+          <df name="border">
+            <in>BorderCalculator.hpp</in>
+          </df>
+          <df name="contact">
+            <in>ContactCalculator.hpp</in>
+          </df>
+          <df name="volume">
+            <in>VolumeCalculator.hpp</in>
+          </df>
+        </df>
+        <df name="elements">
+          <in>TetrahedronFirstOrder.cpp</in>
+          <in>TetrahedronFirstOrder.hpp</in>
+          <in>TetrahedronSecondOrder.cpp</in>
+          <in>TetrahedronSecondOrder.hpp</in>
+          <in>TriangleFirstOrder.cpp</in>
+          <in>TriangleFirstOrder.hpp</in>
+          <in>TriangleSecondOrder.cpp</in>
+          <in>TriangleSecondOrder.hpp</in>
+        </df>
+        <df name="failureModels">
+          <df name="correctors">
+            <in>FailedMaterialCorrector.hpp</in>
+          </df>
+          <df name="criteria">
+            <in>FailureCriterion.hpp</in>
+          </df>
+          <in>FailureModel.hpp</in>
+        </df>
+        <df name="interpolators">
+          <in>Interpolator.hpp</in>
+        </df>
+        <df name="meshes">
+          <in>CubicMesh.cpp</in>
+          <in>CubicMesh.hpp</in>
+          <in>Mesh.cpp</in>
+          <in>Mesh.hpp</in>
+          <in>TetrahedronMesh.cpp</in>
+          <in>TetrahedronMesh.hpp</in>
+        </df>
+        <df name="nodes">
+          <in>CalcNode.cpp</in>
+          <in>CalcNode.hpp</in>
+          <in>FiniteStrainIdealElasticNode.cpp</in>
+          <in>FiniteStrainIdealElasticNode.hpp</in>
+          <in>IdealElasticContinualDamageNode.cpp</in>
+          <in>IdealElasticContinualDamageNode.hpp</in>
+          <in>IdealElasticNode.cpp</in>
+          <in>IdealElasticNode.hpp</in>
+          <in>IdealElasticWithMicrocracksNode.hpp</in>
+        </df>
+        <df name="rheologyModels">
+          <df name="matrixSetters">
+            <in>AnisotropicElasticRheologyMatrixSetter.cpp</in>
+            <in>AnisotropicElasticRheologyMatrixSetter.hpp</in>
+            <in>FiniteStrainElasticRheologyMatrixSetter.cpp</in>
+            <in>FiniteStrainElasticRheologyMatrixSetter.hpp</in>
+            <in>IsotropicContinualDamageRheologyMatrixSetter.cpp</in>
+            <in>IsotropicContinualDamageRheologyMatrixSetter.hpp</in>
+            <in>IsotropicElasticRheologyMatrixSetter.cpp</in>
+            <in>IsotropicElasticRheologyMatrixSetter.hpp</in>
+            <in>RheologyMatrixSetter.hpp</in>
+          </df>
+          <df name="models">
+            <in>IdealElasticRheologyModel.cpp</in>
+            <in>IdealElasticRheologyModel.hpp</in>
+            <in>RheologyModel.cpp</in>
+            <in>RheologyModel.hpp</in>
+          </df>
+          <df name="nodeStateCorrectors">
+            <in>NodeStateCorrector.hpp</in>
+          </df>
+          <df name="rightHandSideSetters">
+            <in>MaxwellViscosityRightHandSideSetter.cpp</in>
+            <in>MaxwellViscosityRightHandSideSetter.hpp</in>
+            <in>RightHandSideSetter.hpp</in>
+          </df>
+          <in>GcmMatrix.cpp</in>
+          <in>GcmMatrix.hpp</in>
+          <in>Material.cpp</in>
+          <in>Material.hpp</in>
+          <in>RheologyMatrix.cpp</in>
+          <in>RheologyMatrix.hpp</in>
+        </df>
+        <df name="snapshotters">
+          <in>AbstractVTKSnapshotWriter.hpp</in>
+          <in>SnapshotWriter.hpp</in>
+        </df>
+        <df name="solvers">
+          <df name="helpers">
+            <in>CrossPointFinder.cpp</in>
+            <in>CrossPointFinder.hpp</in>
+            <in>MeshMover.hpp</in>
+          </df>
+          <df name="matrixDecomposers">
+            <in>AnalyticalFiniteStrainRheologyMatrixDecomposer.cpp</in>
+            <in>AnalyticalFiniteStrainRheologyMatrixDecomposer.hpp</in>
+            <in>AnalyticalRheologyMatrixDecomposer.cpp</in>
+            <in>AnalyticalRheologyMatrixDecomposer.hpp</in>
+            <in>IsotropicElasticRheologyMatrixDecomposer.cpp</in>
+            <in>IsotropicElasticRheologyMatrixDecomposer.hpp</in>
+            <in>NumericalRheologyMatrixDecomposer.cpp</in>
+            <in>NumericalRheologyMatrixDecomposer.hpp</in>
+            <in>RheologyMatrixDecomposer.hpp</in>
+          </df>
+          <df name="rightHandSideSolvers">
+            <in>FirstOrderRightHandSideSolver.cpp</in>
+            <in>FirstOrderRightHandSideSolver.hpp</in>
+            <in>RightHandSideSolver.hpp</in>
+            <in>SecondOrderRightHandSideSolver.cpp</in>
+            <in>SecondOrderRightHandSideSolver.hpp</in>
+          </df>
+          <in>GcmSolver.cpp</in>
+          <in>GcmSolver.hpp</in>
+          <in>IdealElasticGcmSolver.cpp</in>
+          <in>IdealElasticGcmSolver.hpp</in>
+        </df>
+        <df name="util">
+          <df name="geometricRegions">
+            <in>AABB.hpp</in>
+            <in>Region.hpp</in>
+          </df>
+          <df name="waveForms">
+            <in>WaveForm.hpp</in>
+          </df>
+          <in>Assertion.hpp</in>
+          <in>Exception.cpp</in>
+          <in>Exception.hpp</in>
+          <in>FailureTypes.hpp</in>
+          <in>Logging.hpp</in>
+          <in>Macros.hpp</in>
+          <in>Math.cpp</in>
+          <in>Math.hpp</in>
+          <in>NodeTypes.cpp</in>
+          <in>NodeTypes.hpp</in>
+          <in>PlasticityTypes.hpp</in>
+          <in>Singleton.hpp</in>
+          <in>Types.hpp</in>
+          <in>Vector3.hpp</in>
+        </df>
+        <in>Block.cpp</in>
+        <in>Block.hpp</in>
+        <in>Body.cpp</in>
+        <in>Body.hpp</in>
+        <in>Engine.cpp</in>
+        <in>Engine.hpp</in>
+        <in>Engine_old.hpp</in>
+        <in>Launcher.cpp</in>
+        <in>Launcher.hpp</in>
+        <in>config.hpp</in>
+        <in>main.cpp</in>
+      </df>
+      <df name="poc1">
+        <in>main.cpp</in>
+        <in>mesh.cpp</in>
+        <in>mesh.hpp</in>
+        <in>models.cpp</in>
+        <in>models.hpp</in>
+        <in>nodes.cpp</in>
+        <in>nodes.hpp</in>
+        <in>solvers.cpp</in>
+        <in>solvers.hpp</in>
+      </df>
+      <df name="poc2">
+        <in>Block.cpp</in>
+        <in>Block.hpp</in>
+        <in>Body.cpp</in>
+        <in>Body.hpp</in>
+        <in>Engine.cpp</in>
+        <in>Engine.hpp</in>
+        <in>Launcher.cpp</in>
+        <in>Launcher.hpp</in>
+        <in>MemoryAllocTest.cpp</in>
+        <in>Mesh.cpp</in>
+        <in>Mesh.hpp</in>
+        <in>Model.cpp</in>
+        <in>Model.hpp</in>
+        <in>Node.cpp</in>
+        <in>Node.hpp</in>
+        <in>NodeTest.cpp</in>
+        <in>Solver.cpp</in>
+        <in>Solver.hpp</in>
+        <in>main.cpp</in>
+      </df>
+      <df name="poc3">
+        <in>main.cpp</in>
+        <in>mesh.cpp</in>
+        <in>mesh.hpp</in>
+        <in>models.cpp</in>
+        <in>models.hpp</in>
+        <in>nodes.cpp</in>
+        <in>nodes.hpp</in>
+        <in>solvers.cpp</in>
+        <in>solvers.hpp</in>
+      </df>
+      <df name="poc4">
+        <in>block.cpp</in>
+        <in>block.hpp</in>
+        <in>body.cpp</in>
+        <in>body.hpp</in>
+        <in>main.cpp</in>
+        <in>meshes.cpp</in>
+        <in>meshes.hpp</in>
+        <in>models.cpp</in>
+        <in>models.hpp</in>
+        <in>nodes.cpp</in>
+        <in>nodes.hpp</in>
+        <in>solvers.cpp</in>
+        <in>solvers.hpp</in>
+      </df>
+      <df name="poc5">
+        <in>main.cpp</in>
+        <in>mesh.cpp</in>
+        <in>mesh.hpp</in>
+        <in>models.hpp</in>
+        <in>nodes.hpp</in>
+        <in>solvers.hpp</in>
+      </df>
+    </df>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <platform>2</platform>
+      </toolsSet>
+      <compile>
+        <compiledirpicklist>
+          <compiledirpicklistitem>.</compiledirpicklistitem>
+          <compiledirpicklistitem>${AUTO_FOLDER}</compiledirpicklistitem>
+        </compiledirpicklist>
+        <compiledir>${AUTO_FOLDER}</compiledir>
+        <compilecommandpicklist>
+          <compilecommandpicklistitem>${MAKE} ${ITEM_NAME}.o</compilecommandpicklistitem>
+          <compilecommandpicklistitem>${AUTO_COMPILE}</compilecommandpicklistitem>
+        </compilecommandpicklist>
+        <compilecommand>${AUTO_COMPILE}</compilecommand>
+      </compile>
+      <dbx_gdbdebugger version="1">
+        <gdb_pathmaps>
+        </gdb_pathmaps>
+        <gdb_interceptlist>
+          <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
+        </gdb_interceptlist>
+        <gdb_options>
+          <DebugOptions>
+          </DebugOptions>
+        </gdb_options>
+        <gdb_buildfirst gdb_buildfirst_overriden="false" gdb_buildfirst_old="false"/>
+      </dbx_gdbdebugger>
+      <nativedebugger version="1">
+        <engine>gdb</engine>
+      </nativedebugger>
+      <runprofile version="9">
+        <runcommandpicklist>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+        </runcommandpicklist>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <rundir>.</rundir>
+        <buildfirst>false</buildfirst>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
