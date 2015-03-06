@@ -2,7 +2,10 @@
 
 using namespace gcm;
 
-void IsotropicElasticRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void IsotropicElasticRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, 
+                                                                GcmMatrix& u, 
+                                                                GcmMatrix& l, 
+                                                                GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
@@ -58,7 +61,10 @@ void IsotropicElasticRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, Gc
     u1(8, 8) = 1;
 }
 
-void IsotropicElasticRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void IsotropicElasticRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, 
+                                                                GcmMatrix& u, 
+                                                                GcmMatrix& l, 
+                                                                GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
@@ -114,7 +120,10 @@ void IsotropicElasticRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, Gc
     u1(8, 8) = 1;
 }
 
-void IsotropicElasticRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void IsotropicElasticRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, 
+                                                                GcmMatrix& u, 
+                                                                GcmMatrix& l, 
+                                                                GcmMatrix& u1) const
 {
     l.clear();
     u.clear();

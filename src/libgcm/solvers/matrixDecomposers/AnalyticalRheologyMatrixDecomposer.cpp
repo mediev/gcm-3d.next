@@ -8,8 +8,10 @@ gcm::AnalyticalRheologyMatrixDecomposer::AnalyticalRheologyMatrixDecomposer() {
 gcm::AnalyticalRheologyMatrixDecomposer::~AnalyticalRheologyMatrixDecomposer() {
 }
 
-void gcm::AnalyticalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a,
-                            GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void gcm::AnalyticalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, 
+                                                               GcmMatrix& u, 
+                                                               GcmMatrix& l, 
+                                                               GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
@@ -32,7 +34,8 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a,
         // (  A = U1 * L * U  and so eigenvectors are columns of the U1  )
         double eigenVec[9];
         for (int i = 0; i < 6; i++) {
-            findEigenVec(eigenVec, sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 0);
+            findEigenVec(eigenVec, 
+			             sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 0);
             u1.setColumn(eigenVec, i, 9);
         }
     }
@@ -48,11 +51,13 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a,
         double eigenVec1[9];
         double eigenVec2[9];
         for (int i = 0; i < 2; i++) {
-            findEigenVec(eigenVec1, sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 0);
+            findEigenVec(eigenVec1, 
+			             sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 0);
             u1.setColumn(eigenVec1, i, 9);
         }
         for (int i = 2; i < 5; i += 2) {
-            findEigenVec(eigenVec1, eigenVec2, sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 0);
+            findEigenVec(eigenVec1, eigenVec2, 
+			             sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 0);
             u1.setColumn(eigenVec1, i, 9);
             u1.setColumn(eigenVec2, i + 1, 9);
         }
@@ -64,8 +69,10 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a,
     u = u1.inv(9);
 };
 
-void gcm::AnalyticalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a,
-                                                GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void gcm::AnalyticalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, 
+                                                               GcmMatrix& u, 
+                                                               GcmMatrix& l, 
+                                                               GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
@@ -87,7 +94,8 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a,
         // (  A = U1 * L * U  and so eigenvectors are columns of the U1  )
         double eigenVec[9];
         for (int i = 0; i < 6; i++) {
-            findEigenVec(eigenVec, sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 1);
+            findEigenVec(eigenVec, 
+			             sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 1);
             u1.setColumn(eigenVec, i, 9);
         }
     }
@@ -103,11 +111,13 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a,
         double eigenVec1[9];
         double eigenVec2[9];
         for (int i = 0; i < 2; i++) {
-            findEigenVec(eigenVec1, sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 1);
+            findEigenVec(eigenVec1, 
+			             sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 1);
             u1.setColumn(eigenVec1, i, 9);
         }
         for (int i = 2; i < 5; i += 2) {
-            findEigenVec(eigenVec1, eigenVec2, sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 1);
+            findEigenVec(eigenVec1, eigenVec2, 
+			             sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 1);
             u1.setColumn(eigenVec1, i, 9);
             u1.setColumn(eigenVec2, i + 1, 9);
         }
@@ -119,8 +129,10 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a,
     u = u1.inv(9);
 };
 
-void gcm::AnalyticalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a,
-                                                GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void gcm::AnalyticalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, 
+                                                               GcmMatrix& u, 
+                                                               GcmMatrix& l, 
+                                                               GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
@@ -143,7 +155,8 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a,
         // (  A = U1 * L * U  and so eigenvectors are columns of the U1  )
         double eigenVec[9];
         for (int i = 0; i < 6; i++) {
-            findEigenVec(eigenVec, sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 2);
+            findEigenVec(eigenVec, 
+			             sqrt(roots[i / 2]) * ((i % 2) ? -1 : 1), a, 2);
             u1.setColumn(eigenVec, i, 9);
         }
     }
@@ -159,11 +172,13 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a,
         double eigenVec1[9];
         double eigenVec2[9];
         for (int i = 0; i < 2; i++) {
-            findEigenVec(eigenVec1, sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 2);
+            findEigenVec(eigenVec1, 
+			             sqrt(roots[0]) * ((i % 2) ? -1 : 1), a, 2);
             u1.setColumn(eigenVec1, i, 9);
         }
         for (int i = 2; i < 5; i += 2) {
-            findEigenVec(eigenVec1, eigenVec2, sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 2);
+            findEigenVec(eigenVec1, eigenVec2, 
+			             sqrt(roots[1]) * (((i / 2) % 2) ? 1 : -1), a, 2);
             u1.setColumn(eigenVec1, i, 9);
             u1.setColumn(eigenVec2, i + 1, 9);
         }
@@ -175,7 +190,8 @@ void gcm::AnalyticalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a,
     u = u1.inv(9);
 };
 
-void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution(double **M, double *x) const
+void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution
+                                                  (double **M, double *x) const
 {
     // Range ( M ) = 2, one of x[i] is random
 
@@ -200,11 +216,11 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution(double **M, do
 };
 
 void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
-                                                    double l, const GcmMatrix &A, int stage) const
+                                  double l, const GcmMatrix &A, int stage) const
 {
-    // Analitycal search eigenvectors
+    // Analytical search eigenvectors
     // M * x = 0, x = (x1, x2, x3)
-    // then x[4-9] <= x[1-3]
+    // then x[4-9] from x[1-3]
     double** M = new double* [3];
     for (int i = 0; i < 3; i++)
         M[i] = new double [3];
@@ -213,25 +229,25 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
         case 0 :
         {
             double r = A.get(0,3);
-            M[0][0] = A.get(3,0) - l*l/r;	M[0][1] = A.get(3,1);		M[0][2] = A.get(3,2);
-            M[1][0] = A.get(4,0);		M[1][1] = A.get(4,1) - l*l/r;	M[1][2] = A.get(4,2);
-            M[2][0] = A.get(5,0);		M[2][1] = A.get(5,1);		M[2][2] = A.get(5,2) - l*l/r;
+            M[0][0] = A.get(3,0) - l*l/r;  M[0][1] = A.get(3,1);          M[0][2] = A.get(3,2);
+            M[1][0] = A.get(4,0);          M[1][1] = A.get(4,1) - l*l/r;  M[1][2] = A.get(4,2);
+            M[2][0] = A.get(5,0);          M[2][1] = A.get(5,1);          M[2][2] = A.get(5,2) - l*l/r;
             break;
         }
         case 1 :
         {
             double r = A.get(0,4);
-            M[0][0] = A.get(4,0) - l*l/r;	M[0][1] = A.get(4,1);		M[0][2] = A.get(4,2);
-            M[1][0] = A.get(6,0);		M[1][1] = A.get(6,1) - l*l/r;	M[1][2] = A.get(6,2);
-            M[2][0] = A.get(7,0);		M[2][1] = A.get(7,1);		M[2][2] = A.get(7,2) - l*l/r;
+            M[0][0] = A.get(4,0) - l*l/r;  M[0][1] = A.get(4,1);          M[0][2] = A.get(4,2);
+            M[1][0] = A.get(6,0);          M[1][1] = A.get(6,1) - l*l/r;  M[1][2] = A.get(6,2);
+            M[2][0] = A.get(7,0);          M[2][1] = A.get(7,1);          M[2][2] = A.get(7,2) - l*l/r;
             break;
         }
         case 2 :
         {
             double r = A.get(0,5);
-            M[0][0] = A.get(5,0) - l*l/r;	M[0][1] = A.get(5,1);		M[0][2] = A.get(5,2);
-            M[1][0] = A.get(7,0);		M[1][1] = A.get(7,1) - l*l/r;	M[1][2] = A.get(7,2);
-            M[2][0] = A.get(8,0);		M[2][1] = A.get(8,1);		M[2][2] = A.get(8,2) - l*l/r;
+            M[0][0] = A.get(5,0) - l*l/r;  M[0][1] = A.get(5,1);          M[0][2] = A.get(5,2);
+            M[1][0] = A.get(7,0);          M[1][1] = A.get(7,1) - l*l/r;  M[1][2] = A.get(7,2);
+            M[2][0] = A.get(8,0);          M[2][1] = A.get(8,1);          M[2][2] = A.get(8,2) - l*l/r;
             break;
         }
         default:
@@ -247,9 +263,12 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
             eigenVec[3] = l/r*eigenVec[0];
             eigenVec[4] = l/r*eigenVec[1];
             eigenVec[5] = l/r*eigenVec[2];
-            eigenVec[6] = (A.get(6,0)*eigenVec[0] + A.get(6,1)*eigenVec[1] + A.get(6,2)*eigenVec[2])/l;
-            eigenVec[7] = (A.get(7,0)*eigenVec[0] + A.get(7,1)*eigenVec[1] + A.get(7,2)*eigenVec[2])/l;
-            eigenVec[8] = (A.get(8,0)*eigenVec[0] + A.get(8,1)*eigenVec[1] + A.get(8,2)*eigenVec[2])/l;
+            eigenVec[6] = (A.get(6,0)*eigenVec[0] + A.get(6,1)*eigenVec[1] 
+			                                      + A.get(6,2)*eigenVec[2])/l;
+            eigenVec[7] = (A.get(7,0)*eigenVec[0] + A.get(7,1)*eigenVec[1] 
+			                                      + A.get(7,2)*eigenVec[2])/l;
+            eigenVec[8] = (A.get(8,0)*eigenVec[0] + A.get(8,1)*eigenVec[1] 
+			                                      + A.get(8,2)*eigenVec[2])/l;
             break;
         }
         case 1 :
@@ -258,9 +277,12 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
             eigenVec[4] = l/r*eigenVec[0];
             eigenVec[6] = l/r*eigenVec[1];
             eigenVec[7] = l/r*eigenVec[2];
-            eigenVec[3] = (A.get(3,0)*eigenVec[0] + A.get(3,1)*eigenVec[1] + A.get(3,2)*eigenVec[2])/l;
-            eigenVec[5] = (A.get(5,0)*eigenVec[0] + A.get(5,1)*eigenVec[1] + A.get(5,2)*eigenVec[2])/l;
-            eigenVec[8] = (A.get(8,0)*eigenVec[0] + A.get(8,1)*eigenVec[1] + A.get(8,2)*eigenVec[2])/l;
+            eigenVec[3] = (A.get(3,0)*eigenVec[0] + A.get(3,1)*eigenVec[1] 
+			                                      + A.get(3,2)*eigenVec[2])/l;
+            eigenVec[5] = (A.get(5,0)*eigenVec[0] + A.get(5,1)*eigenVec[1] 
+			                                      + A.get(5,2)*eigenVec[2])/l;
+            eigenVec[8] = (A.get(8,0)*eigenVec[0] + A.get(8,1)*eigenVec[1] 
+			                                      + A.get(8,2)*eigenVec[2])/l;
             break;
         }
         case 2 :
@@ -269,9 +291,12 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
             eigenVec[5] = l/r*eigenVec[0];
             eigenVec[7] = l/r*eigenVec[1];
             eigenVec[8] = l/r*eigenVec[2];
-            eigenVec[6] = (A.get(6,0)*eigenVec[0] + A.get(6,1)*eigenVec[1] + A.get(6,2)*eigenVec[2])/l;
-            eigenVec[3] = (A.get(3,0)*eigenVec[0] + A.get(3,1)*eigenVec[1] + A.get(3,2)*eigenVec[2])/l;
-            eigenVec[4] = (A.get(4,0)*eigenVec[0] + A.get(4,1)*eigenVec[1] + A.get(4,2)*eigenVec[2])/l;
+            eigenVec[6] = (A.get(6,0)*eigenVec[0] + A.get(6,1)*eigenVec[1] 
+			                                      + A.get(6,2)*eigenVec[2])/l;
+            eigenVec[3] = (A.get(3,0)*eigenVec[0] + A.get(3,1)*eigenVec[1] 
+			                                      + A.get(3,2)*eigenVec[2])/l;
+            eigenVec[4] = (A.get(4,0)*eigenVec[0] + A.get(4,1)*eigenVec[1] 
+			                                      + A.get(4,2)*eigenVec[2])/l;
             break;
         }
     }
@@ -281,7 +306,8 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec(double *eigenVec,
     delete M;
 };
 
-void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution(double **M, double *x, double *y) const
+void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution
+                                        (double **M, double *x, double *y) const
 {
     // Range ( M ) = 1, two of x[i] are random
 
@@ -306,11 +332,11 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findNonZeroSolution(double **M, do
 
 
 void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
-                                double *eigenVec2, double l, const GcmMatrix &A, int stage) const
+        double *eigenVec2, double l, const GcmMatrix &A, int stage) const
 {
     // Analitycal search eigenvectors
     // M * x = 0, x = (x1, x2, x3)
-    // then x[4-9] <= x[1-3]
+    // then x[4-9] from x[1-3]
     double** M = new double* [3];
     for (int i = 0; i < 3; i++)
         M[i] = new double [3];
@@ -319,25 +345,25 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
         case 0 :
         {
             double r = A.get(0,3);
-            M[0][0] = A.get(3,0) - l*l/r;	M[0][1] = A.get(3,1);		M[0][2] = A.get(3,2);
-            M[1][0] = A.get(4,0);		M[1][1] = A.get(4,1) - l*l/r;	M[1][2] = A.get(4,2);
-            M[2][0] = A.get(5,0);		M[2][1] = A.get(5,1);		M[2][2] = A.get(5,2) - l*l/r;
+            M[0][0] = A.get(3,0) - l*l/r;  M[0][1] = A.get(3,1);          M[0][2] = A.get(3,2);
+            M[1][0] = A.get(4,0);          M[1][1] = A.get(4,1) - l*l/r;  M[1][2] = A.get(4,2);
+            M[2][0] = A.get(5,0);          M[2][1] = A.get(5,1);          M[2][2] = A.get(5,2) - l*l/r;
             break;
         }
         case 1 :
         {
             double r = A.get(0,4);
-            M[0][0] = A.get(4,0) - l*l/r;	M[0][1] = A.get(4,1);		M[0][2] = A.get(4,2);
-            M[1][0] = A.get(6,0);		M[1][1] = A.get(6,1) - l*l/r;	M[1][2] = A.get(6,2);
-            M[2][0] = A.get(7,0);		M[2][1] = A.get(7,1);		M[2][2] = A.get(7,2) - l*l/r;
+            M[0][0] = A.get(4,0) - l*l/r;  M[0][1] = A.get(4,1);          M[0][2] = A.get(4,2);
+            M[1][0] = A.get(6,0);          M[1][1] = A.get(6,1) - l*l/r;  M[1][2] = A.get(6,2);
+            M[2][0] = A.get(7,0);          M[2][1] = A.get(7,1);          M[2][2] = A.get(7,2) - l*l/r;
             break;
         }
         case 2 :
         {
             double r = A.get(0,5);
-            M[0][0] = A.get(5,0) - l*l/r;	M[0][1] = A.get(5,1);		M[0][2] = A.get(5,2);
-            M[1][0] = A.get(7,0);		M[1][1] = A.get(7,1) - l*l/r;	M[1][2] = A.get(7,2);
-            M[2][0] = A.get(8,0);		M[2][1] = A.get(8,1);		M[2][2] = A.get(8,2) - l*l/r;
+            M[0][0] = A.get(5,0) - l*l/r;  M[0][1] = A.get(5,1);          M[0][2] = A.get(5,2);
+            M[1][0] = A.get(7,0);          M[1][1] = A.get(7,1) - l*l/r;  M[1][2] = A.get(7,2);
+            M[2][0] = A.get(8,0);          M[2][1] = A.get(8,1);          M[2][2] = A.get(8,2) - l*l/r;
             break;
         }
         default:
@@ -353,16 +379,22 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
             eigenVec1[3] = l/r*eigenVec1[0];
             eigenVec1[4] = l/r*eigenVec1[1];
             eigenVec1[5] = l/r*eigenVec1[2];
-            eigenVec1[6] = (A.get(6,0)*eigenVec1[0] + A.get(6,1)*eigenVec1[1] + A.get(6,2)*eigenVec1[2])/l;
-            eigenVec1[7] = (A.get(7,0)*eigenVec1[0] + A.get(7,1)*eigenVec1[1] + A.get(7,2)*eigenVec1[2])/l;
-            eigenVec1[8] = (A.get(8,0)*eigenVec1[0] + A.get(8,1)*eigenVec1[1] + A.get(8,2)*eigenVec1[2])/l;
+            eigenVec1[6] = (A.get(6,0)*eigenVec1[0] + A.get(6,1)*eigenVec1[1] 
+			                                        + A.get(6,2)*eigenVec1[2])/l;
+            eigenVec1[7] = (A.get(7,0)*eigenVec1[0] + A.get(7,1)*eigenVec1[1] 
+			                                        + A.get(7,2)*eigenVec1[2])/l;
+            eigenVec1[8] = (A.get(8,0)*eigenVec1[0] + A.get(8,1)*eigenVec1[1]
+			                                        + A.get(8,2)*eigenVec1[2])/l;
 
             eigenVec2[3] = l/r*eigenVec2[0];
             eigenVec2[4] = l/r*eigenVec2[1];
             eigenVec2[5] = l/r*eigenVec2[2];
-            eigenVec2[6] = (A.get(6,0)*eigenVec2[0] + A.get(6,1)*eigenVec2[1] + A.get(6,2)*eigenVec2[2])/l;
-            eigenVec2[7] = (A.get(7,0)*eigenVec2[0] + A.get(7,1)*eigenVec2[1] + A.get(7,2)*eigenVec2[2])/l;
-            eigenVec2[8] = (A.get(8,0)*eigenVec2[0] + A.get(8,1)*eigenVec2[1] + A.get(8,2)*eigenVec2[2])/l;
+            eigenVec2[6] = (A.get(6,0)*eigenVec2[0] + A.get(6,1)*eigenVec2[1] 
+			                                        + A.get(6,2)*eigenVec2[2])/l;
+            eigenVec2[7] = (A.get(7,0)*eigenVec2[0] + A.get(7,1)*eigenVec2[1] 
+			                                        + A.get(7,2)*eigenVec2[2])/l;
+            eigenVec2[8] = (A.get(8,0)*eigenVec2[0] + A.get(8,1)*eigenVec2[1] 
+			                                        + A.get(8,2)*eigenVec2[2])/l;
             break;
         }
         case 1 :
@@ -371,16 +403,22 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
             eigenVec1[4] = l/r*eigenVec1[0];
             eigenVec1[6] = l/r*eigenVec1[1];
             eigenVec1[7] = l/r*eigenVec1[2];
-            eigenVec1[3] = (A.get(3,0)*eigenVec1[0] + A.get(3,1)*eigenVec1[1] + A.get(3,2)*eigenVec1[2])/l;
-            eigenVec1[5] = (A.get(5,0)*eigenVec1[0] + A.get(5,1)*eigenVec1[1] + A.get(5,2)*eigenVec1[2])/l;
-            eigenVec1[8] = (A.get(8,0)*eigenVec1[0] + A.get(8,1)*eigenVec1[1] + A.get(8,2)*eigenVec1[2])/l;
+            eigenVec1[3] = (A.get(3,0)*eigenVec1[0] + A.get(3,1)*eigenVec1[1] 
+			                                        + A.get(3,2)*eigenVec1[2])/l;
+            eigenVec1[5] = (A.get(5,0)*eigenVec1[0] + A.get(5,1)*eigenVec1[1] 
+			                                        + A.get(5,2)*eigenVec1[2])/l;
+            eigenVec1[8] = (A.get(8,0)*eigenVec1[0] + A.get(8,1)*eigenVec1[1] 
+			                                        + A.get(8,2)*eigenVec1[2])/l;
             
             eigenVec2[4] = l/r*eigenVec2[0];
             eigenVec2[6] = l/r*eigenVec2[1];
             eigenVec2[7] = l/r*eigenVec2[2];
-            eigenVec2[3] = (A.get(3,0)*eigenVec2[0] + A.get(3,1)*eigenVec2[1] + A.get(3,2)*eigenVec2[2])/l;
-            eigenVec2[5] = (A.get(5,0)*eigenVec2[0] + A.get(5,1)*eigenVec2[1] + A.get(5,2)*eigenVec2[2])/l;
-            eigenVec2[8] = (A.get(8,0)*eigenVec2[0] + A.get(8,1)*eigenVec2[1] + A.get(8,2)*eigenVec2[2])/l;
+            eigenVec2[3] = (A.get(3,0)*eigenVec2[0] + A.get(3,1)*eigenVec2[1] 
+			                                        + A.get(3,2)*eigenVec2[2])/l;
+            eigenVec2[5] = (A.get(5,0)*eigenVec2[0] + A.get(5,1)*eigenVec2[1] 
+			                                        + A.get(5,2)*eigenVec2[2])/l;
+            eigenVec2[8] = (A.get(8,0)*eigenVec2[0] + A.get(8,1)*eigenVec2[1] 
+			                                        + A.get(8,2)*eigenVec2[2])/l;
             break;
         }
         case 2 :
@@ -389,16 +427,22 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
             eigenVec1[5] = l/r*eigenVec1[0];
             eigenVec1[7] = l/r*eigenVec1[1];
             eigenVec1[8] = l/r*eigenVec1[2];
-            eigenVec1[6] = (A.get(6,0)*eigenVec1[0] + A.get(6,1)*eigenVec1[1] + A.get(6,2)*eigenVec1[2])/l;
-            eigenVec1[3] = (A.get(3,0)*eigenVec1[0] + A.get(3,1)*eigenVec1[1] + A.get(3,2)*eigenVec1[2])/l;
-            eigenVec1[4] = (A.get(4,0)*eigenVec1[0] + A.get(4,1)*eigenVec1[1] + A.get(4,2)*eigenVec1[2])/l;
+            eigenVec1[6] = (A.get(6,0)*eigenVec1[0] + A.get(6,1)*eigenVec1[1] 
+			                                        + A.get(6,2)*eigenVec1[2])/l;
+            eigenVec1[3] = (A.get(3,0)*eigenVec1[0] + A.get(3,1)*eigenVec1[1] 
+			                                        + A.get(3,2)*eigenVec1[2])/l;
+            eigenVec1[4] = (A.get(4,0)*eigenVec1[0] + A.get(4,1)*eigenVec1[1] 
+			                                        + A.get(4,2)*eigenVec1[2])/l;
 
             eigenVec2[5] = l/r*eigenVec2[0];
             eigenVec2[7] = l/r*eigenVec2[1];
             eigenVec2[8] = l/r*eigenVec2[2];
-            eigenVec2[6] = (A.get(6,0)*eigenVec2[0] + A.get(6,1)*eigenVec2[1] + A.get(6,2)*eigenVec2[2])/l;
-            eigenVec2[3] = (A.get(3,0)*eigenVec2[0] + A.get(3,1)*eigenVec2[1] + A.get(3,2)*eigenVec2[2])/l;
-            eigenVec2[4] = (A.get(4,0)*eigenVec2[0] + A.get(4,1)*eigenVec2[1] + A.get(4,2)*eigenVec2[2])/l;
+            eigenVec2[6] = (A.get(6,0)*eigenVec2[0] + A.get(6,1)*eigenVec2[1] 
+			                                        + A.get(6,2)*eigenVec2[2])/l;
+            eigenVec2[3] = (A.get(3,0)*eigenVec2[0] + A.get(3,1)*eigenVec2[1] 
+			                                        + A.get(3,2)*eigenVec2[2])/l;
+            eigenVec2[4] = (A.get(4,0)*eigenVec2[0] + A.get(4,1)*eigenVec2[1] 
+			                                        + A.get(4,2)*eigenVec2[2])/l;
             break;
         }
     }
@@ -408,37 +452,49 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findEigenVec (double *eigenVec1,
     delete M;
 };
 
-void gcm::AnalyticalRheologyMatrixDecomposer::findRoots(const GcmMatrix &A, int stage,
-                                            double& r1, double& r2, double& r3, bool& isMultiple) const
+void gcm::AnalyticalRheologyMatrixDecomposer::findRoots(const GcmMatrix &A, 
+          int stage, double& r1, double& r2, double& r3, bool& isMultiple) const
 {
-    real a, b, c;
+    real a, b, c; // coefficients of third order polynomial
 
     if (stage == 0) {
         double r = A.get(0, 3);
         a = r * (-A.get(5, 2) - A.get(4, 1) - A.get(3, 0));
-        b = r * r * ((A.get(4, 1) + A.get(3, 0)) * A.get(5, 2) - A.get(4, 2) * A.get(5, 1) -
-                        A.get(3, 2) * A.get(5, 0) + A.get(3, 0) * A.get(4, 1) - A.get(3, 1) * A.get(4, 0));
-        c = r * r * r * ((-A.get(3, 0) * A.get(4, 1) + A.get(3, 1) * A.get(4, 0)) * A.get(5, 2) +
-                        (A.get(3, 0) * A.get(4, 2) - A.get(3, 2) * A.get(4, 0)) * A.get(5, 1) +
-                        (-A.get(3, 1) * A.get(4, 2) + A.get(3, 2) * A.get(4, 1)) * A.get(5, 0));
+        b = r * r * ((  A.get(4, 1) + A.get(3, 0)) * A.get(5, 2) 
+		              - A.get(4, 2) * A.get(5, 1) - A.get(3, 2) * A.get(5, 0) 
+		              + A.get(3, 0) * A.get(4, 1) - A.get(3, 1) * A.get(4, 0));
+        c = r * r * r * ((- A.get(3, 0) * A.get(4, 1) 
+		                  + A.get(3, 1) * A.get(4, 0)) * A.get(5, 2) +
+                         (  A.get(3, 0) * A.get(4, 2) 
+		                  - A.get(3, 2) * A.get(4, 0)) * A.get(5, 1) +
+                         (- A.get(3, 1) * A.get(4, 2) 
+		                  + A.get(3, 2) * A.get(4, 1)) * A.get(5, 0));
     }
     else if (stage == 1) {
         double r = A.get(0, 4);
         a = r * (-A.get(7, 2) - A.get(6, 1) - A.get(4, 0));
-        b = r * r * ((A.get(6, 1) + A.get(4, 0)) * A.get(7, 2) - A.get(6, 2) * A.get(7, 1) -
-                        A.get(4, 2) * A.get(7, 0) + A.get(4, 0) * A.get(6, 1) - A.get(4, 1) * A.get(6, 0));
-        c = r * r * r * ((-A.get(4, 0) * A.get(6, 1) + A.get(4, 1) * A.get(6, 0)) * A.get(7, 2) +
-                        (A.get(4, 0) * A.get(6, 2) - A.get(4, 2) * A.get(6, 0)) * A.get(7, 1) +
-                        (-A.get(4, 1) * A.get(6, 2) + A.get(4, 2) * A.get(6, 1)) * A.get(7, 0));
+        b = r * r * ((  A.get(6, 1) + A.get(4, 0)) * A.get(7, 2) 
+		              - A.get(6, 2) * A.get(7, 1) - A.get(4, 2) * A.get(7, 0) 
+		              + A.get(4, 0) * A.get(6, 1) - A.get(4, 1) * A.get(6, 0));
+        c = r * r * r * ((- A.get(4, 0) * A.get(6, 1) 
+		                  + A.get(4, 1) * A.get(6, 0)) * A.get(7, 2) +
+                         (  A.get(4, 0) * A.get(6, 2) 
+		                  - A.get(4, 2) * A.get(6, 0)) * A.get(7, 1) +
+                         (- A.get(4, 1) * A.get(6, 2) 
+		                  + A.get(4, 2) * A.get(6, 1)) * A.get(7, 0));
     }
     else if (stage == 2) {
         double r = A.get(0, 5);
         a = r * (-A.get(8, 2) - A.get(7, 1) - A.get(5, 0));
-        b = r * r * ((A.get(7, 1) + A.get(5, 0)) * A.get(8, 2) - A.get(7, 2) * A.get(8, 1) -
-                        A.get(5, 2) * A.get(8, 0) + A.get(5, 0) * A.get(7, 1) - A.get(5, 1) * A.get(7, 0));
-        c = r * r * r * ((-A.get(5, 0) * A.get(7, 1) + A.get(5, 1) * A.get(7, 0)) * A.get(8, 2) +
-                        (A.get(5, 0) * A.get(7, 2) - A.get(5, 2) * A.get(7, 0)) * A.get(8, 1) +
-                        (-A.get(5, 1) * A.get(7, 2) + A.get(5, 2) * A.get(7, 1)) * A.get(8, 0));
+        b = r * r * ((  A.get(7, 1) + A.get(5, 0)) * A.get(8, 2) 
+		              - A.get(7, 2) * A.get(8, 1) - A.get(5, 2) * A.get(8, 0) 
+		              + A.get(5, 0) * A.get(7, 1) - A.get(5, 1) * A.get(7, 0));
+        c = r * r * r * ((- A.get(5, 0) * A.get(7, 1) 
+		                  + A.get(5, 1) * A.get(7, 0)) * A.get(8, 2) +
+                         (  A.get(5, 0) * A.get(7, 2) 
+		                  - A.get(5, 2) * A.get(7, 0)) * A.get(8, 1) +
+                         (- A.get(5, 1) * A.get(7, 2) 
+		                  + A.get(5, 2) * A.get(7, 1)) * A.get(8, 0));
     }
     else {
         THROW_BAD_CONFIG("Wrong stage number");
@@ -455,6 +511,7 @@ void gcm::AnalyticalRheologyMatrixDecomposer::findRoots(const GcmMatrix &A, int 
     
     isMultiple = false;
     
+	// Are the roots actually not multiple?
     if( fabs(r1 - r2) < 1e-2 * (r1 + r2) * 0.5 )
     {
         isMultiple = true;

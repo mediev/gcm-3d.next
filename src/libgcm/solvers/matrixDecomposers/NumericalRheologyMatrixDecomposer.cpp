@@ -28,20 +28,26 @@ NumericalRheologyMatrixDecomposer::~NumericalRheologyMatrixDecomposer()
     gsl_eigen_nonsymmv_free(w);
 }
 
-void NumericalRheologyMatrixDecomposer::gsl2gcm(const gsl_matrix* a, GcmMatrix& b) const
+void NumericalRheologyMatrixDecomposer::gsl2gcm(const gsl_matrix* a,
+                                                GcmMatrix& b) const
 {
     for (int i = 0; i < 9; i++)
         for (int j = 0; j < 9; j++)
             b(i, j) = gsl_matrix_get(a, i, j);
 };
 
-void NumericalRheologyMatrixDecomposer::gcm2gsl(const GcmMatrix& a, gsl_matrix* b) const
+void NumericalRheologyMatrixDecomposer::gcm2gsl(const GcmMatrix& a, 
+                                                gsl_matrix* b) const
 {
     for (int i = 0; i < 9; i++)
         for (int j = 0; j < 9; j++)
             gsl_matrix_set(b, i, j, a.get(i, j));
 };
-void NumericalRheologyMatrixDecomposer::decompose(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1, int stage) const
+void NumericalRheologyMatrixDecomposer::decompose(const GcmMatrix& a,
+                                                        GcmMatrix& u,
+                                                        GcmMatrix& l,
+                                                        GcmMatrix& u1,
+                                                        int stage) const
 {
     const float IMAG_THRESHOLD = 1e-8;
 
@@ -90,17 +96,20 @@ void NumericalRheologyMatrixDecomposer::decompose(const GcmMatrix& a, GcmMatrix&
     gsl2gcm(_u, u);
 }
 
-void NumericalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void NumericalRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, GcmMatrix& u,
+                                                         GcmMatrix& l, GcmMatrix& u1) const
 {
     decompose(a, u, l, u1, 0);
 }
 
-void NumericalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void NumericalRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, GcmMatrix& u, 
+                                                         GcmMatrix& l, GcmMatrix& u1) const
 {
     decompose(a, u, l, u1, 1);
 }
 
-void NumericalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void NumericalRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, GcmMatrix& u, 
+                                                         GcmMatrix& l, GcmMatrix& u1) const
 {
     decompose(a, u, l, u1, 2);
 }

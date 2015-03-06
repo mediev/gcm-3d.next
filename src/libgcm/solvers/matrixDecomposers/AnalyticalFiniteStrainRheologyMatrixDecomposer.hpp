@@ -8,7 +8,13 @@
 
 namespace gcm
 {
-    class AnalyticalFiniteStrainRheologyMatrixDecomposer: public RheologyMatrixDecomposer
+	/**
+	 * Class for analytical rheology matrix decomposition for 
+	 * ideal elastic anisotropic material in model that takes into account 
+	 * the finite strain rates
+	 */
+    class AnalyticalFiniteStrainRheologyMatrixDecomposer: 
+	                                          public RheologyMatrixDecomposer
     {
         public:
             AnalyticalFiniteStrainRheologyMatrixDecomposer();
@@ -21,7 +27,8 @@ namespace gcm
              * @param l Matrix to store \f$\Lambda\f$
              * @param u1 Matrix to store \f$U^{-1}\f$
              */
-            void decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+            void decomposeX(const GcmMatrix& a, GcmMatrix& u, 
+			                      GcmMatrix& l, GcmMatrix& u1) const;
             /**
              * Computes decomposition for matrix in Y direction.
              *
@@ -30,7 +37,8 @@ namespace gcm
              * @param l Matrix to store \f$\Lambda\f$
              * @param u1 Matrix to store \f$U^{-1}\f$
              */
-            void decomposeY(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+            void decomposeY(const GcmMatrix& a, GcmMatrix& u, 
+			                      GcmMatrix& l, GcmMatrix& u1) const;
             /**
              * Computes decomposition for matrix in Z direction.
              *
@@ -39,7 +47,8 @@ namespace gcm
              * @param l Matrix to store \f$\Lambda\f$
              * @param u1 Matrix to store \f$U^{-1}\f$
              */
-            void decomposeZ(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+            void decomposeZ(const GcmMatrix& a, GcmMatrix& u, 
+			                      GcmMatrix& l, GcmMatrix& u1) const;
     };
 };
 

@@ -2,19 +2,26 @@
 
 using namespace gcm;
 
-AnalyticalFiniteStrainRheologyMatrixDecomposer::AnalyticalFiniteStrainRheologyMatrixDecomposer() {
+AnalyticalFiniteStrainRheologyMatrixDecomposer::
+                              AnalyticalFiniteStrainRheologyMatrixDecomposer() {
 }
 
-AnalyticalFiniteStrainRheologyMatrixDecomposer::~AnalyticalFiniteStrainRheologyMatrixDecomposer() {
+AnalyticalFiniteStrainRheologyMatrixDecomposer::
+                              ~AnalyticalFiniteStrainRheologyMatrixDecomposer() {
 }
 
-void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a,
-                            GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeX(const GcmMatrix& a, 
+                                                                      GcmMatrix& u, 
+                                                                      GcmMatrix& l, 
+                                                                      GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
     u1.clear();
     
+	// AnalyticalRheologyMatrixDecomposer is used for decomposition of 
+	// 9x9 submatrix of matrix a which fortunately help in this case to  
+	// decompose all 10x10 matrix a.
     AnalyticalRheologyMatrixDecomposer decomposer9;
     decomposer9.decomposeX(a, u, l, u1);
     
@@ -29,13 +36,18 @@ void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeX(const GcmMatrix&
             u(9, i) -= u1(9, j) * u(j, i);
 }
 
-void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a,
-                            GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeY(const GcmMatrix& a, 
+                                                                      GcmMatrix& u, 
+                                                                      GcmMatrix& l, 
+                                                                      GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
     u1.clear();
     
+	// AnalyticalRheologyMatrixDecomposer is used for decomposition of 
+	// 9x9 submatrix of matrix a which fortunately help in this case to  
+	// decompose all 10x10 matrix a.
     AnalyticalRheologyMatrixDecomposer decomposer9;
     decomposer9.decomposeY(a, u, l, u1);
     
@@ -50,13 +62,18 @@ void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeY(const GcmMatrix&
             u(9, i) -= u1(9, j) * u(j, i);
 }
 
-void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a,
-                            GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const
+void AnalyticalFiniteStrainRheologyMatrixDecomposer::decomposeZ(const GcmMatrix& a, 
+                                                                      GcmMatrix& u, 
+                                                                      GcmMatrix& l, 
+                                                                      GcmMatrix& u1) const
 {
     l.clear();
     u.clear();
     u1.clear();
     
+	// AnalyticalRheologyMatrixDecomposer is used for decomposition of 
+	// 9x9 submatrix of matrix a which fortunately help in this case to  
+	// decompose all 10x10 matrix a.
     AnalyticalRheologyMatrixDecomposer decomposer9;
     decomposer9.decomposeZ(a, u, l, u1);
     

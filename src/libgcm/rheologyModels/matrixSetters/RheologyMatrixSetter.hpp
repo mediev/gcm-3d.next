@@ -11,17 +11,20 @@ namespace gcm
     class CalcNode;
 
     /**
-     * Interface to implement for rheology matrix setter. Setter if supposed to modify
-     * rheology matrix elements depending on used rheology and plasticity model.
+     * Interface to implement for rheology matrix setter. 
+	 * Setter fills in rheology matrix (matrix in the equation multiplied by
+	 * spatial derivatives) elements depending on used rheology model.
      */
     class RheologyMatrixSetter
     {
     public:
         /**
-         * Returns number of matrix states after decompositions. This method is supposed to be used to
+         * Returns number of matrix states after decompositions. 
+		 * This method is supposed to be used to
          * preallocate memory for matrices cache.
          *
-         * @return Number of possible states (for one space direction) or 0 if unknown.
+         * @return Number of possible states (for one space direction)
+		 * or 0 if unknown.
          */
         virtual unsigned int getNumberOfStates() const = 0;
         /**
@@ -42,7 +45,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        virtual void setX(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) = 0;
+        virtual void setX(GcmMatrix& a, const MaterialPtr& material, 
+		                                const CalcNode& node) = 0;
         /**
          * Fills matrix \f$A_y\f$ using specified material parameters.
          *
@@ -50,7 +54,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        virtual void setY(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) = 0;
+        virtual void setY(GcmMatrix& a, const MaterialPtr& material, 
+		                                const CalcNode& node) = 0;
         /**
          * Fills matrix \f$A_z\f$ using specified material parameters.
          *
@@ -58,7 +63,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        virtual void setZ(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) = 0;
+        virtual void setZ(GcmMatrix& a, const MaterialPtr& material, 
+		                                const CalcNode& node) = 0;
         
     };
 

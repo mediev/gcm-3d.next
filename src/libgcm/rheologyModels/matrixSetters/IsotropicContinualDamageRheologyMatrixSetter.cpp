@@ -2,18 +2,24 @@
 
 using namespace gcm;
 
-unsigned int IsotropicContinualDamageRheologyMatrixSetter::getNumberOfStates() const {
+unsigned int IsotropicContinualDamageRheologyMatrixSetter::
+                                                   getNumberOfStates() const {
 	return 0;
 }
 
-unsigned int IsotropicContinualDamageRheologyMatrixSetter::getStateForNode(const CalcNode& node) const {
+unsigned int IsotropicContinualDamageRheologyMatrixSetter::getStateForNode
+                                                (const CalcNode& node) const {
 	return 0;
 }
 
-void IsotropicContinualDamageRheologyMatrixSetter::setX(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) {
+void IsotropicContinualDamageRheologyMatrixSetter::setX(GcmMatrix& a, 
+                                                        const MaterialPtr& material, 
+                                                        const CalcNode& node)
+{
 	a.clear();
 	
-	const IdealElasticContinualDamageNode &node1 = static_cast<const IdealElasticContinualDamageNode&> (node);
+	const IdealElasticContinualDamageNode &node1 = 
+	                static_cast<const IdealElasticContinualDamageNode&> (node);
 	auto damage = node1.getDamageMeasure();
 	auto rho = material->getRho();
 	auto mu = material->getMu() * exp(-damage);
@@ -29,10 +35,14 @@ void IsotropicContinualDamageRheologyMatrixSetter::setX(GcmMatrix& a, const Mate
 	a(8, 0) = -la;
 }
 
-void IsotropicContinualDamageRheologyMatrixSetter::setY(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) {
+void IsotropicContinualDamageRheologyMatrixSetter::setY(GcmMatrix& a, 
+                                                        const MaterialPtr& material, 
+                                                        const CalcNode& node)
+{
 	a.clear();
 	
-	const IdealElasticContinualDamageNode &node1 = static_cast<const IdealElasticContinualDamageNode&> (node);
+	const IdealElasticContinualDamageNode &node1 = 
+	                static_cast<const IdealElasticContinualDamageNode&> (node);
 	auto damage = node1.getDamageMeasure();
 	auto rho = material->getRho();
 	auto mu = material->getMu() * exp(-damage);
@@ -48,10 +58,14 @@ void IsotropicContinualDamageRheologyMatrixSetter::setY(GcmMatrix& a, const Mate
 	a(8, 1) = -la;
 }
 
-void IsotropicContinualDamageRheologyMatrixSetter::setZ(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) {
+void IsotropicContinualDamageRheologyMatrixSetter::setZ(GcmMatrix& a, 
+                                                        const MaterialPtr& material, 
+                                                        const CalcNode& node)
+{
 	a.clear();
 	
-	const IdealElasticContinualDamageNode& node1 = static_cast<const IdealElasticContinualDamageNode&> (node);
+	const IdealElasticContinualDamageNode& node1 = 
+	                static_cast<const IdealElasticContinualDamageNode&> (node);
 	auto damage = node1.getDamageMeasure();
 	auto rho = material->getRho();
 	auto mu = material->getMu() * exp(-damage);

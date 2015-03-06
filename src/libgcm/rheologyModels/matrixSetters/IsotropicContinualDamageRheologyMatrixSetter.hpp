@@ -8,6 +8,11 @@
 
 namespace gcm
 {
+	/**
+	 * Class to fill in rheology matrix for ideal elastic isotropic material
+	 * with continual damage (the most stupid model, where elastic modules
+	 * are multiplied by exp(-damage), damage is from 0 to 1)
+	 */
     class IsotropicContinualDamageRheologyMatrixSetter: public RheologyMatrixSetter
     {
     public:

@@ -5,14 +5,19 @@
 
 namespace gcm
 {
+	/**
+	 * Class to fill in rheology matrix for ideal elastic isotropic material
+	 */
     class IsotropicElasticRheologyMatrixSetter: public RheologyMatrixSetter
     {
     public:
         /**
-        * Returns number of matrix states after decompositions. This method is supposed to be used to
+        * Returns number of matrix states after decompositions. 
+		* This method is supposed to be used to
         * preallocate memory for matrices cache.
         *
-        * @return Number of possible states (for one space direction) or 0 if unknown.
+        * @return Number of possible states (for one space direction) 
+		* or 0 if unknown.
         */
         unsigned int getNumberOfStates() const;
         /**
@@ -30,7 +35,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        void setX(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) override;
+        void setX(GcmMatrix& a, const MaterialPtr& material, 
+		                        const CalcNode& node) override;
         /**
          * Fills matrix \f$A_y\f$ using specified material parameters.
          *
@@ -38,7 +44,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        void setY(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) override;
+        void setY(GcmMatrix& a, const MaterialPtr& material, 
+		                        const CalcNode& node) override;
         /**
          * Fills matrix \f$A_z\f$ using specified material parameters.
          *
@@ -46,7 +53,8 @@ namespace gcm
          * @param material Material to use
          * @param node Node to set matrix at
          */
-        void setZ(GcmMatrix& a, const MaterialPtr& material, const CalcNode& node) override;
+        void setZ(GcmMatrix& a, const MaterialPtr& material, 
+		                        const CalcNode& node) override;
     };
 }
 #endif /* ISOTROPIC_ELASTIC_RHEOLOGY_MATRIX_SETTER_HPP */

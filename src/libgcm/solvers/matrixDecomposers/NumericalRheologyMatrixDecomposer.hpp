@@ -14,6 +14,9 @@
 
 namespace gcm
 {
+	/**
+	 * Class for numerical matrix decomposition by gsl-library
+	 */
     class NumericalRheologyMatrixDecomposer: public RheologyMatrixDecomposer
     {
 	private:
@@ -39,7 +42,7 @@ namespace gcm
 		 */
 		void gcm2gsl(const GcmMatrix& a, gsl_matrix* b) const;
 		void decompose(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l,
-											GcmMatrix& u1, int stage) const;
+		                     GcmMatrix& u1, int stage) const;
 	public:
 		NumericalRheologyMatrixDecomposer();
 		~NumericalRheologyMatrixDecomposer();
@@ -51,7 +54,8 @@ namespace gcm
 		* @param l Matrix to store \f$\Lambda\f$
 		* @param u1 Matrix to store \f$U^{-1}\f$
 		*/
-	   void decomposeX(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+	   void decomposeX(const GcmMatrix& a, GcmMatrix& u, 
+	                         GcmMatrix& l, GcmMatrix& u1) const;
 	   /**
 		* Computes decomposition for matrix in Y direction.
 		*
@@ -60,7 +64,8 @@ namespace gcm
 		* @param l Matrix to store \f$\Lambda\f$
 		* @param u1 Matrix to store \f$U^{-1}\f$
 		*/
-	   void decomposeY(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+	   void decomposeY(const GcmMatrix& a, GcmMatrix& u, 
+	                         GcmMatrix& l, GcmMatrix& u1) const;
 	   /**
 		* Computes decomposition for matrix in Z direction.
 		*
@@ -69,7 +74,8 @@ namespace gcm
 		* @param l Matrix to store \f$\Lambda\f$
 		* @param u1 Matrix to store \f$U^{-1}\f$
 		*/
-	   void decomposeZ(const GcmMatrix& a, GcmMatrix& u, GcmMatrix& l, GcmMatrix& u1) const;
+	   void decomposeZ(const GcmMatrix& a, GcmMatrix& u, 
+	                         GcmMatrix& l, GcmMatrix& u1) const;
 	};
 };
 
