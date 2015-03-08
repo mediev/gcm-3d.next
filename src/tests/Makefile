@@ -1,29 +1,26 @@
-all:
-	g++ --std=c++11 -c `ls *.cpp | grep -v Test`
-	g++ --std=c++11 -o test *.o
+CPP = /usr/bin/g++
+CFLAGS = --std=c++11 -Wall
+INCLUDEDIR = /home/alex/gcm-3d.next/src/
+SOURCEDIR = $(INCLUDEDIR)
 
-run-perf-test1:
-	g++ -O0 --std=c++11 -o node_perf_test1 NodeTest.cpp
-	./node_perf_test1
-	g++ -O1 --std=c++11 -o node_perf_test1 NodeTest.cpp
-	./node_perf_test1
-	g++ -O2 --std=c++11 -o node_perf_test1 NodeTest.cpp
-	./node_perf_test1
-	g++ -O3 --std=c++11 -o node_perf_test1 NodeTest.cpp
-	./node_perf_test1
+SOURCES = $(SOURCEDIR)libgcm/rheologyModels/rightHandSideSetters/MaxwellViscosityRightHandSideSetter.cpp\
+          $(SOURCEDIR)libgcm/solvers/rightHandSideSolvers/FirstOrderRightHandSideSolver.cpp\
+          $(SOURCEDIR)libgcm/solvers/rightHandSideSolvers/SecondOrderRightHandSideSolver.cpp\
+          $(SOURCEDIR)libgcm/nodes/IdealElasticNode.cpp\
+          $(SOURCEDIR)libgcm/nodes/CalcNode.cpp\
+          $(SOURCEDIR)libgcm/util/Exception.cpp\
+          RightHandSideSetterTest.cpp
 
-run-perf-test2:
-	g++ -O0 --std=c++11 -o node_perf_test2 MemoryAllocTest.cpp
-	./node_perf_test2
-	g++ -O1 --std=c++11 -o node_perf_test2 MemoryAllocTest.cpp
-	./node_perf_test2
-	g++ -O2 --std=c++11 -o node_perf_test2 MemoryAllocTest.cpp
-	./node_perf_test2
-	g++ -O3 --std=c++11 -o node_perf_test2 MemoryAllocTest.cpp
-	./node_perf_test2
+
+OBJECTS = $(SOURCES:%.cpp=%.o)
+
+%.o: %.cpp
+	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
+
+RightHandSideSetterTest: $(OBJECTS)
+	$(CPP) $(OBJECTS) -O0 --std=c++11 -I $(INCLUDEDIR) -o $@
+	./$@
 
 clean:
-	rm -f *.o
-	rm -f test
-	rm -f node_perf_test1
-	rm -f node_perf_test2
+	rm -f $(OBJECTS)
+	rm -f RightHandSideSetterTest

@@ -97,104 +97,155 @@
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
           <executablePath>gcm</executablePath>
-          <ccTool>
-            <incDir>
-              <pElem>.</pElem>
-            </incDir>
-          </ccTool>
         </makeTool>
       </makefileType>
+      <folder path="0/libgcm/elements">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/meshes">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/nodes">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/rheologyModels/matrixSetters">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/rheologyModels/models">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/rheologyModels/rightHandSideSetters">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/solvers">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
+      <folder path="0/libgcm/util">
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </folder>
       <item path="libgcm/Block.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/Body.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/Engine.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/Launcher.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/elements/TetrahedronFirstOrder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/elements/TetrahedronSecondOrder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/elements/TriangleFirstOrder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/elements/TriangleSecondOrder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/main.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/meshes/CubicMesh.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/meshes/Mesh.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/meshes/TetrahedronMesh.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/nodes/CalcNode.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/nodes/FiniteStrainIdealElasticNode.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/nodes/IdealElasticContinualDamageNode.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/nodes/IdealElasticNode.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/GcmMatrix.cpp"
             ex="false"
             tool="1"
             flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/rheologyModels/Material.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>../..</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/rheologyModels/RheologyMatrix.cpp"
@@ -202,128 +253,93 @@
             tool="1"
             flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="libgcm/rheologyModels/matrixSetters/AnisotropicElasticRheologyMatrixSetter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/matrixSetters/FiniteStrainElasticRheologyMatrixSetter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/matrixSetters/IsotropicContinualDamageRheologyMatrixSetter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/matrixSetters/IsotropicElasticRheologyMatrixSetter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/models/IdealElasticRheologyModel.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/models/RheologyModel.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/rheologyModels/rightHandSideSetters/MaxwellViscosityRightHandSideSetter.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/GcmSolver.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/IdealElasticGcmSolver.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/helpers/CrossPointFinder.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/matrixDecomposers/AnalyticalFiniteStrainRheologyMatrixDecomposer.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/matrixDecomposers/AnalyticalRheologyMatrixDecomposer.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/matrixDecomposers/IsotropicElasticRheologyMatrixDecomposer.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/matrixDecomposers/NumericalRheologyMatrixDecomposer.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/rightHandSideSolvers/FirstOrderRightHandSideSolver.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/solvers/rightHandSideSolvers/SecondOrderRightHandSideSolver.cpp"
             ex="false"
             tool="1"
             flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/util/Exception.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/util/Math.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
       <item path="libgcm/util/NodeTypes.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
-        </ccTool>
       </item>
     </conf>
   </confs>

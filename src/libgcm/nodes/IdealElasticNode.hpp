@@ -28,7 +28,18 @@ namespace gcm {
          */
         IdealElasticNode();
 
-		/***/
+		/**
+         * Creates node with: 
+         *     type == type
+         *     valuesInPDE == numOfPDE
+         *     valuesInODE == numOfODE
+		 * 
+		 * Used in constructors of nodes derived from IdealElasticNode.
+		 * 
+         * @param numOfPDE number of values in vector from PDE
+         * @param numOfODE number of values calculated by ODE's
+         * @param type NODE_TYPE
+         */
 		IdealElasticNode(uchar numOfPDE, uchar numOfODE, uchar type);
         /**
          * Velocity vector x component.

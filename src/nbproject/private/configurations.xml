@@ -226,6 +226,9 @@
         <in>nodes.hpp</in>
         <in>solvers.hpp</in>
       </df>
+      <df name="tests">
+        <in>RightHandSideSetterTest.cpp</in>
+      </df>
     </df>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
