@@ -4,6 +4,7 @@
 #include <cmath>
 // for memset()
 #include <cstring>
+#include <iostream>
 
 #include "libgcm/util/Types.hpp"
 #include "libgcm/util/Vector3.hpp"
@@ -62,12 +63,6 @@ protected:
 	ErrorFlags errorFlags;
 
 	/**
-	 * Type of node. This id must be unique for each Node subclass.
-	 * This field is *really* important - all objects use it to determine node class.
-	 * The list of possible types is defined in Types.hpp.
-	 */
-	uchar nodeType;
-	/**
 	 * Number of variables in main PDE (size of \vec{u}).
 	 */
 	uchar sizeOfValuesInPDE;
@@ -75,7 +70,13 @@ protected:
 	 * Number of variables in supporting ODEs.
 	 */
 	uchar sizeOfValuesInODE;
-
+	/**
+	 * Type of node. This id must be unique for each Node subclass.
+	 * This field is *really* important - all objects use it to determine node class.
+	 * The list of possible types is defined in Types.hpp.
+	 */
+	uchar nodeType;
+	
 	/**
 	 * Border condition that is used for this node.
 	 */

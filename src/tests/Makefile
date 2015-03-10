@@ -1,6 +1,7 @@
 CPP = /usr/bin/g++
 CFLAGS = --std=c++11 -Wall
-INCLUDEDIR = /home/alex/gcm-3d.next/src/
+mkfile_path := /home/alex/gcm-3d.next/src/
+INCLUDEDIR = $(mkfile_path)
 SOURCEDIR = $(INCLUDEDIR)
 
 SOURCES = $(SOURCEDIR)libgcm/rheologyModels/rightHandSideSetters/MaxwellViscosityRightHandSideSetter.cpp\
