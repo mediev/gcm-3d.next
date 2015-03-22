@@ -20,7 +20,7 @@ OBJECTS = $(SOURCES:%.cpp=%.o)
 
 RightHandSideSetterTest: $(OBJECTS)
 	$(CPP) $(OBJECTS) -O0 --std=c++11 -I $(INCLUDEDIR) -o $@
-	./$@
+	./$@ && gnuplot plotter
 
 clean:
 	rm -f $(OBJECTS)

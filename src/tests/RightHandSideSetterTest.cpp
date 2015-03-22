@@ -84,6 +84,19 @@ public:
 			tau /= 2;
 		}
 		
+		// Write file for plotting solutions with different size of steps
+		tau = rangeToRelaxationTime * 1; // TODO relaxationTime
+		ofstream results;
+		results.open("results_of_RightHandSideSetterTest");
+		for(int j = 0; j < numOfTimeSteps + 1; j++) {
+			results << j*tau << "\t";
+			for(int i = 0; i < numOfConvergenceIterations; i++) 
+				results << solutions[i][j * pow(2, i)] << "\t";
+			results << "\n";
+		}
+		results.close();
+		
+		// Check convergence of solutions with different size of steps
 		double error[numOfConvergenceIterations - 1];
 		cout << "steps are twice reduced every time. errors:\n";
 		for(int i = 0; i < numOfConvergenceIterations - 1; i++) {
