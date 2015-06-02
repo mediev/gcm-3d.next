@@ -1,7 +1,8 @@
 CPP    = /usr/bin/g++
 CFLAGS = --std=c++11 -Wall
-INCLUDEDIR = $(PWD)
-SOURCEDIR = libgcm
+LIBFLAGS = -lgsl -lgslcblas -lm
+INCLUDEDIR = /home/alex/work/gcm-3d.next/src
+SOURCEDIR = src/libgcm
 
 SOURCES = $(shell find $(SOURCEDIR) -name '*.cpp')
 OBJECTS = $(SOURCES:%.cpp=%.o)
@@ -11,7 +12,7 @@ EXECUTABLE=gcm
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CPP) $(OBJECTS) -o $@ -lgsl -lgslcblas -lm
+	$(CPP) $(OBJECTS) -o $@ $(LIBFLAGS)
 
 %.o: %.cpp
 	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
