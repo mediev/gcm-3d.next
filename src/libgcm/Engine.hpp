@@ -6,8 +6,10 @@
 #include <vector>
 #include <stdio.h>
 
+#include "libgcm/util/Singleton.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
 #include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
+#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
 #include "libgcm/solvers/IdealElasticGcmSolver.hpp"
 #include "libgcm/rheologyModels/models/IdealElasticRheologyModel.hpp"
 #include "libgcm/Launcher.hpp"
@@ -18,7 +20,7 @@ namespace gcm {
 	class Body;
 	struct Task;
 	
-	class Engine
+	class Engine : public Singleton<Engine>
 	{
 	protected:
 		real currentTime;
@@ -26,14 +28,15 @@ namespace gcm {
 		real tau;
 
 		std::map<std::string, RheologyModel*> rheologyModels;
-		std::map<std::string, GcmSolver*> GcmSolvers;
+		std::map<std::string, GcmSolver*> gcmSolvers;
 
 		std::vector<Body*> bodies;
 
 	public:
 		Engine();
-		Engine(const Task &task);
 		~Engine();
+
+		void loadTask(const Task &task);
 
 		void registerRheologyModel(RheologyModel* model);
 		void registerGcmSolver(GcmSolver* solver);
@@ -44,6 +47,8 @@ namespace gcm {
 		void doNextTimeStep();
 
 		real getCurrentTime() const;
+
+		void clear();
 	};
 }
 

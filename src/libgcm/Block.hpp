@@ -18,9 +18,8 @@ namespace gcm {
 			GcmSolver* solver;
 			RheologyModel* model;
 			std::vector<Mesh*> meshes;
-			Engine *engine;
 		public:
-			Block(const BlockProperties &prop, Engine *_engine);
+			Block(const BlockProperties &prop);
 			void doNextTimeStep();
 			void checkTopology(real tau);
 	};

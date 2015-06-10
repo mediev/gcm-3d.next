@@ -29,3 +29,8 @@
 *.tdo
 *.o
 nbproject/*
+.cproject
+.project
+.settings/
+src/.cproject
+src/.project

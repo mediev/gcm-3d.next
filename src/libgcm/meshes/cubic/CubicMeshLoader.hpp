@@ -7,7 +7,7 @@
 namespace gcm {
 	struct Geometry;
 	
-	class CubicMeshLoader {
+	class CubicMeshLoader : public Singleton<CubicMeshLoader> {
 	public:
 		CubicMeshLoader();
 		~CubicMeshLoader();

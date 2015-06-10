@@ -11,7 +11,3 @@ TetrahedronMesh::TetrahedronMesh(const TetrahedronMesh& orig) {
 
 TetrahedronMesh::~TetrahedronMesh() {
 }
-
-void TetrahedronMesh::checkTopology(float tau) {
-	
-}

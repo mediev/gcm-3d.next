@@ -6,9 +6,10 @@ using namespace gcm;
 
 int main() {
 	Launcher launcher;
-	Engine *engine = new Engine(launcher.task);
+	Engine& engine = Engine::getInstance();
+	engine.loadTask(launcher.task);
 	
-	engine->calculate();
+	engine.calculate();
 
 	return 0;
 }
