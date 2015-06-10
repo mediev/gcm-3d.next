@@ -9,11 +9,13 @@ Block::Block(const BlockProperties& prop, Engine *_engine) {
 	if (prop.meshType == "CubicMesh") {
 		CubicMesh *mesh = new CubicMesh();
 		CubicMeshLoader loader;
+		mesh->setRheologyModel(model);
 		loader.loadMesh(mesh, prop.geometry, prop.spatialStep);
 		meshes.push_back(mesh);
 	} else if (prop.meshType == "TetrahedronMesh") {
 		TetrahedronMesh *mesh = new TetrahedronMesh();
 		TetrahedronMeshLoader loader;
+		mesh->setRheologyModel(model);
 		loader.loadMesh(mesh, "MeshFile.gmsh", prop.spatialStep);
 		meshes.push_back(mesh);
 	}

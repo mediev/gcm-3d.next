@@ -6,16 +6,16 @@ Engine::Engine() {}
 
 Engine::Engine(const Task &task)
 {
+	registerRheologyModel( new IdealElasticRheologyModel() );
+	registerGcmSolver( new IdealElasticGcmSolver() );
+	
 	currentTime = 0;
 	requiredTime = task.requiredTime;
 	tau = task.timeStep;
 	for(auto it = task.bodies.begin(); it != task.bodies.end(); it++) {
 		Body *body = new Body(*it, this);
 		bodies.push_back(body);
-	}
-	
-	registerRheologyModel( new IdealElasticRheologyModel() );
-	registerGcmSolver( new IdealElasticGcmSolver() );
+	}	
 }
 
 void Engine::registerRheologyModel(RheologyModel* model)
@@ -43,8 +43,10 @@ GcmSolver *Engine::getSolver(std::string type) const {
 }
 
 void Engine::calculate() {
-	while(currentTime < requiredTime)
+	while(currentTime < requiredTime) {
 		doNextTimeStep();
+		currentTime += tau;
+	}
 }
 
 void Engine::doNextTimeStep() {
