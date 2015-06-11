@@ -39,9 +39,9 @@ namespace gcm {
 	};
 
 	class Launcher {
-		public:
-			Task task;
-			Launcher();
+	public:
+		Task task;
+		Launcher();
 	};
 }
 #endif /* LAUNCHER_HPP */

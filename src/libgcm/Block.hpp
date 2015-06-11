@@ -13,16 +13,16 @@ namespace gcm {
 	
 	class Block
 	{
-		protected:
-			std::string name;
-			GcmSolver* solver;
-			RheologyModel* model;
-			std::vector<Mesh*> meshes;
-			Engine *engine;
-		public:
-			Block(const BlockProperties &prop, Engine *_engine);
-			void doNextTimeStep();
-			void checkTopology(real tau);
+	protected:
+		std::string name;
+		GcmSolver* solver;
+		RheologyModel* model;
+		std::vector<Mesh*> meshes;
+		Engine *engine;
+	public:
+		Block(const BlockProperties &prop, Engine *_engine);
+		void doNextTimeStep();
+		void checkTopology(real tau);
 	};
 }
 #endif	/* BLOCK_HPP */
