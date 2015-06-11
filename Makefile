@@ -17,6 +17,10 @@ $(EXECUTABLE): $(OBJECTS)
 %.o: %.cpp
 	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
 
+test: test.cpp
+	g++ test.cpp -o test
+	./test
+
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(EXECUTABLE)

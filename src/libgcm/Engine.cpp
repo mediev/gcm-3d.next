@@ -2,24 +2,20 @@
 
 using namespace gcm;
 
-Engine::Engine()
+Engine::Engine() {}
+
+Engine::Engine(const Task &task)
 {
-	registerRheologyModel( new IdealElasticRheologyModel() );
+	currentTime = 0;
+	requiredTime = task.requiredTime;
+	tau = task.timeStep;
+	for(auto it = task.bodies.begin(); it != task.bodies.end(); it++) {
+		Body *body = new Body(*it, this);
+		bodies.push_back(body);
+	}
 	
+	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
-}
-
-Engine::~Engine()
-{
-    cleanUp();
-}
-
-void Engine::cleanUp()
-{
-	for(auto& b: bodies)
-        delete b;
-    bodies.clear();
-    printf("Engine: cleaned!\n");
 }
 
 void Engine::registerRheologyModel(RheologyModel* model)
@@ -38,19 +34,24 @@ void Engine::registerGcmSolver(GcmSolver* solver)
 	}
 }
 
-Body* Engine::getBody(unsigned char num)
-{
-    //assert_lt(num, bodies.size() );
-    return bodies[num];
+RheologyModel *Engine::getRheologyModel(std::string type) const {
+	return rheologyModels.at(type);
 }
 
-void Engine::addBody(Body* body)
-{
-    bodies.push_back(body);
+GcmSolver *Engine::getSolver(std::string type) const {
+	return GcmSolvers.at(type);
 }
 
-void Engine::doNextStep()
-{
+void Engine::calculate() {
+	while(currentTime < requiredTime)
+		doNextTimeStep();
+}
+
+void Engine::doNextTimeStep() {
 	for( auto it = bodies.begin(); it != bodies.end(); ++it )
-		(*it)->doCalc();
+		(*it)->doNextTimeStep();
+}
+
+real Engine::getCurrentTime() const {
+	return currentTime;
 }

@@ -8,7 +8,7 @@ IdealElasticNode::IdealElasticNode() : CalcNode(9, 0, gcm::IDEAL_ELASTIC_NODE_TY
 }
 
 IdealElasticNode::IdealElasticNode(uchar numOfPDE, uchar numOfODE, uchar type) :
-											CalcNode(numOfPDE, numOfODE, type)
+                                              CalcNode(numOfPDE, numOfODE, type)
 {
 }
 

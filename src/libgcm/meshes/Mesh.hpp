@@ -6,8 +6,6 @@
 #include <algorithm>
 #include <assert.h>
 
-#define NODES_IN_TEST_MESH 8
-
 #include "libgcm/util/NodeTypes.hpp"
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
@@ -28,7 +26,6 @@ namespace gcm {
 		std::string type;
 
         // TODO - restructure it after we have a concept regarding parallel impl
-//        s
 		RheologyModel* rheologyModel;
 
         /*
@@ -45,16 +42,11 @@ namespace gcm {
 		
         // Maps 'global' ids of nodes to local indexes in node storage
         std::unordered_map<int, int> nodesMap;
-        // TODO: do we need these as separate fields?
-        int nodesNumber;
-        int nodesStorageSize;
 
         // If the mesh supports moving at all
         bool movable;
 
         USE_LOGGER;
-
-		CalcNode& createNode();
 		
         // Compatible snapshotter and dumper
 //        virtual const SnapshotWriter& getSnaphotter() const = 0;
@@ -68,11 +60,10 @@ namespace gcm {
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
         virtual ~Mesh();
 		void initValuesInNodes(unsigned int numberOfNodes);
-
+		CalcNode& createNode(const real &x, const real &y, const real &z);
+		
         // Virtual functions to be implemented by children classes
-		
-		virtual void load(std::vector<CalcNode>& vertices, unsigned char indx) = 0;
-		
+
 //		/*	Comment until it will be realized in derived classes	*/
 //        /*
 //         * Should return time step that is considered ideal for the mesh.
@@ -169,7 +160,6 @@ namespace gcm {
         // If it's not the case, we need to convert these functions into virtual.
         int getNodesNumber();
         int getNumberOfLocalNodes();
-        void createNodes(int number);
         void initNewNodes();
 		void initValuesContainer(unsigned int numberOfNodes);
         void setRheologyModel(RheologyModel *_model);
@@ -179,7 +169,6 @@ namespace gcm {
         CalcNode& getNewNode(int index);
         int getNodeLocalIndex(int index) const;
         CalcNode& getNodeByLocalIndex(unsigned int index);
-        void addNode(CalcNode& node);
 
         /*
          * Sets mesh id.

@@ -1,19 +1,22 @@
 #ifndef BODY_HPP
 #define	BODY_HPP
 
+#include "libgcm/Launcher.hpp"
 #include "Block.hpp"
 
 namespace gcm {
-class Body {
+	class Engine;
+	class Block;
+	struct BodyProperties;
+	
+	class Body {
 	protected:
-		std::vector<Block> blocks;
+		std::vector<Block*> blocks;
+		Engine *engine;
 	public:
-		Body() {};
-		bool checkTopology();
-		void addBlock(Block block);
-		void setRheologyModel(unsigned char i);
-		void load(std::vector<CalcNode>& vertices);
-		void doCalc();
+		Body(const BodyProperties &prop, Engine *_engine);
+		void checkTopology();
+		void doNextTimeStep();
 	};
 }
 #endif	/* BODY_HPP */

@@ -2,38 +2,24 @@
 
 using namespace gcm;
 
-void Body::doCalc()
-{
-	for( auto it = blocks.begin(); it != blocks.end(); ++it )
-		it->doNextTimeStep();
+Body::Body(const BodyProperties& prop, Engine *_engine) {
+	engine = _engine;
+	for(auto it = prop.blocks.begin(); it != prop.blocks.end(); it++) {
+		Block *block = new Block(*it, _engine);
+		blocks.push_back(block);
+	}
 }
 
-bool Body::checkTopology()
+void Body::doNextTimeStep()
+{
+	for( auto it = blocks.begin(); it != blocks.end(); ++it )
+		(*it)->doNextTimeStep();
+}
+
+void Body::checkTopology()
 {
 	for( auto it = blocks.begin(); it != blocks.end(); ++it ) {
 		real tau = 0;
-		it->checkTopology(tau);
+		(*it)->checkTopology(tau);
 	}
-	return true;
-}
-
-void Body::addBlock(Block block)
-{
-	blocks.push_back(block);	
-}
-
-void Body::setRheologyModel(unsigned char i)
-{
-	blocks[i].setRheologyModel();
-}
-
-void Body::load(std::vector<CalcNode>& vertices)
-{	
-	for( unsigned char i = 0; i < blocks.size(); i++ ) {
-		// Send an vector of nodes with coordinates and start index in vector for every block
-		blocks[i].load(vertices, i*8);
-	}
-	
-	checkTopology();
-	printf("Body: Loaded!\n");
 }

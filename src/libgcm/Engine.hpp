@@ -6,37 +6,44 @@
 #include <vector>
 #include <stdio.h>
 
-#include "libgcm/meshes/CubicMesh.hpp"
-#include "libgcm/meshes/TetrahedronMesh.hpp"
+#include "libgcm/meshes/cubic/CubicMesh.hpp"
+#include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
 #include "libgcm/solvers/IdealElasticGcmSolver.hpp"
 #include "libgcm/rheologyModels/models/IdealElasticRheologyModel.hpp"
+#include "libgcm/Launcher.hpp"
 #include "libgcm/Body.hpp"
 #include "libgcm/Block.hpp"
 
 namespace gcm {
+	class Body;
+	struct Task;
+	
 	class Engine
 	{
-		protected:
-			std::map<std::string, RheologyModel*> rheologyModels;
-			std::map<std::string, GcmSolver*> GcmSolvers;
-			std::vector<Body*> bodies;
+	protected:
+		real currentTime;
+		real requiredTime;
+		real tau;
 
-		public:
-			Engine();
-			~Engine();
+		std::map<std::string, RheologyModel*> rheologyModels;
+		std::map<std::string, GcmSolver*> GcmSolvers;
 
-			void cleanUp();
+		std::vector<Body*> bodies;
 
-			void registerRheologyModel(RheologyModel* model);
-			void registerGcmSolver(GcmSolver* solver);
+	public:
+		Engine();
+		Engine(const Task &task);
+		~Engine();
 
-			RheologyModel* getRheologyModel(std::string modelType);
-			GcmSolver* getSolver(std::string solverType);
+		void registerRheologyModel(RheologyModel* model);
+		void registerGcmSolver(GcmSolver* solver);
+		RheologyModel* getRheologyModel(std::string type) const;
+		GcmSolver* getSolver(std::string type) const;
 
-			Body* getBody(unsigned char num);
-			void addBody(Body* body);
+		void calculate();
+		void doNextTimeStep();
 
-			void doNextStep();
+		real getCurrentTime() const;
 	};
 }
 
