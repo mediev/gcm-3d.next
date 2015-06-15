@@ -6,8 +6,11 @@
 
 namespace gcm {
 	
-	class TetrahedronMeshLoader {
+	class TetrahedronMeshLoader : public Singleton<TetrahedronMeshLoader>{
 	public:
+		TetrahedronMeshLoader();
+		~TetrahedronMeshLoader();
+
 		void loadMesh(TetrahedronMesh* mesh, std::string meshFile, real h);
 	private:
 

@@ -2,10 +2,9 @@
 
 using namespace gcm;
 
-Body::Body(const BodyProperties& prop, Engine *_engine) {
-	engine = _engine;
+Body::Body(const BodyProperties& prop) {
 	for(auto it = prop.blocks.begin(); it != prop.blocks.end(); it++) {
-		Block *block = new Block(*it, _engine);
+		Block *block = new Block(*it);
 		blocks.push_back(block);
 	}
 }

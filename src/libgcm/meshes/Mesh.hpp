@@ -1,5 +1,5 @@
-#ifndef GCM_MESH_H_
-#define GCM_MESH_H_
+#ifndef GCM_MESH_HPP
+#define GCM_MESH_HPP
 
 #include <unordered_map>
 #include <string>
@@ -11,7 +11,6 @@
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
-
 
 namespace gcm {
     /*

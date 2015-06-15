@@ -2,18 +2,19 @@
 
 using namespace gcm;
 
-Engine::Engine() {}
-
-Engine::Engine(const Task &task)
+Engine::Engine()
 {
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
-	
+}
+
+void Engine::loadTask(const Task &task)
+{
 	currentTime = 0;
 	requiredTime = task.requiredTime;
 	tau = task.timeStep;
 	for(auto it = task.bodies.begin(); it != task.bodies.end(); it++) {
-		Body *body = new Body(*it, this);
+		Body *body = new Body(*it);
 		bodies.push_back(body);
 	}	
 }
@@ -29,7 +30,7 @@ void Engine::registerRheologyModel(RheologyModel* model)
 void Engine::registerGcmSolver(GcmSolver* solver)
 {
 	if(solver) {
-		GcmSolvers[solver->getType()] = solver;
+		gcmSolvers[solver->getType()] = solver;
 		printf("Engine: registered numerical method: %s\n", solver->getType().c_str());
 	}
 }
@@ -39,7 +40,7 @@ RheologyModel *Engine::getRheologyModel(std::string type) const {
 }
 
 GcmSolver *Engine::getSolver(std::string type) const {
-	return GcmSolvers.at(type);
+	return gcmSolvers.at(type);
 }
 
 void Engine::calculate() {
@@ -56,4 +57,21 @@ void Engine::doNextTimeStep() {
 
 real Engine::getCurrentTime() const {
 	return currentTime;
+}
+
+Engine::~Engine()
+{
+    clear();
+}
+
+void Engine::clear() {
+    // clear memory
+    for(auto& b: bodies)
+        delete b;
+    bodies.clear();
+    rheologyModels.clear();
+    gcmSolvers.clear();
+
+    // clear state
+    currentTime = 0;
 }

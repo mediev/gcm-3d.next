@@ -12,9 +12,8 @@ namespace gcm {
 	class Body {
 	protected:
 		std::vector<Block*> blocks;
-		Engine *engine;
 	public:
-		Body(const BodyProperties &prop, Engine *_engine);
+		Body(const BodyProperties &prop);
 		void checkTopology();
 		void doNextTimeStep();
 	};

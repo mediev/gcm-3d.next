@@ -5,6 +5,7 @@ using namespace gcm;
 
 Mesh::Mesh() {
 	valuesInNodes = NULL;
+	movable = false;
 }
 
 Mesh::~Mesh() {
