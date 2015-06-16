@@ -6,6 +6,8 @@ Engine::Engine()
 {
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
+
+	fixedTimeStep = -1;
 }
 
 void Engine::loadTask(const Task &task)
@@ -17,6 +19,17 @@ void Engine::loadTask(const Task &task)
 		Body *body = new Body(*it);
 		bodies.push_back(body);
 	}	
+}
+
+void Engine::setTimeStep(real dt)
+{
+	if(dt > 0)
+		fixedTimeStep = dt;
+}
+
+real Engine::getTimeStep()
+{
+	return fixedTimeStep;
 }
 
 void Engine::registerRheologyModel(RheologyModel* model)
@@ -74,4 +87,5 @@ void Engine::clear() {
 
     // clear state
     currentTime = 0;
+    fixedTimeStep = -1;
 }

@@ -5,10 +5,13 @@
 #include <string>
 #include <algorithm>
 #include <assert.h>
+#include <limits>
+#include <cmath>
 
 #include "libgcm/util/NodeTypes.hpp"
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
+#include "libgcm/util/Math.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
@@ -18,49 +21,92 @@ namespace gcm {
      */
     class Mesh {
     protected:
-        /*
-         * Mesh id.
-         */
+
+    	// Id of mesh
         std::string id;
+        // Type of mesh
 		std::string type;
 
         // TODO - restructure it after we have a concept regarding parallel impl
+		// Rheology model used in the mesh
 		RheologyModel* rheologyModel;
 
-        /*
-         * List of mesh nodes.
-         */
-        std::vector<CalcNode> nodes;
 		/*
-		 * Memory to store values of nodes
+		 * Basic nodal objects
 		 */
+        // List of mesh nodes (local indexation)
+        std::vector<CalcNode> nodes;
+		// Pointer to memory for nodal data
 		real *valuesInNodes;
-		
-        std::vector<CalcNode> newNodes;
-		real *valuesInNewNodes;
-		
-        // Maps 'global' ids of nodes to local indexes in node storage
-        std::unordered_map<int, int> nodesMap;
+		// Map of <global, local> nodal index associations
+		std::unordered_map<int, int> nodesMap;
+		// Number of nodes for reserving
+		int nodeStorageSize;
+
+		/*
+		 * Basic objects for additional nodes
+		 */
+		// List of additional nodes
+        //std::vector<CalcNode> newNodes;
+        // Pointer to memory for new nodal data
+		//real *valuesInNewNodes;
 
         // If the mesh supports moving at all
         bool movable;
 
+        // Outline around mesh
+        // AABB outline;
+
         USE_LOGGER;
-		
-        // Compatible snapshotter and dumper
-//        virtual const SnapshotWriter& getSnaphotter() const = 0;
-//        virtual const SnapshotWriter& getDumper() const = 0;
 
     public:
-        /*
-         * Constructor and destructor.
-         */
+        // Default constructor
         Mesh();
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
+        // Default destructor
         virtual ~Mesh();
+
+        // Preparing mesh for calculating
+        void preProcess();
+        // Remake mesh before calculation
+        virtual void preProcessGeometry() = 0;
+
+        /*
+         * Nodal routines
+         */
+        // Allocate memory for values in nodes and reserve memory in mesh
 		void initValuesInNodes(unsigned int numberOfNodes);
-		CalcNode& createNode(const real &x, const real &y, const real &z);
-		
+		// Add current node to storage
+		void addNode(const CalcNode& node);
+		// Provide an access to node by global index with map
+		CalcNode& getNode(int index);
+		// Provide an access to node by local index from vector directly
+		CalcNode& getNodeByLocalIndex(uint index);
+		// Provide local index for current global index
+		int getNodeLocalIndex(int index) const;
+        // TODO: Rethink about new_nodes
+        //CalcNode& getNewNode(int index);
+
+		// Return number of nodes put in storage
+        int getNodesNumber();
+
+		/*
+		 * Routines for rheology model access
+		 */
+        void setRheologyModel(RheologyModel *_model);
+		RheologyModel *getRheologyModel();
+
+		// Create an outline around mesh
+		virtual void createOutline();
+
+		// Checking mesh topology
+		virtual void checkTopology(real tau) = 0;
+		// Calculate minimal height of element among all
+		virtual void calcMinH() = 0;
+		virtual real getMinH() = 0;
+
+		//bool hasNode(int index);
+
         // Virtual functions to be implemented by children classes
 
 //		/*	Comment until it will be realized in derived classes	*/
@@ -96,7 +142,7 @@ namespace gcm {
 //         *    (a) either after the mesh was created
 //         *    (b) or after mesh nodes were rebalanced
 //         */
-//        virtual void preProcessGeometry() = 0;
+//
 //
         // TODO: rename method
         /*
@@ -106,7 +152,6 @@ namespace gcm {
          * - optimize deformed mesh
          * Most probably, it should be just left blank for non-moving meshes.
          */
-        virtual void checkTopology(float tau) = 0;
 //
 //        /*
 //         * Logs major mesh stats (obviously, it's specific for each mesh type)
@@ -157,17 +202,6 @@ namespace gcm {
         // It allows to remove nodesMap complexity (required by parallel impl) from children classes.
         // We do believe that all children classes will use the same node storage.
         // If it's not the case, we need to convert these functions into virtual.
-        int getNodesNumber();
-        int getNumberOfLocalNodes();
-        void initNewNodes();
-		void initValuesContainer(unsigned int numberOfNodes);
-        void setRheologyModel(RheologyModel *_model);
-		RheologyModel *getRheologyModel();
-		bool hasNode(int index);
-        CalcNode& getNode(int index);
-        CalcNode& getNewNode(int index);
-        int getNodeLocalIndex(int index) const;
-        CalcNode& getNodeByLocalIndex(unsigned int index);
 
         /*
          * Sets mesh id.
@@ -188,9 +222,6 @@ namespace gcm {
 //        virtual void createOutline();
 //        AABB getOutline();
 //        const AABB& getExpandedOutline() const;
-
-        void preProcess();
-
 //        void setInitialState(Area* area, float* values);
 //		void setBorderCondition(Area* area, unsigned int num);
 //		void setContactCondition(Area* area, unsigned int num);
@@ -210,8 +241,6 @@ namespace gcm {
 
         float getMaxEigenvalue();
         float getMaxPossibleTimeStep();
-
-        void defaultNextPartStep(float tau, int stage);
     };
 }
 #endif
