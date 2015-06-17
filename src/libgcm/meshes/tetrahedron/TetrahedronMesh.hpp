@@ -16,11 +16,11 @@ namespace gcm {
 
         virtual void addTetr(TetrahedronFirstOrder& tetr) = 0;
 
-        virtual TetrahedronFirstOrder& getTetr(unsigned int index) = 0;
+        virtual TetrahedronFirstOrder& getTetr(uint index) = 0;
 
-        virtual TetrahedronFirstOrder& getTetrByLocalIndex(unsigned int index) = 0;
+        virtual TetrahedronFirstOrder& getTetrByLocalIndex(uint index) = 0;
 
-        virtual TriangleFirstOrder& getTriangle(int index) = 0;
+        virtual TriangleFirstOrder& getTriangle(uint index) = 0;
 
         virtual bool hasTetr(unsigned int index) = 0;
 

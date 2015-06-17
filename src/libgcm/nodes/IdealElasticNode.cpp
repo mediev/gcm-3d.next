@@ -157,7 +157,7 @@ vector3r IdealElasticNode::getPrincipalStresses() const
     double b = getStressInvariantJ2();
     double c = -getStressInvariantJ3();
     
-//    solvePolynomialThirdOrder(a, b, c, mainStresses[0], mainStresses[1], mainStresses[2]);
+	solvePolynomialThirdOrder(a, b, c, mainStresses[0], mainStresses[1], mainStresses[2]);
 
     return vector3r(mainStresses[0], mainStresses[1], mainStresses[2]);
 }

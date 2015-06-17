@@ -255,6 +255,12 @@ namespace gcm
         return vmax(v1, vmax(v2, v3));
     }
 
+    template<typename T>
+    inline vector3<T> vecProduct(const vector3<T>& v1, const vector3<T>& v2)
+	{
+    	return vector3<T>(v1[1] * v2[2] - v2[1] * v1[2], v2[0] * v1[2] - v1[0] * v2[2], v1[0] * v2[1] - v2[0] * v1[1]);
+	}
+
 
     typedef vector3<real> vector3r;
     typedef vector3<uint> vector3u;

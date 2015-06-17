@@ -2,15 +2,26 @@
 #define	CUBICMESH_HPP
 
 #include "libgcm/meshes/Mesh.hpp"
+#include "libgcm/util/Math.hpp"
 
 namespace gcm {
 	class CubicMesh : public Mesh {
+
+	protected:
+		void calcMinH();
+		void preProcessGeometry();
+
+		real meshH;
 	public:
 		CubicMesh();
 		~CubicMesh();
-		void checkTopology(float tau) override;
-		Mesh* getMeshOfTheSameType() override;
 
+		Mesh* getMeshOfTheSameType() override;
+		
+		// Redefining of virtual methods
+		void checkTopology(real tau) override;
+		void createOutline();
+		real getMinH();
 
 	private:
 

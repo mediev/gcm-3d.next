@@ -36,11 +36,18 @@ namespace gcm {
 
 		std::vector<Body*> bodies;
 
+		real fixedTimeStep;
+
 	public:
 		Engine();
 		~Engine();
 
 		void loadTask(const Task &task);
+
+		// Set fixedTimeStep
+		void setTimeStep(real dt);
+		// Returns fixedTimeStep
+		real getTimeStep();
 
 		void registerRheologyModel(RheologyModel* model);
 		void registerGcmSolver(GcmSolver* solver);

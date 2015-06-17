@@ -73,9 +73,9 @@ void InertiaMomentPartitioner::bisectMesh(Mesh* mesh, int N) {
 	for (unsigned int i = 0; i < nodesNum; i++) {
 		const CalcNode &node = mesh->getNodeByLocalIndex(i);
 		if ( (node.coords - r0) * normal > 0 )
-			mesh1->addNode(node);
+			mesh1->addNode2(node);
 		else
-			mesh2->addNode(node);
+			mesh2->addNode2(node);
 	}
 	bisectMesh(mesh1, N / 2);
 	bisectMesh(mesh2, (N + 1) / 2);
