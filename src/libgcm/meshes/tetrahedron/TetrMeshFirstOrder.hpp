@@ -20,6 +20,7 @@ namespace gcm {
 		TetrMeshFirstOrder();
 		virtual ~TetrMeshFirstOrder();
 
+		Mesh *getMeshOfTheSameType() override;
         int getTetrsNumber();
         int getTriangleNumber();
 

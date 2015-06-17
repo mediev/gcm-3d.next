@@ -10,6 +10,10 @@ TetrMeshFirstOrder::~TetrMeshFirstOrder()
 {
 }
 
+Mesh* TetrMeshFirstOrder::getMeshOfTheSameType() {
+	return new TetrMeshFirstOrder();
+}
+
 void TetrMeshFirstOrder::checkTopology(float tau)
 {
 }

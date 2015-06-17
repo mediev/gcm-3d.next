@@ -4,6 +4,8 @@ using namespace gcm;
 
 Engine::Engine()
 {
+	rank = MPI::COMM_WORLD.Get_rank();
+	numberOfWorkers = MPI::COMM_WORLD.Get_size();
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
 }

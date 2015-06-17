@@ -7,9 +7,10 @@ namespace gcm {
 	class CubicMesh : public Mesh {
 	public:
 		CubicMesh();
-		CubicMesh(const CubicMesh& orig);
 		~CubicMesh();
 		void checkTopology(float tau) override;
+		Mesh* getMeshOfTheSameType() override;
+
 
 	private:
 

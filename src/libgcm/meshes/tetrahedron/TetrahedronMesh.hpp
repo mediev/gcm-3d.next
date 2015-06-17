@@ -9,7 +9,6 @@ namespace gcm {
 	class TetrahedronMesh : public Mesh {
 	public:
 		TetrahedronMesh();
-		TetrahedronMesh(const TetrahedronMesh& orig);
 		virtual ~TetrahedronMesh();
         
         virtual int getTetrsNumber() = 0;

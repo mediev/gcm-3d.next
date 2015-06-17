@@ -7,12 +7,13 @@ CubicMesh::CubicMesh() {
 	movable = false;
 }
 
-CubicMesh::CubicMesh(const CubicMesh& orig) {
-}
-
 CubicMesh::~CubicMesh() {
 }
 
 void CubicMesh::checkTopology(float tau) {
 	
+}
+
+Mesh* CubicMesh::getMeshOfTheSameType() {
+	return new CubicMesh();
 }

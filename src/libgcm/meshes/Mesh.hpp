@@ -18,9 +18,6 @@ namespace gcm {
      */
     class Mesh {
     protected:
-        /*
-         * Mesh id.
-         */
         std::string id;
 		std::string type;
 
@@ -52,15 +49,18 @@ namespace gcm {
 //        virtual const SnapshotWriter& getDumper() const = 0;
 
     public:
-        /*
-         * Constructor and destructor.
-         */
         Mesh();
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
         virtual ~Mesh();
+		void initNodesWithoutValues(unsigned int numberOfNodes);
+		void addNode(const CalcNode &node);
 		void initValuesInNodes(unsigned int numberOfNodes);
 		CalcNode& createNode(const real &x, const real &y, const real &z);
-		
+
+		virtual Mesh *getMeshOfTheSameType() = 0;
+		unsigned int getNodesNumber();
+		CalcNode& getNodeByLocalIndex(unsigned int index);
+
         // Virtual functions to be implemented by children classes
 
 //		/*	Comment until it will be realized in derived classes	*/
@@ -157,7 +157,6 @@ namespace gcm {
         // It allows to remove nodesMap complexity (required by parallel impl) from children classes.
         // We do believe that all children classes will use the same node storage.
         // If it's not the case, we need to convert these functions into virtual.
-        int getNodesNumber();
         int getNumberOfLocalNodes();
         void initNewNodes();
 		void initValuesContainer(unsigned int numberOfNodes);
@@ -167,7 +166,6 @@ namespace gcm {
         CalcNode& getNode(int index);
         CalcNode& getNewNode(int index);
         int getNodeLocalIndex(int index) const;
-        CalcNode& getNodeByLocalIndex(unsigned int index);
 
         /*
          * Sets mesh id.

@@ -2,12 +2,6 @@
 
 using namespace gcm;
 
-CubicMeshLoader::CubicMeshLoader() {
-}
-
-CubicMeshLoader::~CubicMeshLoader() {
-}
-
 void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
 {
 	int numX = (int) (geom.hx / h);
@@ -18,4 +12,7 @@ void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
         for( int j = 0; j <= numY; j++ )
             for( int i = 0; i <= numX; i++ )
                 mesh->createNode(geom.x0 + i*h, geom.y0 + j*h, geom.z0 + k*h);
+	InertiaMomentPartitioner part;
+	real *proportions = new real[3];
+	part.partMesh(mesh, 4, proportions);
 }
