@@ -2,6 +2,7 @@
 #define LAUNCHER_HPP
 
 #include "libgcm/Engine.hpp"
+#include "libgcm/util/Types.hpp"
 
 
 namespace gcm {
@@ -45,9 +46,11 @@ namespace gcm {
 	};
 
 	class Launcher {
-	public:
-		Task task;
-		Launcher();
+		public:
+			Task task;
+			Launcher();
+			Launcher(const uint taskNum);
+
 	};
 }
 #endif /* LAUNCHER_HPP */

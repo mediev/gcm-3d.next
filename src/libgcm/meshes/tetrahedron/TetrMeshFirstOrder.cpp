@@ -89,7 +89,7 @@ void TetrMeshFirstOrder::build_volume_reverse_lookups()
 		for(int j = 0; j < 4; j++) {
 			//CalcNode& node = getNode(tetr.vertices[j]);
 			//assert(node.isFirstOrder());
-			getVolumeElementsForNode(i).push_back(tetr.number);
+			getVolumeElementsForNode(tetr.vertices[j]).push_back(tetr.number);
 		}
 	}
 }
@@ -116,7 +116,7 @@ void TetrMeshFirstOrder::build_border()
             for(unsigned j = 0; j < elements.size(); j++)
             {
                 solid_angle_part = get_solid_angle(i, elements[j]);
-                assert(solid_angle_part >= 0);
+                assert_ge(solid_angle_part, 0);
                 solid_angle += solid_angle_part;
             }
             if( fabs(4 * M_PI - solid_angle) > M_PI * EQUALITY_TOLERANCE ) {
@@ -157,14 +157,14 @@ void TetrMeshFirstOrder::build_border()
         {
             if( isTriangleBorder( tetr.vertices ) )
             {
-                getTriangle(number) = createBorderTriangle( tetr.vertices, number );
+                addTriangle(*createBorderTriangle( tetr.vertices, number ) );
                 number++;
             }
             shiftArrayLeft( tetr.vertices, 4 );
         }
     }
 
-    assert(number == faceCount);
+    assert_eq(number, faceCount);
     printf("Created %d triangles\n", facesNumber);
 }
 
@@ -191,7 +191,7 @@ real TetrMeshFirstOrder::get_solid_angle(uint node_index, uint tetr_index)
     return solidAngle(v0.coords - node.coords, v1.coords - node.coords, v2.coords - node.coords);
 }
 
-TriangleFirstOrder TetrMeshFirstOrder::createBorderTriangle(uint v[4], uint number)
+TriangleFirstOrder* TetrMeshFirstOrder::createBorderTriangle(uint v[4], uint number)
 {
     bool needSwap;
     bool isBorder;
@@ -199,16 +199,15 @@ TriangleFirstOrder TetrMeshFirstOrder::createBorderTriangle(uint v[4], uint numb
     assert_true(isBorder );
 
     // Create and return triangle
-    TriangleFirstOrder tri;
-    tri.number = number;
+    TriangleFirstOrder* tri = new TriangleFirstOrder();
     if( !needSwap ) {
-        tri.vertices[0] = v[0];
-        tri.vertices[1] = v[1];
-        tri.vertices[2] = v[2];
+        tri->vertices[0] = v[0];
+        tri->vertices[1] = v[1];
+        tri->vertices[2] = v[2];
     } else {
-        tri.vertices[0] = v[0];
-        tri.vertices[1] = v[2];
-        tri.vertices[2] = v[1];
+        tri->vertices[0] = v[0];
+        tri->vertices[1] = v[2];
+        tri->vertices[2] = v[1];
     }
     return tri;
 }
@@ -450,24 +449,24 @@ void TetrMeshFirstOrder::build_surface_reverse_lookups()
     	TriangleFirstOrder& tri = getTriangle(i);
         for(int j = 0; j < 3; j++)
         {
-        	CalcNode& node = getNode( tri.vertices[j] );
+        	//CalcNode& node = getNode( tri.vertices[j] );
             //assert( node.isFirstOrder() );
-            getBorderElementsForNode(i).push_back(i);
+            getBorderElementsForNode(tri.vertices[j]).push_back(i);
         }
     }
 }
 
 TriangleFirstOrder& TetrMeshFirstOrder::getTriangle(uint index)
 {
-	assert(index >= 0);
-	assert(index < borders1.size());
+	assert_ge(index, 0);
+	assert_lt(index, borders1.size());
 	return borders1[index];
 }
 
 TetrahedronFirstOrder& TetrMeshFirstOrder::getTetrByLocalIndex(uint index)
 {
-	assert(index >= 0);
-	assert(index < tetrs1.size());
+	assert_ge(index, 0);
+	assert_lt(index, tetrs1.size());
 	return tetrs1[index];
 }
 
@@ -484,9 +483,9 @@ void TetrMeshFirstOrder::addTetr(TetrahedronFirstOrder& tetr)
 {
 	if( tetrsNumber == tetrStorageSize )
 		createTetrs(tetrStorageSize * STORAGE_ONDEMAND_GROW_RATE);
-	assert(tetrsNumber < tetrStorageSize);
+	assert_lt(tetrsNumber, tetrStorageSize);
 
-	tetrs1[tetrsNumber] = tetr;
+	tetrs1.push_back(tetr);
 	tetrsMap[tetr.number] = tetrsNumber;
 	tetrsNumber++;
 }
@@ -494,7 +493,7 @@ void TetrMeshFirstOrder::addTetr(TetrahedronFirstOrder& tetr)
 void TetrMeshFirstOrder::createTetrs(int number)
 {
 	tetrs1.reserve(number);
-	tetrsMap.reserve(number);
+	//tetrsMap.reserve(number);
 	tetrStorageSize = number;
 }
 
@@ -502,9 +501,9 @@ void TetrMeshFirstOrder::addTriangle(TriangleFirstOrder& tri)
 {
 	if( facesNumber == faceStorageSize )
 		createTriangles(faceStorageSize * STORAGE_ONDEMAND_GROW_RATE);
-	assert(facesNumber < faceStorageSize);
+	assert_lt(facesNumber, faceStorageSize);
 
-	borders1[facesNumber] = tri;
+	borders1.push_back(tri);
 	facesNumber++;
 }
 
@@ -534,10 +533,21 @@ int TetrMeshFirstOrder::getTriangleNumber()
 
 bool TetrMeshFirstOrder::hasTetr(unsigned int index)
 {
+    MapIter itr;
+    itr = tetrsMap.find(index);
+    return itr != tetrsMap.end();
 }
 
-bool TetrMeshFirstOrder::belongsToTetrahedron(int nodeNum, int tetrNum, int faceNum)
+bool TetrMeshFirstOrder::belongsToTetrahedron(uint nodeNum, int tetrNum, int faceNum)
 {
+    int i1 = (0+faceNum) % 4;
+    int i2 = (1+faceNum) % 4;
+    int i3 = (2+faceNum) % 4;
+    TetrahedronFirstOrder& tetr = getTetr(tetrNum);
+    if( (nodeNum == tetr.vertices[i1]) || (nodeNum == tetr.vertices[i2]) || (nodeNum == tetr.vertices[i3]) )
+        return true;
+    else
+        return false;
 }
 
 real TetrMeshFirstOrder::tetr_h(int i)
@@ -728,4 +738,9 @@ std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(uint index)
     if( localIndex >= borderElements.size() )
         borderElements.resize(localIndex + 1);
     return borderElements[localIndex];
+}
+
+const SnapshotWriter& TetrMeshFirstOrder::getSnaphotter() const
+{
+    return VTK2SnapshotWriter::getInstance();
 }

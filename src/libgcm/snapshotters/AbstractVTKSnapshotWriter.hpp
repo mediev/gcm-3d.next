@@ -1,16 +1,12 @@
 #ifndef ABSTRACTVTKSNAPSHOTWRITER_HPP_
 #define ABSTRACTVTKSNAPSHOTWRITER_HPP_
 
-
+#include "libgcm/snapshotters/SnapshotWriter.hpp"
 #include "libgcm/util/Assertion.hpp"
-#include "libgcm/node/CalcNode.hpp"
-#include "libgcm/Logging.hpp"
+#include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/util/Logging.hpp"
 
-#ifdef CONFIG_VTK_5
-#include <vtkstd/string>
-#else
 #include <vtkStdString.h>
-#endif
 #include <vtkStructuredGrid.h>
 #include <vtkUnstructuredGrid.h>
 #include <vtkXMLStructuredGridWriter.h>
@@ -35,7 +31,7 @@ namespace gcm
         MeshType* mesh;
         uint index = 0;
      public:
-        MeshNodeIterator(MeshType* mesh): mesh(mesh)
+        MeshNodeIterator(MeshType* _mesh): mesh(_mesh)
         {
         }
 
@@ -71,25 +67,25 @@ namespace gcm
      public:
         AbstractVTKSnapshotWriter()
         {
-            INIT_LOGGER("gcm.snapshot.AbstractVTKSnapshotWriter");
+            //INIT_LOGGER("gcm.snapshot.AbstractVTKSnapshotWriter");
         }
         std::string dump(Mesh* mesh, int step, std::string fileName) const
         {
             auto _mesh = dynamic_cast<MeshType*>(mesh);
             assert_true(_mesh);
 
-            LOG_DEBUG("Writing snapshot for mesh \"" << _mesh->getId() << "\" at step " << step << " to file " << fileName);
+            //LOG_DEBUG("Writing snapshot for mesh \"" << _mesh->getId() << "\" at step " << step << " to file " << fileName);
 
             auto grid = vtkSmartPointer<GridType>::New();
             auto points = vtkSmartPointer<vtkPoints>::New();
 
-            auto contact = vtkSmartPointer<vtkIntArray>::New();
-            contact->SetName("contact");
+            //auto contact = vtkSmartPointer<vtkIntArray>::New();
+            //contact->SetName("contact");
 
             auto border = vtkSmartPointer<vtkIntArray>::New();
             border->SetName("border");
 
-            auto used = vtkSmartPointer<vtkIntArray>::New();
+            /*auto used = vtkSmartPointer<vtkIntArray>::New();
             used->SetName("used");
 
             auto norm = vtkSmartPointer<vtkDoubleArray>::New();
@@ -170,8 +166,9 @@ namespace gcm
             auto nodeFailureMeasure = vtkSmartPointer<vtkDoubleArray>::New();
             nodeFailureMeasure->SetName("failureMeasure");
 
-            float _norm[3];
 
+            float _norm[3];
+            */
             dumpMeshSpecificData(_mesh, grid, points);
 
             for (auto it = MeshNodeIterator<MeshType, snapshotterId>(_mesh); it.hasNext(); it++)
@@ -179,16 +176,16 @@ namespace gcm
                 auto& node = *it;
 
                 border->InsertNextValue(node.isBorder() ? 1 : 0);
-                used->InsertNextValue(node.isUsed() ? 1 : 0);
+                /*used->InsertNextValue(node.isUsed() ? 1 : 0);
                 contact->InsertNextValue(node.isInContact() ? 1 : 0);
 
                 if (node.isUsed() && node.isBorder())
                     _mesh->findBorderNodeNormal(node, _norm, _norm+1, _norm+2, false);
                 else
                     _norm[0] = _norm[1] = _norm[2] = 0.0;
-                norm->InsertNextTuple(_norm);
+                norm->InsertNextTuple(_norm);*/
 
-                vel->InsertNextTuple(node.velocity);
+                /*vel->InsertNextTuple(node.velocity);
                 crack->InsertNextTuple(node.getCrackDirection().coords);
                 sxx->InsertNextValue(node.sxx);
                 sxy->InsertNextValue(node.sxy);
@@ -212,6 +209,7 @@ namespace gcm
                 contactDestroyed->InsertNextValue(node.isContactDestroyed() ? 1 : 0);
                 nodeDestroyed->InsertNextValue(node.isDestroyed() ? 1 : 0);
                 nodeFailureMeasure->InsertNextValue(node.getDamageMeasure());
+                */
             }
 
            vtkFieldData* fd;
@@ -223,9 +221,9 @@ namespace gcm
 
            grid->SetPoints(points);
 
-           fd->AddArray(contact);
+           //fd->AddArray(contact);
            fd->AddArray(border);
-           fd->AddArray(used);
+           /*fd->AddArray(used);
            fd->AddArray(norm);
            fd->AddArray(crack);
            fd->AddArray(sxx);
@@ -250,16 +248,12 @@ namespace gcm
            fd->AddArray(nodeNumber);
            fd->AddArray(contactDestroyed);
            fd->AddArray(nodeDestroyed);
-           fd->AddArray(nodeFailureMeasure);
+           fd->AddArray(nodeFailureMeasure);*/
 
            // Write file
            auto writer = vtkSmartPointer<GridWriterType>::New();
            writer->SetFileName(fileName.c_str());
-           #ifdef CONFIG_VTK_5
-           writer->SetInput(grid);
-           #else
            writer->SetInputData(grid);
-           #endif
            writer->Write();
 
            return fileName;

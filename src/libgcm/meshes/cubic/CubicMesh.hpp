@@ -32,6 +32,8 @@ namespace gcm {
 		void createOutline();
 		real getMinH();
 
+		virtual const SnapshotWriter& getSnaphotter() const override;
+
 	private:
 
 	};

@@ -1,5 +1,5 @@
-#ifndef GCM_SNAPSHOTWRITER_H_
-#define GCM_SNAPSHOTWRITER_H_
+#ifndef SNAPSHOTWRITER_H_
+#define SNAPSHOTWRITER_H_
 
 #include <string>
 
@@ -15,9 +15,10 @@ namespace gcm {
         virtual std::string dump(Mesh* mesh, int step) const;
      protected:
         std::string extension;
+        std::string suffix;
         std::string getFileName(int step, std::string meshId) const;
     };
 }
 
 
-#endif
+#endif /* SNAPSHOTWRITER_H_ */

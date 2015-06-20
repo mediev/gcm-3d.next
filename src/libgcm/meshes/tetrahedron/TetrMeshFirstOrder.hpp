@@ -14,6 +14,7 @@
 
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
 #include "libgcm/Engine.hpp"
+#include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
 #define STORAGE_ONDEMAND_GROW_RATE 1.25
 
@@ -64,7 +65,7 @@ namespace gcm {
         bool isTriangleBorder(uint v[4]);
 
         // FIXME: What useful thing does it really do?
-        TriangleFirstOrder createBorderTriangle(uint v[4], uint number);
+        TriangleFirstOrder* createBorderTriangle(uint v[4], uint number);
         //void find_border_elem_normal(int border_element_index, real* x, real* y, real* z);
 
         // Check if {dx} displacement from node is inside the body
@@ -136,7 +137,7 @@ namespace gcm {
 		// Returns triangle from borders1
 		TriangleFirstOrder& getTriangle(uint index);
 
-		bool belongsToTetrahedron(int nodeNum, int tetrNum, int faceNum);
+		bool belongsToTetrahedron(uint nodeNum, int tetrNum, int faceNum);
 
         real getMinH();
         real getMaxH();
@@ -145,6 +146,8 @@ namespace gcm {
 		void checkTopology(real tau) override;
 
 		void createOutline();
+
+		virtual const SnapshotWriter& getSnaphotter() const override;
 	};
 	
 }

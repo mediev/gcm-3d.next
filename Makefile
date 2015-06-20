@@ -1,7 +1,7 @@
 CPP    = mpic++
 CFLAGS = --std=c++11 -Wall -g
-LIBFLAGS = -lgsl -lgslcblas -lm
-INCLUDEDIR = /home/alex/work/gcm-3d.next/src
+LIBFLAGS = -lgsl -lgslcblas -lm -lgmsh -lvtkCommonCore-6.0 -lvtkFiltersCore-6.0 -lvtkIOCore-6.0 -lvtkIOXML-6.0 -lvtkCommonDataModel-6.0
+INCLUDEFLAGS = -I/home/alex/work/gcm-3d.next/src -I/usr/include/gmsh -I/usr/include/vtk-6.0
 SOURCEDIR = src/libgcm
 
 SOURCES = $(shell find $(SOURCEDIR) -name '*.cpp')
@@ -15,12 +15,10 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CPP) $(OBJECTS) -o $@ $(LIBFLAGS)
 
 %.o: %.cpp
-	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
-
-test: test.cpp
-	g++ test.cpp -o test
-	./test
+	$(CPP) $(CFLAGS) $(INCLUDEFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(EXECUTABLE)
+	rm -f models/*.msh
+	rm -f *.vtu *.vts

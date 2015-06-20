@@ -1,4 +1,5 @@
 #include "libgcm/meshes/cubic/CubicMeshLoader.hpp"
+#include "libgcm/snapshotters/VTKCubicSnapshotWriter.hpp"
 
 using namespace gcm;
 
@@ -41,6 +42,7 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
 				Cube cube = Cube(vertices[0], vertices);
 				mesh->addElement(cube);
 			}
+    mesh->preProcess();
 }
 
 void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine, real h) {
@@ -86,7 +88,6 @@ void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine,
 					//mesh->addElementWithNodes(cube, mesh);
 				}
 	}
-	//coarse->~Mesh();
-	fine = coarse;
+	coarse->~Mesh();
 	fine->initValuesInNodes();
 }

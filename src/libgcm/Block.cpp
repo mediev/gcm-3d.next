@@ -13,6 +13,7 @@ void Block::loadTask(const BlockProperties& prop) {
 	if (prop.meshType == "CubicMesh") {
 		CubicMeshLoader &loader = CubicMeshLoader::getInstance();
 		CubicMesh *coarseMesh = new CubicMesh();
+		coarseMesh->setId("testMesh");
 		coarseMesh->setRheologyModel(model);
 		loader.loadCoarseMesh(coarseMesh, prop.geometry, prop.coarseSpatialStep);
 		
@@ -31,11 +32,13 @@ void Block::loadTask(const BlockProperties& prop) {
 			                              fineMesh, prop.spatialStep);
 			meshes[i] = fineMesh;
 		}
-		
+
 	} else if (prop.meshType == "TetrahedronMesh") {
 		TetrMeshFirstOrder* mesh = new TetrMeshFirstOrder();
+		mesh->setId("testMesh");
 		mesh->setRheologyModel(model);
-		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "MeshFile.gmsh", prop.spatialStep);
+
+		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "models/cube.geo", prop.spatialStep);
 		meshes.push_back(mesh);
 	}
 }
@@ -46,8 +49,10 @@ void Block::addMesh(Mesh* mesh) {
 
 void Block::doNextTimeStep()
 {
-	for(auto mesh = meshes.begin(); mesh != meshes.end(); mesh++)
+	for(auto mesh = meshes.begin(); mesh != meshes.end(); mesh++) {
 		solver->doNextTimeStep(*mesh);
+		//(*mesh)->snapshot(1);
+	}
 }
 
 void Block::checkTopology(real tau)

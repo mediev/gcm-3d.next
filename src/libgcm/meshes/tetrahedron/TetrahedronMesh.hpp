@@ -28,7 +28,7 @@ namespace gcm {
 
         virtual void createTriangles(int number) = 0;
 		
-		virtual bool belongsToTetrahedron(int nodeNum, int tetrNum, int faceNum) = 0;
+		virtual bool belongsToTetrahedron(uint nodeNum, int tetrNum, int faceNum) = 0;
 	
 	private:
 

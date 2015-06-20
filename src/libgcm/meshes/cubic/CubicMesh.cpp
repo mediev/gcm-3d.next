@@ -1,4 +1,5 @@
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
+#include "libgcm/snapshotters/VTKCubicSnapshotWriter.hpp"
 
 using namespace gcm;
 using std::numeric_limits;
@@ -65,7 +66,7 @@ void CubicMesh::preProcessGeometry()
 
 void CubicMesh::calcMinH()
 {
-    meshH = fabs(getNodeByLocalIndex(0).coords[0] - getNodeByLocalIndex(1).coords[0]); 
+	meshH = fabs(getNodeByLocalIndex(0).coords[0] - getNodeByLocalIndex(1).coords[0]);
 };
 
 real CubicMesh::getMinH()
@@ -80,4 +81,9 @@ void CubicMesh::createOutline()
 }
 
 void CubicMesh::checkTopology(float tau) {
+}
+
+const SnapshotWriter& CubicMesh::getSnaphotter() const
+{
+    return VTKCubicSnapshotWriter::getInstance();
 }

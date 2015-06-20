@@ -13,6 +13,7 @@
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/util/Math.hpp"
 #include "libgcm/elements/Element.hpp"
+#include "libgcm/snapshotters/SnapshotWriter.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
@@ -58,6 +59,8 @@ namespace gcm {
         // AABB outline;
 
         USE_LOGGER;
+
+        virtual const SnapshotWriter& getSnaphotter() const = 0;
 
     public:
         Mesh();
@@ -123,7 +126,7 @@ namespace gcm {
 		virtual void calcMinH() = 0;
 		virtual real getMinH() = 0;
 
-		//bool hasNode(int index);
+		bool hasNode(int index);
 
         // Virtual functions to be implemented by children classes
 
@@ -224,7 +227,7 @@ namespace gcm {
         /*
          * Sets mesh id.
          */
-        void setId(std::string id);
+        void setId(std::string _id);
         /*
          * Returns mesh id.
          */
@@ -257,8 +260,8 @@ namespace gcm {
         void applyCorrectors();
 //        virtual void moveCoords(float tau);
 
-        float getMaxEigenvalue();
-        float getMaxPossibleTimeStep();
+        real getMaxEigenvalue();
+        real getMaxPossibleTimeStep();
     };
 }
 #endif
