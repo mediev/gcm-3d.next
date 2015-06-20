@@ -14,9 +14,10 @@ namespace gcm {
 		real meshH;
 	public:
 		CubicMesh();
-		CubicMesh(const CubicMesh& orig);
 		~CubicMesh();
 
+		Mesh* getMeshOfTheSameType() override;
+		
 		// Redefining of virtual methods
 		void checkTopology(real tau) override;
 		void createOutline();

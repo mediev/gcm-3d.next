@@ -29,6 +29,10 @@ TetrMeshFirstOrder::~TetrMeshFirstOrder()
 	borders1.clear();
 }
 
+Mesh* TetrMeshFirstOrder::getMeshOfTheSameType() {
+	return new TetrMeshFirstOrder();
+}
+
 void TetrMeshFirstOrder::preProcessGeometry()
 {
     calcMaxH();
@@ -140,7 +144,7 @@ void TetrMeshFirstOrder::build_border()
     printf("Created %d triangles\n", facesNumber);
 }
 
-real TetrMeshFirstOrder::get_solid_angle(int node_index, int tetr_index)
+real TetrMeshFirstOrder::get_solid_angle(uint node_index, uint tetr_index)
 {
 	TetrahedronFirstOrder& tetr = getTetr(tetr_index);
 	CalcNode& node = getNode(node_index);
@@ -428,7 +432,7 @@ void TetrMeshFirstOrder::build_surface_reverse_lookups()
     }
 }
 
-TriangleFirstOrder& TetrMeshFirstOrder::getTriangle(int index)
+TriangleFirstOrder& TetrMeshFirstOrder::getTriangle(uint index)
 {
 	assert_ge(index, 0);
 	assert_lt(index, borders1.size());
@@ -684,20 +688,20 @@ void TetrMeshFirstOrder::createOutline()
 {
 }
 
-std::vector<int>& TetrMeshFirstOrder::getVolumeElementsForNode(int index)
+std::vector<int>& TetrMeshFirstOrder::getVolumeElementsForNode(uint index)
 {
     // Get local index
-    int localIndex = getNodeLocalIndex(index);
+    uint localIndex = getNodeLocalIndex(index);
     // Resize on demand
     if( localIndex >= volumeElements.size() )
         volumeElements.resize(localIndex + 1);
     return volumeElements[localIndex];
 }
 
-std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(int index)
+std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(uint index)
 {
     // Get local index
-    int localIndex = getNodeLocalIndex(index);
+    uint localIndex = getNodeLocalIndex(index);
     // Resize on demand
     if( localIndex >= borderElements.size() )
         borderElements.resize(localIndex + 1);

@@ -9,7 +9,6 @@ namespace gcm {
 	class TetrahedronMesh : public Mesh {
 	public:
 		TetrahedronMesh();
-		TetrahedronMesh(const TetrahedronMesh& orig);
 		virtual ~TetrahedronMesh();
         
         virtual int getTetrsNumber() = 0;
@@ -21,7 +20,7 @@ namespace gcm {
 
         virtual TetrahedronFirstOrder& getTetrByLocalIndex(uint index) = 0;
 
-        virtual TriangleFirstOrder& getTriangle(int index) = 0;
+        virtual TriangleFirstOrder& getTriangle(uint index) = 0;
 
         virtual bool hasTetr(unsigned int index) = 0;
 

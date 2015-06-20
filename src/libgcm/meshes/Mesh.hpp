@@ -22,7 +22,6 @@ namespace gcm {
      */
     class Mesh {
     protected:
-
     	// Id of mesh
         std::string id;
         // Type of mesh
@@ -63,11 +62,13 @@ namespace gcm {
         virtual const SnapshotWriter& getSnaphotter() const = 0;
 
     public:
-        // Default constructor
         Mesh();
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
-        // Default destructor
         virtual ~Mesh();
+		void initNodesWithoutValues(unsigned int numberOfNodes);
+		void addNode2(const CalcNode &node);
+
+		virtual Mesh *getMeshOfTheSameType() = 0;
 
         // Preparing mesh for calculating
         void preProcess();
@@ -91,7 +92,7 @@ namespace gcm {
         //CalcNode& getNewNode(int index);
 
 		// Return number of nodes put in storage
-        int getNodesNumber();
+        uint getNodesNumber();
 
 		/*
 		 * Routines for rheology model access

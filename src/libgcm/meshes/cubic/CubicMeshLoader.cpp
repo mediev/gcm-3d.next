@@ -3,12 +3,6 @@
 
 using namespace gcm;
 
-CubicMeshLoader::CubicMeshLoader() {
-}
-
-CubicMeshLoader::~CubicMeshLoader() {
-}
-
 void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
 {
 	int numX = (int) (geom.hx / h);
@@ -20,8 +14,7 @@ void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
 	int n = 0;
     for( int k = 0; k <= numZ; k++ )
         for( int j = 0; j <= numY; j++ )
-            for( int i = 0; i <= numX; i++ )
-            {
+            for( int i = 0; i <= numX; i++ ) {
                 CalcNode node = newNode(rModel->getNodeType());
                 node.number = n;
                 node.coords[0] = geom.x0 + i*h;
@@ -30,7 +23,7 @@ void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
                 mesh->addNode(node);
                 n++;
 			}
+
     mesh->preProcess();
     mesh->snapshot(0);
-
 }

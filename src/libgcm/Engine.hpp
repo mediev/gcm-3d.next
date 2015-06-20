@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include "mpi.h"
 
 #include "libgcm/util/Singleton.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
@@ -23,6 +24,9 @@ namespace gcm {
 	class Engine : public Singleton<Engine>
 	{
 	protected:
+		int rank;
+		int numberOfWorkers;
+		
 		real currentTime;
 		real requiredTime;
 		real tau;

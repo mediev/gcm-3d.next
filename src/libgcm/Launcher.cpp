@@ -10,7 +10,7 @@ Launcher::Launcher(const uint taskNum)
 	Geometry geom;
 	geom.x0 = geom.y0 = geom.z0 = 0;
 	geom.hx = geom.hy = geom.hz = 1;
-
+	
 	BlockProperties blProp;
 	blProp.computationalCost = 1;
 	blProp.geometry = geom;

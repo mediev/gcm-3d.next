@@ -10,11 +10,12 @@ CubicMesh::CubicMesh() {
 	movable = false;
 }
 
-CubicMesh::CubicMesh(const CubicMesh& orig) {
-}
-
 CubicMesh::~CubicMesh() {
 	nodes.clear();
+}
+
+Mesh* CubicMesh::getMeshOfTheSameType() {
+	return new CubicMesh();
 }
 
 void CubicMesh::preProcessGeometry()
@@ -50,8 +51,7 @@ void CubicMesh::createOutline()
 {
 }
 
-void CubicMesh::checkTopology(float tau)
-{
+void CubicMesh::checkTopology(float tau) {
 }
 
 const SnapshotWriter& CubicMesh::getSnaphotter() const

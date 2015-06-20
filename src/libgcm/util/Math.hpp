@@ -28,7 +28,8 @@ inline real distance(const vector3r* a, const vector3r* b);
  * All the roots are real
  * See http://ru.wikipedia.org/wiki/Тригонометрическая_формула_Виета for algo
  */
-inline void solvePolynomialThirdOrder(double a, double b, double c, double& root1, double& root2, double& root3)
+inline void solvePolynomialThirdOrder(double a, double b, double c, 
+                                      double& root1, double& root2, double& root3)
 {
     long double p = b - a * a / 3.0;
     assert_lt(p, EQUALITY_TOLERANCE * (1 + fabs(b)));

@@ -43,8 +43,8 @@ namespace gcm {
         std::vector< std::vector<int> > volumeElements;
         // Matrix that associate node local index with list of faces indexes
         std::vector< std::vector<int> > borderElements;
-        std::vector<int>& getVolumeElementsForNode(int index);
-        std::vector<int>& getBorderElementsForNode(int index);
+        std::vector<int>& getVolumeElementsForNode(uint index);
+        std::vector<int>& getBorderElementsForNode(uint index);
 
 		// Calculating tetrahedron sizes & Creating all associations: volumeElements, borderElements, border nodes
 		void preProcessGeometry();
@@ -56,7 +56,7 @@ namespace gcm {
         // Putting border flags for nodes
         void build_border();
         // Calculate an solid angle for a vertex of tetrahedron
-        real get_solid_angle(int node_index, int tetr_index);
+        real get_solid_angle(uint node_index, uint tetr_index);
 
         // Check if triangle based on v[0], v[1], v[2] is border
         bool isTriangleBorder(uint v[4], bool* needSwap, bool debug);
@@ -97,6 +97,7 @@ namespace gcm {
 	public:
 		TetrMeshFirstOrder();
 		virtual ~TetrMeshFirstOrder();
+		Mesh *getMeshOfTheSameType() override;
 
 		/*
 		 * Tetrahedron's routines
@@ -124,7 +125,7 @@ namespace gcm {
 		int getTriangleNumber();
 
 		// Returns triangle from borders1
-		TriangleFirstOrder& getTriangle(int index);
+		TriangleFirstOrder& getTriangle(uint index);
 
 		bool belongsToTetrahedron(int nodeNum, int tetrNum, int faceNum);
 

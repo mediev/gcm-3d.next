@@ -6,6 +6,8 @@ const std::string Engine::SNAPSHOT_OUTPUT_PATH_PATTERN = "snap_mesh_%{MESH}%{SUF
 
 Engine::Engine()
 {
+	rank = MPI::COMM_WORLD.Get_rank();
+	numberOfWorkers = MPI::COMM_WORLD.Get_size();
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
 

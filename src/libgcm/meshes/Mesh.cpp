@@ -16,6 +16,16 @@ Mesh::~Mesh() {
 		delete[] valuesInNodes;
 }
 
+// TODO rename and restructure initializing functions
+
+void Mesh::initNodesWithoutValues(unsigned int numberOfNodes) {
+	nodes.reserve(numberOfNodes);
+}
+
+void Mesh::addNode2(const CalcNode& node) {
+	nodes.push_back(node);
+}
+
 void Mesh::preProcess()
 {
 	calcMinH();
@@ -82,7 +92,7 @@ int Mesh::getNodeLocalIndex(int index) const
 	return ( itr != nodesMap.end() ? itr->second : -1 );
 }
 
-int Mesh::getNodesNumber()
+uint Mesh::getNodesNumber()
 {
 	return nodes.size();
 }
@@ -121,4 +131,3 @@ std::string Mesh::snapshot(int number)
 {
     return getSnaphotter().dump(this, number);
 }
-

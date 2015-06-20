@@ -44,6 +44,7 @@ namespace gcm {
 			Task task;
 			Launcher();
 			Launcher(const uint taskNum);
+
 	};
 }
 #endif /* LAUNCHER_HPP */

@@ -6,8 +6,5 @@ TetrahedronMesh::TetrahedronMesh() {
 	type = "TetrahedronMesh";
 }
 
-TetrahedronMesh::TetrahedronMesh(const TetrahedronMesh& orig) {
-}
-
 TetrahedronMesh::~TetrahedronMesh() {
 }

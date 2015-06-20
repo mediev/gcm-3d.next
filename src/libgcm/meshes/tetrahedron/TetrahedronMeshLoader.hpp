@@ -41,6 +41,7 @@ namespace gcm {
 
 		void loadMesh(TetrMeshFirstOrder* mesh, std::string fileName, real tetrSize);
         void cleanUp();
+
 	private:
 
 	};
