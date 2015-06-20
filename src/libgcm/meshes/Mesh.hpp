@@ -105,7 +105,7 @@ namespace gcm {
 		virtual void calcMinH() = 0;
 		virtual real getMinH() = 0;
 
-		//bool hasNode(int index);
+		bool hasNode(int index);
 
         // Virtual functions to be implemented by children classes
 
@@ -239,8 +239,8 @@ namespace gcm {
         void applyCorrectors();
 //        virtual void moveCoords(float tau);
 
-        float getMaxEigenvalue();
-        float getMaxPossibleTimeStep();
+        real getMaxEigenvalue();
+        real getMaxPossibleTimeStep();
     };
 }
 #endif

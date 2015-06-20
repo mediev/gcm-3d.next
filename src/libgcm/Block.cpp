@@ -16,7 +16,7 @@ Block::Block(const BlockProperties& prop) {
 	} else if (prop.meshType == "TetrahedronMesh") {
 		TetrMeshFirstOrder* mesh = new TetrMeshFirstOrder();
 		mesh->setRheologyModel(model);
-		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "MeshFile.gmsh", prop.spatialStep);
+		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "models/cube.geo", prop.spatialStep);
 		meshes.push_back(mesh);
 	}
 }

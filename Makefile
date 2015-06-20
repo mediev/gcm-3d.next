@@ -1,7 +1,7 @@
 CPP    = /usr/bin/g++
-CFLAGS = --std=c++11 -Wall
-LIBFLAGS = -lgsl -lgslcblas -lm
-INCLUDEDIR = /home/alex/work/gcm-3d.next/src
+CFLAGS = --std=c++11 -Wall -g
+LIBFLAGS = -lgsl -lgslcblas -lm -lgmsh
+INCLUDEDIR = /home/mediev/projects-repo/gcm-3d-mediev/gcm-3d.next/src /usr/include/gmsh
 SOURCEDIR = src/libgcm
 
 SOURCES = $(shell find $(SOURCEDIR) -name '*.cpp')
@@ -24,3 +24,4 @@ test: test.cpp
 clean:
 	rm -f $(OBJECTS)
 	rm -f $(EXECUTABLE)
+	rm -f models/*.msh

@@ -64,7 +64,7 @@ namespace gcm {
         bool isTriangleBorder(uint v[4]);
 
         // FIXME: What useful thing does it really do?
-        TriangleFirstOrder createBorderTriangle(uint v[4], uint number);
+        TriangleFirstOrder* createBorderTriangle(uint v[4], uint number);
         //void find_border_elem_normal(int border_element_index, real* x, real* y, real* z);
 
         // Check if {dx} displacement from node is inside the body

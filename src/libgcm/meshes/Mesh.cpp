@@ -76,11 +76,10 @@ CalcNode& Mesh::getNodeByLocalIndex(uint index)
 
 int Mesh::getNodeLocalIndex(int index) const
 {
-	assert(index >= 0);
+	assert_ge(index, 0);
 	MapIter itr;
 	itr = nodesMap.find(index);
-	assert(itr != nodesMap.end());
-	return itr->second;
+	return ( itr != nodesMap.end() ? itr->second : -1 );
 }
 
 int Mesh::getNodesNumber()
@@ -98,4 +97,12 @@ RheologyModel* Mesh::getRheologyModel() {
 
 std::string Mesh::getType() {
 	return type;
+}
+
+bool Mesh::hasNode(int index)
+{
+	assert_ge(index, 0);
+	MapIter itr;
+	itr = nodesMap.find(index);
+	return itr != nodesMap.end();
 }

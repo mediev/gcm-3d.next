@@ -1,4 +1,5 @@
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
+#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
 
 using namespace gcm;
 
