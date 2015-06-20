@@ -15,6 +15,11 @@ namespace gcm {
 	struct Geometry {
 		real x0, y0, z0; // min coords of cube's points
 		real hx, hy, hz; // heights of cube by axis
+		real getMinHeight() {
+			real minH = (hx > hy) ? hy : hx;
+			minH = (minH > hz) ? hz : minH;
+			return minH;
+		};
 	};
 	struct BlockProperties {
 		// Relative to other blocks of this body computational cost of the block.
@@ -25,6 +30,7 @@ namespace gcm {
 		std::string solverType;
 		Geometry geometry;
 		real spatialStep;
+		real coarseSpatialStep;
 	};
 	struct BodyProperties {
 		// Relative to other bodies of the task computational cost of the body.

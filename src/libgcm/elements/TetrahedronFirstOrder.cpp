@@ -3,7 +3,6 @@
 using namespace gcm;
 
 TetrahedronFirstOrder::TetrahedronFirstOrder() {
-    number = -1;
     for( int j = 0; j < 4; j++ )
         vertices[j] = -1;
 }

@@ -12,6 +12,7 @@
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/util/Math.hpp"
+#include "libgcm/elements/Element.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
@@ -62,8 +63,9 @@ namespace gcm {
         Mesh();
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
         virtual ~Mesh();
-		void initNodesWithoutValues(unsigned int numberOfNodes);
-		void addNode2(const CalcNode &node);
+		void initNodesWithoutValues(uint numberOfNodes);
+		virtual void initElements(uint numberOfElements) = 0;
+		void addNodeWithoutValues(const CalcNode &node);
 
 		virtual Mesh *getMeshOfTheSameType() = 0;
 
@@ -76,21 +78,36 @@ namespace gcm {
          * Nodal routines
          */
         // Allocate memory for values in nodes and reserve memory in mesh
-		void initValuesInNodes(unsigned int numberOfNodes);
-		// Add current node to storage
+		void initValuesInNodes(uint numberOfNodes);
+		// Allocate memory for already stored nodes
+		void initValuesInNodes();
+		// Add node to storage
 		void addNode(const CalcNode& node);
+		// Add node to storage after checking if it isn't already stored
+		void addNodeIfIsntAlreadyStored(const CalcNode& node);
 		// Provide an access to node by global index with map
-		CalcNode& getNode(int index);
+		CalcNode& getNode(uint index);
 		// Provide an access to node by local index from vector directly
 		CalcNode& getNodeByLocalIndex(uint index);
+		// Provide an axis to mesh element by local index
+		virtual Element &getElementByLocalIndex(uint index) = 0;
 		// Provide local index for current global index
-		int getNodeLocalIndex(int index) const;
+		uint getNodeLocalIndex(uint index) const;
+		
         // TODO: Rethink about new_nodes
         //CalcNode& getNewNode(int index);
 
 		// Return number of nodes put in storage
         uint getNodesNumber();
-
+		// Return number of elements put in storage
+		virtual uint getElementsNumber() = 0;
+		// Put an element to the storage
+		virtual void addElement(Element &element) = 0;
+		// Return the center of mass of element by local index
+		virtual vector3r getCenterOfElement(uint index) = 0;
+		// Add element and nodes of them (if they aren't already in storage) in storage
+		virtual void addElementWithNodes(Element &element, Mesh *mesh) = 0;
+		
 		/*
 		 * Routines for rheology model access
 		 */
@@ -224,8 +241,8 @@ namespace gcm {
 //        AABB getOutline();
 //        const AABB& getExpandedOutline() const;
 //        void setInitialState(Area* area, float* values);
-//		void setBorderCondition(Area* area, unsigned int num);
-//		void setContactCondition(Area* area, unsigned int num);
+//		void setBorderCondition(Area* area, uint num);
+//		void setContactCondition(Area* area, uint num);
 //        void setRheology(unsigned char matId);
 //        void setRheology(unsigned char matId, Area* area);
 

@@ -1,15 +1,14 @@
-#include "libgcm/elements/TetrahedronFirstOrder.hpp"
+#include "libgcm/elements/Cube.hpp"
 
 using namespace gcm;
 
-TetrahedronFirstOrder::TetrahedronFirstOrder() {
-    number = -1;
-    for( int j = 0; j < 4; j++ )
+Cube::Cube() {
+    for( int j = 0; j < 8; j++ )
         vertices[j] = -1;
 }
 
-TetrahedronFirstOrder::TetrahedronFirstOrder(uint n, uint v[4]) {
+Cube::Cube(uint n, uint v[8]) {
     number = n;
-    for( int j = 0; j < 4; j++ )
+    for( int j = 0; j < 8; j++ )
         vertices[j] = v[j];
 }

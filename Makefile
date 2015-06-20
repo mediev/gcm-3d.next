@@ -1,5 +1,5 @@
-CPP    = /usr/bin/g++
-CFLAGS = --std=c++11 -Wall
+CPP    = mpic++
+CFLAGS = --std=c++11 -Wall -g
 LIBFLAGS = -lgsl -lgslcblas -lm
 INCLUDEDIR = /home/alex/work/gcm-3d.next/src
 SOURCEDIR = src/libgcm

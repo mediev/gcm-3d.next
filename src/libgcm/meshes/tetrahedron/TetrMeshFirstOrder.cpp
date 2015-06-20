@@ -29,6 +29,30 @@ TetrMeshFirstOrder::~TetrMeshFirstOrder()
 	borders1.clear();
 }
 
+void TetrMeshFirstOrder::addElement(Element& element) {
+	addTetr(static_cast<TetrahedronFirstOrder &> (element));
+}
+
+vector3r TetrMeshFirstOrder::getCenterOfElement(uint index) {
+	TetrahedronFirstOrder &tetr = static_cast<TetrahedronFirstOrder &>
+	                                            (getElementByLocalIndex(index));
+	return (  getNode(tetr.vertices[0]).coords 
+	        + getNode(tetr.vertices[1]).coords 
+	        + getNode(tetr.vertices[2]).coords 
+	        + getNode(tetr.vertices[3]).coords ) / 4;
+}
+
+void TetrMeshFirstOrder::addElementWithNodes(Element& element, Mesh* mesh) {
+	addElement(element);
+	TetrahedronFirstOrder &tetr = static_cast<TetrahedronFirstOrder &> (element);
+	for (int i = 0; i < 4; i++)
+		addNodeIfIsntAlreadyStored(mesh->getNode(tetr.vertices[i]));
+}
+
+void TetrMeshFirstOrder::initElements(uint numberOfElements) {
+	createTetrs(numberOfElements);
+}
+
 Mesh* TetrMeshFirstOrder::getMeshOfTheSameType() {
 	return new TetrMeshFirstOrder();
 }
@@ -493,6 +517,14 @@ void TetrMeshFirstOrder::createTriangles(int number)
 int TetrMeshFirstOrder::getTetrsNumber()
 {
 	return tetrsNumber;
+}
+
+Element& TetrMeshFirstOrder::getElementByLocalIndex(uint index) {
+	return getTetrByLocalIndex(index);
+}
+
+uint TetrMeshFirstOrder::getElementsNumber() {
+	return getTetrsNumber();
 }
 
 int TetrMeshFirstOrder::getTriangleNumber()

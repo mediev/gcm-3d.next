@@ -2,9 +2,13 @@
 
 using namespace gcm;
 
-Body::Body(const BodyProperties& prop) {
+Body::Body() {
+}
+
+void Body::loadTask(const BodyProperties& prop) {
 	for(auto it = prop.blocks.begin(); it != prop.blocks.end(); it++) {
-		Block *block = new Block(*it);
+		Block *block = new Block();
+		block->loadTask(*it);
 		blocks.push_back(block);
 	}
 }

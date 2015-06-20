@@ -18,7 +18,8 @@ void Engine::loadTask(const Task &task)
 	requiredTime = task.requiredTime;
 	tau = task.timeStep;
 	for(auto it = task.bodies.begin(); it != task.bodies.end(); it++) {
-		Body *body = new Body(*it);
+		Body *body = new Body();
+		body->loadTask(*it);
 		bodies.push_back(body);
 	}	
 }

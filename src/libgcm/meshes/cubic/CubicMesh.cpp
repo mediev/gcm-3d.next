@@ -13,8 +13,37 @@ CubicMesh::~CubicMesh() {
 	nodes.clear();
 }
 
+void CubicMesh::initElements(uint numberOfElements) {
+	cubes.reserve(numberOfElements);
+}
+
 Mesh* CubicMesh::getMeshOfTheSameType() {
 	return new CubicMesh();
+}
+
+Element& CubicMesh::getElementByLocalIndex(uint index) {
+	return cubes[index];
+}
+
+uint CubicMesh::getElementsNumber() {
+	return cubes.size();
+}
+
+void CubicMesh::addElement(Element& element) {
+	cubes.push_back(static_cast<Cube &> (element));
+}
+
+vector3r CubicMesh::getCenterOfElement(uint index) {
+	Cube &cube = static_cast<Cube &> (getElementByLocalIndex(index));
+	return (  getNode(cube.vertices[0]).coords
+	        + getNode(cube.vertices[7]).coords ) / 2;
+}
+
+void CubicMesh::addElementWithNodes(Element& element, Mesh* mesh) {
+	addElement(element);
+	Cube &cube = static_cast<Cube &> (element);
+	for (int i = 0; i < 8; i++)
+		addNodeIfIsntAlreadyStored(mesh->getNode(cube.vertices[i]));
 }
 
 void CubicMesh::preProcessGeometry()
@@ -36,28 +65,7 @@ void CubicMesh::preProcessGeometry()
 
 void CubicMesh::calcMinH()
 {
-    if( getNodesNumber() < 2)
-        return;
-
-    CalcNode& base = getNodeByLocalIndex(0);
-    real h;
-
-    // We suppose that mesh is uniform
-    for(uint i = 1; i < getNodesNumber(); i++)
-    {
-        CalcNode& node = getNodeByLocalIndex(i);
-        h = distance(base.coords, node.coords);
-        if( h < meshH )
-            meshH = h;
-    }
-
-    // TODO - we should auto-scale mesh transparently in this case
-    if( meshH < EQUALITY_TOLERANCE )
-    {
-        //LOG_WARN("Mesh minH is too small: minH " << meshH << ", FP tolerance: " << EQUALITY_TOLERANCE);
-        //LOG_WARN("Fixing it automatically, but it can cause numerous intersting issues");
-        meshH = 10 * EQUALITY_TOLERANCE;
-    }
+    meshH = fabs(getNodeByLocalIndex(0).coords[0] - getNodeByLocalIndex(1).coords[0]); 
 };
 
 real CubicMesh::getMinH()

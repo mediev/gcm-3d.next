@@ -13,7 +13,8 @@ namespace gcm {
 	protected:
 		std::vector<Block*> blocks;
 	public:
-		Body(const BodyProperties &prop);
+		Body();
+		void loadTask(const BodyProperties &prop);
 		void checkTopology();
 		void doNextTimeStep();
 	};

@@ -1,34 +1,31 @@
-#ifndef GCM_TETR_H_
-#define GCM_TETR_H_
+#ifndef GCM_CUBE_HPP
+#define GCM_CUBE_HPP
 
 #include <iostream>
 #include "libgcm/util/Types.hpp"
+#include "libgcm/elements/Element.hpp"
 
 namespace gcm {
     /*
-     * Tetrahedron base class to inherit from.
+     * Cube class
      */
-    class TetrahedronFirstOrder {
+    class Cube : public Element {
     public:
-        TetrahedronFirstOrder();
-        TetrahedronFirstOrder(uint n, uint v[4]);
-        /*
-         * Number of current tetr
-         */
-        uint number;
+        Cube();
+        Cube(uint n, uint v[8]);
         /*
          * List of tetr vertices.
          */
-        uint vertices[4];
+        uint vertices[8];
     };
 }
 
 namespace std {
-    inline std::ostream& operator<< (std::ostream &os, const gcm::TetrahedronFirstOrder &tetr) {
-        os << "\n\tTetrahedron 1st order. Number: " << tetr.number << "\n";
+    inline std::ostream& operator<< (std::ostream &os, const gcm::Cube &cube) {
+        os << "\nCube. Number: " << cube.number << "\n";
         os << "\tVertices:";
-        for( uint i = 0; i < 4; i++ )
-            os << " " << tetr.vertices[i];
+        for( uint i = 0; i < 8; i++ )
+            os << " " << cube.vertices[i];
         return os;
     }
 }

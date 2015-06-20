@@ -18,12 +18,22 @@ Mesh::~Mesh() {
 
 // TODO rename and restructure initializing functions
 
-void Mesh::initNodesWithoutValues(unsigned int numberOfNodes) {
+void Mesh::initNodesWithoutValues(uint numberOfNodes) {
+	assert(valuesInNodes == NULL);
+
 	nodes.reserve(numberOfNodes);
+	nodesMap.reserve(numberOfNodes);
+
+	nodeStorageSize = numberOfNodes;
 }
 
-void Mesh::addNode2(const CalcNode& node) {
+void Mesh::addNodeWithoutValues(const CalcNode& node) {
+	int nodesNum = nodes.size();
+	// TODO: What if we need more memory than we reserved
+	assert(nodesNum < nodeStorageSize);
+
 	nodes.push_back(node);
+	nodesMap[node.number] = nodesNum;
 }
 
 void Mesh::preProcess()
@@ -37,7 +47,7 @@ void Mesh::createOutline()
 {
 }
 
-void Mesh::initValuesInNodes(unsigned int numberOfNodes) {
+void Mesh::initValuesInNodes(uint numberOfNodes) {
 	// TODO: Does we call this function once?
 	assert(valuesInNodes == NULL);
 
@@ -57,6 +67,25 @@ void Mesh::initValuesInNodes(unsigned int numberOfNodes) {
 	nodeStorageSize = numberOfNodes;
 }
 
+void Mesh::initValuesInNodes() {
+	// TODO: Does we call this function once?
+	assert(valuesInNodes == NULL);
+
+	// Preparing
+	assert(rheologyModel != NULL);
+	CalcNode tmpNode = newNode(rheologyModel->getNodeType());
+	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInPDE();
+	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInODE();
+	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n",
+	       sizeOfValuesInODE + sizeOfValuesInPDE);
+
+	// Allocating
+	valuesInNodes = new real[nodes.size() * (sizeOfValuesInODE + sizeOfValuesInPDE)];
+	for(uint i = 0; i < nodes.size(); i++) {
+		nodes[i].initMemory(valuesInNodes, nodes.size());
+	}
+}
+
 void Mesh::addNode(const CalcNode& node)
 {
 	int nodesNum = nodes.size();
@@ -68,12 +97,19 @@ void Mesh::addNode(const CalcNode& node)
 	nodesMap[node.number] = nodesNum;
 }
 
-CalcNode& Mesh::getNode(int index)
+void Mesh::addNodeIfIsntAlreadyStored(const CalcNode& node) {
+	MapIter itr;
+	itr = nodesMap.find(node.number);
+	if (itr == nodesMap.end())
+		addNodeWithoutValues(node);
+}
+
+CalcNode& Mesh::getNode(uint index)
 {
 	assert(index >= 0);
 	MapIter itr;
 	itr = nodesMap.find(index);
-	assert(itr != nodesMap.end());
+	assert_false(itr != nodesMap.end());
 	return nodes[itr->second];
 }
 
@@ -84,7 +120,7 @@ CalcNode& Mesh::getNodeByLocalIndex(uint index)
 	return nodes[index];
 }
 
-int Mesh::getNodeLocalIndex(int index) const
+uint Mesh::getNodeLocalIndex(uint index) const
 {
 	assert(index >= 0);
 	MapIter itr;

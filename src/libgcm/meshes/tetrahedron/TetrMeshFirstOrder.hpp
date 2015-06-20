@@ -96,16 +96,26 @@ namespace gcm {
 	public:
 		TetrMeshFirstOrder();
 		virtual ~TetrMeshFirstOrder();
+
+		void initElements(uint numberOfElements) override;
+		void addElement(Element& element) override;
+		vector3r getCenterOfElement(uint index) override;
+		void addElementWithNodes(Element& element, Mesh* mesh) override;
+
+		
 		Mesh *getMeshOfTheSameType() override;
 
 		/*
 		 * Tetrahedron's routines
 		 */
-		// Add current tetrahedton to storage
+		// Add current tetrahedron to storage
 		void addTetr(TetrahedronFirstOrder& tetr);
 		// Resizing of storage
 		void createTetrs(int number);
 		int getTetrsNumber();
+		
+		Element& getElementByLocalIndex(uint index) override;
+		uint getElementsNumber() override;
 
 		// Returns tetrahedron from tetrs1 by local index
 		TetrahedronFirstOrder& getTetrByLocalIndex(uint index);

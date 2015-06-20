@@ -2,23 +2,46 @@
 
 using namespace gcm;
 
-Block::Block(const BlockProperties& prop) {
+Block::Block() {
+}
+
+void Block::loadTask(const BlockProperties& prop) {
 	Engine& engine = Engine::getInstance();
 	model = engine.getRheologyModel(prop.modelType);
 	solver = engine.getSolver(prop.solverType);
 
 	if (prop.meshType == "CubicMesh") {
-		CubicMesh *mesh = new CubicMesh();
-		CubicMeshLoader loader;
-		mesh->setRheologyModel(model);
-		CubicMeshLoader::getInstance().loadMesh(mesh, prop.geometry, prop.spatialStep);
-		meshes.push_back(mesh);
+		CubicMeshLoader &loader = CubicMeshLoader::getInstance();
+		CubicMesh *coarseMesh = new CubicMesh();
+		coarseMesh->setRheologyModel(model);
+		loader.loadCoarseMesh(coarseMesh, prop.geometry, prop.coarseSpatialStep);
+		
+		InertiaMomentPartitioner part;
+		real *proportions = new real[5];
+		proportions[0] = 1;
+		proportions[1] = 2;
+		proportions[2] = 3;
+		proportions[3] = 4;
+		proportions[4] = 5;
+		part.partMesh(this, coarseMesh, 5, proportions);
+		for(uint i = 0; i < meshes.size(); i++) {
+			CubicMesh *fineMesh = new CubicMesh();
+			fineMesh->setRheologyModel(model);
+			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]), 
+			                              fineMesh, prop.spatialStep);
+			meshes[i] = fineMesh;
+		}
+		
 	} else if (prop.meshType == "TetrahedronMesh") {
 		TetrMeshFirstOrder* mesh = new TetrMeshFirstOrder();
 		mesh->setRheologyModel(model);
 		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "MeshFile.gmsh", prop.spatialStep);
 		meshes.push_back(mesh);
 	}
+}
+
+void Block::addMesh(Mesh* mesh) {
+	meshes.push_back(mesh);
 }
 
 void Block::doNextTimeStep()

@@ -6,7 +6,7 @@ Launcher::Launcher() {
 	Geometry geom;
 	geom.x0 = geom.y0 = geom.z0 = 0;
 	geom.hx = 1;
-	geom.hy = 1;
+	geom.hy = 15;
 	geom.hz = 1;
 	
 	BlockProperties blProp;
@@ -16,6 +16,7 @@ Launcher::Launcher() {
 	blProp.modelType = "IdealElasticRheologyModel";
 	blProp.solverType = "IdealElasticGcmSolver";
 	blProp.spatialStep = 0.1;
+	blProp.coarseSpatialStep = 0.2;
 	
 	BodyProperties boProp;
 	boProp.computationalCost = 1;

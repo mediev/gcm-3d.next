@@ -19,7 +19,9 @@ namespace gcm {
 		RheologyModel* model;
 		std::vector<Mesh*> meshes;
 	public:
-		Block(const BlockProperties &prop);
+		Block();
+		void loadTask(const BlockProperties &prop);
+		void addMesh(Mesh *mesh);
 		void doNextTimeStep();
 		void checkTopology(real tau);
 	};

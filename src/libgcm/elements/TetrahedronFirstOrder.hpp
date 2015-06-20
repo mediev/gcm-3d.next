@@ -2,20 +2,16 @@
 #define GCM_TETR_H_
 
 #include <iostream>
-#include "libgcm/util/Types.hpp"
+#include "libgcm/elements/Element.hpp"
 
 namespace gcm {
     /*
      * Tetrahedron base class to inherit from.
      */
-    class TetrahedronFirstOrder {
+    class TetrahedronFirstOrder : public Element {
     public:
         TetrahedronFirstOrder();
         TetrahedronFirstOrder(uint n, uint v[4]);
-        /*
-         * Number of current tetr
-         */
-        uint number;
         /*
          * List of tetr vertices.
          */

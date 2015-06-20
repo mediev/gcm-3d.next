@@ -10,8 +10,11 @@ namespace gcm {
 	
 	class CubicMeshLoader : public Singleton<CubicMeshLoader> {
 	public:
-		void loadMesh(CubicMesh* mesh, Geometry geom, real h);
+		CubicMeshLoader();
+		void loadCoarseMesh(CubicMesh *mesh, Geometry geom, real h);
+		void loadFineMeshFromCoarse(CubicMesh *coarse, CubicMesh *fine, real h);
 	private:
+		uint globalIndexOfNodes;
 
 	};
 }
