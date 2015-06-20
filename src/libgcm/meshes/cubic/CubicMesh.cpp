@@ -1,4 +1,5 @@
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
+#include "libgcm/snapshotters/VTKCubicSnapshotWriter.hpp"
 
 using namespace gcm;
 using std::numeric_limits;
@@ -35,28 +36,7 @@ void CubicMesh::preProcessGeometry()
 
 void CubicMesh::calcMinH()
 {
-    if( getNodesNumber() < 2)
-        return;
-
-    CalcNode& base = getNodeByLocalIndex(0);
-    real h;
-
-    // We suppose that mesh is uniform
-    for(int i = 1; i < getNodesNumber(); i++)
-    {
-        CalcNode& node = getNodeByLocalIndex(i);
-        h = distance(base.coords, node.coords);
-        if( h < meshH )
-            meshH = h;
-    }
-
-    // TODO - we should auto-scale mesh transparently in this case
-    if( meshH < EQUALITY_TOLERANCE )
-    {
-        //LOG_WARN("Mesh minH is too small: minH " << meshH << ", FP tolerance: " << EQUALITY_TOLERANCE);
-        //LOG_WARN("Fixing it automatically, but it can cause numerous intersting issues");
-        meshH = 10 * EQUALITY_TOLERANCE;
-    }
+	meshH = fabs(getNodeByLocalIndex(0).coords[0] - getNodeByLocalIndex(1).coords[0]);
 };
 
 real CubicMesh::getMinH()
@@ -72,4 +52,9 @@ void CubicMesh::createOutline()
 
 void CubicMesh::checkTopology(float tau)
 {
+}
+
+const SnapshotWriter& CubicMesh::getSnaphotter() const
+{
+    return VTKCubicSnapshotWriter::getInstance();
 }

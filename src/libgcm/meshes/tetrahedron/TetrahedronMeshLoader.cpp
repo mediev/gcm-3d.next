@@ -1,4 +1,5 @@
 #include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
+#include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
 using namespace gcm;
 using std::string;
@@ -32,7 +33,12 @@ bool TetrahedronMeshLoader::isMshFileCreated(string fileName)
 
 string TetrahedronMeshLoader::getMshFileName(string geoFile)
 {
-    return geoFile + ".tmp.msh";
+    return geoFile + ".msh";
+}
+
+string TetrahedronMeshLoader::getVtkFileName(string geoFile)
+{
+    return geoFile + ".vtu";
 }
 
 void TetrahedronMeshLoader::createMshFile(string fileName, real tetrSize)
@@ -100,12 +106,11 @@ void TetrahedronMeshLoader::loadMesh(TetrMeshFirstOrder* mesh, string fileName, 
         reader->readFile(getMshFileName(fileName), mesh);
         //soMesh->copyMesh(foMesh);
         mesh->preProcess();
-
+        mesh->snapshot(0);
         //VTK2SnapshotWriter* sw = new VTK2SnapshotWriter();
-        //sw->dump(soMesh, -1, getVtkFileName(fileName));
+        //sw->dump(mesh, 0);
 
-        //delete sw;
-        //delete reader;
+        delete reader;
         //delete foMesh;
         //delete soMesh;
         //LOG_DEBUG("Worker 0 completed generating second order mesh");

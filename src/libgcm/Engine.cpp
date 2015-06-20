@@ -2,6 +2,8 @@
 
 using namespace gcm;
 
+const std::string Engine::SNAPSHOT_OUTPUT_PATH_PATTERN = "snap_mesh_%{MESH}%{SUFFIX}_cpu_%{RANK}_step_%{STEP}.%{EXT}";
+
 Engine::Engine()
 {
 	registerRheologyModel( new IdealElasticRheologyModel() );

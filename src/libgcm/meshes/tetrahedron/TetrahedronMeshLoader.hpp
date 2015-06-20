@@ -27,6 +27,8 @@ namespace gcm {
 
 		// Return expected *.msh file name
 		std::string getMshFileName(std::string geoFile);
+		// Return expected *.vtu file name
+		std::string getVtkFileName(std::string geoFile);
 		// Write *.msh file from *.geo file
 		void createMshFile(std::string fileName, real tetrSize);
 		// Answer: does any *.msh file exist with this file name

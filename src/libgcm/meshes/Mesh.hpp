@@ -12,6 +12,7 @@
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/util/Math.hpp"
+#include "libgcm/snapshotters/SnapshotWriter.hpp"
 
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
@@ -58,6 +59,8 @@ namespace gcm {
         // AABB outline;
 
         USE_LOGGER;
+
+        virtual const SnapshotWriter& getSnaphotter() const = 0;
 
     public:
         // Default constructor
@@ -206,7 +209,7 @@ namespace gcm {
         /*
          * Sets mesh id.
          */
-        void setId(std::string id);
+        void setId(std::string _id);
         /*
          * Returns mesh id.
          */

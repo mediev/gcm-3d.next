@@ -1,4 +1,5 @@
 #include "libgcm/meshes/cubic/CubicMeshLoader.hpp"
+#include "libgcm/snapshotters/VTKCubicSnapshotWriter.hpp"
 
 using namespace gcm;
 
@@ -29,4 +30,7 @@ void CubicMeshLoader::loadMesh(CubicMesh* mesh, Geometry geom, real h)
                 mesh->addNode(node);
                 n++;
 			}
+    mesh->preProcess();
+    mesh->snapshot(0);
+
 }

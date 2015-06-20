@@ -106,3 +106,19 @@ bool Mesh::hasNode(int index)
 	itr = nodesMap.find(index);
 	return itr != nodesMap.end();
 }
+
+void Mesh::setId(std::string _id)
+{
+	id = _id;
+}
+
+std::string Mesh::getId() const
+{
+	return id;
+}
+
+std::string Mesh::snapshot(int number)
+{
+    return getSnaphotter().dump(this, number);
+}
+

@@ -53,6 +53,9 @@ namespace gcm {
 		void calculate();
 		void doNextTimeStep();
 
+		// Pattern for name of snapshots
+		const static std::string SNAPSHOT_OUTPUT_PATH_PATTERN;
+
 		real getCurrentTime() const;
 
 		void clear();

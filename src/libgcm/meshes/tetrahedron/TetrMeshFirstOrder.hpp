@@ -14,6 +14,7 @@
 
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
 #include "libgcm/Engine.hpp"
+#include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
 #define STORAGE_ONDEMAND_GROW_RATE 1.25
 
@@ -134,6 +135,8 @@ namespace gcm {
 		void checkTopology(real tau) override;
 
 		void createOutline();
+
+		virtual const SnapshotWriter& getSnaphotter() const override;
 	};
 	
 }

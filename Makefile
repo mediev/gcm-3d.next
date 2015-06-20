@@ -1,7 +1,7 @@
 CPP    = /usr/bin/g++
 CFLAGS = --std=c++11 -Wall -g
-LIBFLAGS = -lgsl -lgslcblas -lm -lgmsh
-INCLUDEDIR = /home/mediev/projects-repo/gcm-3d-mediev/gcm-3d.next/src /usr/include/gmsh
+LIBFLAGS = -lgsl -lgslcblas -lm -lgmsh -lvtkCommonCore-6.0 -lvtkFiltersCore-6.0 -lvtkIOCore-6.0 -lvtkIOXML-6.0 -lvtkCommonDataModel-6.0
+INCLUDEFLAGS = -I/home/mediev/projects-repo/gcm-3d-mediev/gcm-3d.next/src -I/usr/include/gmsh -I/usr/include/vtk-6.0
 SOURCEDIR = src/libgcm
 
 SOURCES = $(shell find $(SOURCEDIR) -name '*.cpp')
@@ -15,7 +15,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CPP) $(OBJECTS) -o $@ $(LIBFLAGS)
 
 %.o: %.cpp
-	$(CPP) $(CFLAGS) -I $(INCLUDEDIR) -c $< -o $@
+	$(CPP) $(CFLAGS) $(INCLUDEFLAGS) -c $< -o $@
 
 test: test.cpp
 	g++ test.cpp -o test
@@ -25,3 +25,4 @@ clean:
 	rm -f $(OBJECTS)
 	rm -f $(EXECUTABLE)
 	rm -f models/*.msh
+	rm -f *.vtu *.vts
