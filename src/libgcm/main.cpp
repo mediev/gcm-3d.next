@@ -16,16 +16,16 @@ int main(int argc, char* argv[]) {
 	}
 	const uint taskNum = atoi(argv[1]);
 
-	GmshInitialize();
 	MPI::Init();
+	GmshInitialize();
 	Launcher launcher(taskNum);
 
 	Engine& engine = Engine::getInstance();
 	engine.loadTask(launcher.task);
 	
 	engine.calculate();
-	MPI::Finalize();
 	GmshFinalize();
+	MPI::Finalize();
 
 	return 0;
 }

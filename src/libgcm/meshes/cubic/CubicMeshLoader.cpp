@@ -45,49 +45,27 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
     mesh->preProcess();
 }
 
-void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine, real h) {
-	uint elementsNum = coarse->getElementsNumber();
-	assert(elementsNum > 0);
-	Cube &tmpCube = static_cast<Cube &>(coarse->getElementByLocalIndex(0));
-	CalcNode node1 = coarse->getNode(tmpCube.vertices[0]);
-	CalcNode node2 = coarse->getNode(tmpCube.vertices[1]);
-	// how many fine cubes go along edge of coarse cube
-	uint refinement = (uint) ( fabs(node1.coords[0] - node2.coords[0]) / h );
-	// assert if step of coarse mesh is divisible by step of fine mesh
-	assert(( refinement - ( fabs(node1.coords[0] - node2.coords[0]) / h ) ) == 0);
+void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine, 
+                                             real h) {
+	CalcNode node1 = coarse->getNodeByLocalIndex(0);
 	
-	for (uint i = 0; i < elementsNum; i++) {
-		Cube &coarseCube = static_cast<Cube &>(coarse->getElementByLocalIndex(i));
-		CalcNode coarseNode = coarse->getNode(coarseCube.vertices[0]);
-		for(uint k = 0; k < refinement; k++)
-			for(uint j = 0; j < refinement; j++)
-				for(uint i = 0; i < refinement; i++) {
-					// coords of 1'st vertice of fineCube
-					vector3r r = coarseNode.coords;
-					r.coords[0] += i*h; r.coords[1] += j*h; r.coords[2] += k*h;
-					CalcNode fineNode = node1;
-					fineNode.coords = r + vector3r(0, 0 , 0);
-					
-					fineNode.coords = r + vector3r(h, 0 , 0);
-					
-					fineNode.coords = r + vector3r(0, h , 0);
-					
-					fineNode.coords = r + vector3r(h, h , 0);
-					
-					fineNode.coords = r + vector3r(0, 0 , h);
-					
-					fineNode.coords = r + vector3r(h, 0 , h);
-					
-					fineNode.coords = r + vector3r(0, h , h);
-					
-					fineNode.coords = r + vector3r(h, h , h);
-					
-					
-					Cube fineCube;
-					
-					//mesh->addElementWithNodes(cube, mesh);
+	AABB outline = coarse->getOutline();
+	uint Nz = (uint) ((outline.maxZ - outline.minZ) / h);
+	uint Ny = (uint) ((outline.maxY - outline.minY) / h);
+	uint Nx = (uint) ((outline.maxX - outline.minX) / h);
+	fine->initNodesWithoutValues( (Nx+1) * (Ny+1) * (Nz+1) );
+	for (uint k = 0; k <= Nz; k++)
+		for (uint j = 0; j <= Ny; j++)
+			for (uint i = 0; i <= Nx; i++) {
+				real x = outline.minX + i*h;
+				real y = outline.minY + j*h;
+				real z = outline.minZ + k*h;
+				if ( coarse->hasPoint(vector3r(x, y, z)) ) {
+					node1.coords = vector3r(x, y, z);
+					fine->addNodeWithoutValues(node1);
 				}
-	}
+			}
+	
 	coarse->~Mesh();
 	fine->initValuesInNodes();
 }

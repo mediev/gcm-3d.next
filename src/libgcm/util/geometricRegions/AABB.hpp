@@ -1,8 +1,9 @@
 #ifndef _GCM_AABB_OUTLINE_H
 #define _GCM_AABB_OUTLINE_H  1
 
-#include "libgcm/node/Node.hpp"
-#include "libgcm/Math.hpp"
+#include <limits>
+
+#include "libgcm/nodes/CalcNode.hpp"
 
 // TODO: should we replace it with CubicRegion? (Or make an alias.)
 // Does AABB have some unique properties compared with other geometric regions we use?
@@ -12,24 +13,30 @@ namespace gcm {
     class AABB {
     public:
         union {
-            float min_coords[3];
+            real min_coords[3];
             struct {
-                float minX;
-                float minY;
-                float minZ;
+                real minX;
+                real minY;
+                real minZ;
             };
         };
         union {
-            float max_coords[3];
+            real max_coords[3];
             struct {
-                float maxX;
-                float maxY;
-                float maxZ;
+                real maxX;
+                real maxY;
+                real maxZ;
             };
         };
         AABB();
-        AABB( float _minX, float _maxX, float _minY, float _maxY, float _minZ, float _maxZ );
-        bool isInAABB( float x, float y, float z ) const;
+        AABB( real _minX, real _maxX, real _minY,
+		      real _maxY, real _minZ, real _maxZ );
+		/**
+		 * Change boundary values if vector r exceed them
+         */
+		void recalculate(const vector3r &r);
+		bool isInAABB(const vector3r &r);
+/*        bool isInAABB( real x, real y, real z ) const;
         bool isInAABB(const Node* node ) const;
         bool isInAABB(const Node& node) const;
         bool includes( const AABB* box ) const;
@@ -38,13 +45,14 @@ namespace gcm {
         bool intersects( AABB* box );
         AABB* findIntersection( AABB* box );
         void findIntersection( AABB* box, AABB* intersection );
-        void transfer( float x, float y, float z );
-		void scale(float x0, float y0, float z0, 
-				float scaleX, float scaleY, float scaleZ);
-        float getVolume();
+        void transfer( real x, real y, real z );
+		void scale(real x0, real y0, real z0, 
+				real scaleX, real scaleY, real scaleZ);
+        real getVolume();
 
         real getDiag() const;
         vector3r getCenter() const;
+*/
     };
 }
 

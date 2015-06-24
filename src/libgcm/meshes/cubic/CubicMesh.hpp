@@ -1,6 +1,8 @@
 #ifndef CUBICMESH_HPP
 #define	CUBICMESH_HPP
 
+#include <algorithm>
+
 #include "libgcm/meshes/Mesh.hpp"
 #include "libgcm/util/Math.hpp"
 #include "libgcm/elements/Cube.hpp"
@@ -13,6 +15,8 @@ namespace gcm {
 		void preProcessGeometry();
 
 		real meshH;
+		// this variable is necessary to speed up search in function hasPoint
+		uint cubeLocalIndexToStartCheckingInHasPointFunction;
 	public:
 		CubicMesh();
 		~CubicMesh();
@@ -26,10 +30,11 @@ namespace gcm {
 		void addElement(Element& element) override;
 		vector3r getCenterOfElement(uint index) override;
 		void addElementWithNodes(Element& element, Mesh* mesh) override;
+		void sortCubesInGlobalOrder();
 
-		// Redefining of virtual methods
 		void checkTopology(real tau) override;
-		void createOutline();
+		bool hasPoint(const vector3r &r);
+		AABB cubeToAABB(const Cube &cube);
 		real getMinH();
 
 		virtual const SnapshotWriter& getSnaphotter() const override;

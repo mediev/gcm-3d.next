@@ -8,6 +8,7 @@ CubicMesh::CubicMesh() {
 	meshH = numeric_limits<real>::infinity();
 	type = "CubicMesh";
 	movable = false;
+	cubeLocalIndexToStartCheckingInHasPointFunction = 0;
 }
 
 CubicMesh::~CubicMesh() {
@@ -47,6 +48,10 @@ void CubicMesh::addElementWithNodes(Element& element, Mesh* mesh) {
 		addNodeIfIsntAlreadyStored(mesh->getNode(cube.vertices[i]));
 }
 
+void CubicMesh::sortCubesInGlobalOrder() {
+	std::sort(cubes.begin(), cubes.end());
+}
+
 void CubicMesh::preProcessGeometry()
 {
 	// TODO: Finish the function
@@ -76,8 +81,28 @@ real CubicMesh::getMinH()
     return meshH;
 };
 
-void CubicMesh::createOutline()
-{
+bool CubicMesh::hasPoint(const vector3r& r) {
+	for(uint i = cubeLocalIndexToStartCheckingInHasPointFunction;
+	                                                   i < cubes.size(); i++)
+		if ( cubeToAABB(cubes[i]).isInAABB(r) ) {
+			cubeLocalIndexToStartCheckingInHasPointFunction = i;
+			return true;
+		}
+	for(uint i = 0; i < cubeLocalIndexToStartCheckingInHasPointFunction; i++)
+		if ( cubeToAABB(cubes[i]).isInAABB(r) ) {
+			cubeLocalIndexToStartCheckingInHasPointFunction = i;
+			return true;
+		}
+	
+	return false;
+}
+
+AABB CubicMesh::cubeToAABB(const Cube &cube) {
+	CalcNode &minNode = getNode(cube.vertices[0]);
+	CalcNode &maxNode = getNode(cube.vertices[7]);
+	return AABB(minNode.coords.x, maxNode.coords.x,
+	            minNode.coords.y, maxNode.coords.y,
+	            minNode.coords.z, maxNode.coords.z);
 }
 
 void CubicMesh::checkTopology(float tau) {

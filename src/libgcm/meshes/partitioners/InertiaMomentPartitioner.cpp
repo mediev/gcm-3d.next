@@ -91,12 +91,10 @@ void InertiaMomentPartitioner::bisectMesh(Block *block, Mesh* mesh,
 	// two new child meshes
 	uint nodesNum = mesh->getNodesNumber();
 	Mesh *mesh1 = mesh->getMeshOfTheSameType();
-	// FIXME - "1.2 * " is a way to prevent excess over preallocated size of
-	// vector of nodes in meshes when we'll add nodes to it
-	mesh1->initNodesWithoutValues(1.2 * (int) (nodesNum * proportion / (1 + proportion)));
+	mesh1->initNodesWithoutValues(nodesNum);
 	mesh1->setRheologyModel(mesh->getRheologyModel());
 	Mesh *mesh2 = mesh->getMeshOfTheSameType();
-	mesh2->initNodesWithoutValues(1.2 * (int) (nodesNum / (1 + proportion)));
+	mesh2->initNodesWithoutValues(nodesNum);
 	mesh2->setRheologyModel(mesh->getRheologyModel());
 	
 	// placing elements into one of the two new meshes depends on where is 

@@ -11,7 +11,7 @@ Launcher::Launcher(const uint taskNum)
 	geom.x0 = geom.y0 = geom.z0 = 0;
 
 	geom.hx = 1;
-	geom.hy = 15;
+	geom.hy = 1;
 	geom.hz = 1;
 	
 	BlockProperties blProp;

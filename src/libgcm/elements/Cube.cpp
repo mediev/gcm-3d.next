@@ -12,3 +12,7 @@ Cube::Cube(uint n, uint v[8]) {
     for( int j = 0; j < 8; j++ )
         vertices[j] = v[j];
 }
+
+bool Cube::operator<(const Cube& other) const {
+	return (number < other.number);
+}

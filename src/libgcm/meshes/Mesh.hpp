@@ -12,6 +12,7 @@
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/util/Math.hpp"
+#include "libgcm/util/geometricRegions/AABB.hpp"
 #include "libgcm/elements/Element.hpp"
 #include "libgcm/snapshotters/SnapshotWriter.hpp"
 
@@ -53,10 +54,8 @@ namespace gcm {
 		//real *valuesInNewNodes;
 
         // If the mesh supports moving at all
-        bool movable;
-
-        // Outline around mesh
-        // AABB outline;
+		bool movable;
+		AABB outline;
 
         USE_LOGGER;
 
@@ -117,8 +116,8 @@ namespace gcm {
         void setRheologyModel(RheologyModel *_model);
 		RheologyModel *getRheologyModel();
 
-		// Create an outline around mesh
 		virtual void createOutline();
+		AABB getOutline();
 
 		// Checking mesh topology
 		virtual void checkTopology(real tau) = 0;
@@ -240,8 +239,6 @@ namespace gcm {
         void setMovable(bool movable);
         bool getMovable();
 
-//        virtual void createOutline();
-//        AABB getOutline();
 //        const AABB& getExpandedOutline() const;
 //        void setInitialState(Area* area, float* values);
 //		void setBorderCondition(Area* area, uint num);

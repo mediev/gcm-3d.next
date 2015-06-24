@@ -34,6 +34,7 @@ void Mesh::addNodeWithoutValues(const CalcNode& node) {
 
 	nodes.push_back(node);
 	nodesMap[node.number] = nodesNum;
+	outline.recalculate(node.coords);
 }
 
 void Mesh::preProcess()
@@ -43,8 +44,7 @@ void Mesh::preProcess()
 	createOutline();
 }
 
-void Mesh::createOutline()
-{
+void Mesh::createOutline() {
 }
 
 void Mesh::initValuesInNodes(uint numberOfNodes) {
@@ -95,6 +95,7 @@ void Mesh::addNode(const CalcNode& node)
 	nodes.push_back(node);
 	nodes[nodesNum].initMemory(valuesInNodes, nodesNum);
 	nodesMap[node.number] = nodesNum;
+	outline.recalculate(node.coords);
 }
 
 void Mesh::addNodeIfIsntAlreadyStored(const CalcNode& node) {
@@ -102,6 +103,7 @@ void Mesh::addNodeIfIsntAlreadyStored(const CalcNode& node) {
 	itr = nodesMap.find(node.number);
 	if (itr == nodesMap.end())
 		addNodeWithoutValues(node);
+	outline.recalculate(node.coords);
 }
 
 CalcNode& Mesh::getNode(uint index)
@@ -143,6 +145,10 @@ RheologyModel* Mesh::getRheologyModel() {
 
 std::string Mesh::getType() {
 	return type;
+}
+
+AABB Mesh::getOutline() {
+	return outline;
 }
 
 bool Mesh::hasNode(int index)

@@ -716,10 +716,6 @@ void TetrMeshFirstOrder::checkTopology(real tau)
 {
 }
 
-void TetrMeshFirstOrder::createOutline()
-{
-}
-
 std::vector<int>& TetrMeshFirstOrder::getVolumeElementsForNode(uint index)
 {
     // Get local index

@@ -20,10 +20,10 @@ void Block::loadTask(const BlockProperties& prop) {
 		InertiaMomentPartitioner part;
 		real *proportions = new real[5];
 		proportions[0] = 1;
-		proportions[1] = 2;
-		proportions[2] = 3;
-		proportions[3] = 4;
-		proportions[4] = 5;
+		proportions[1] = 1;
+		proportions[2] = 1;
+		proportions[3] = 1;
+		proportions[4] = 4;
 		part.partMesh(this, coarseMesh, 5, proportions);
 		for(uint i = 0; i < meshes.size(); i++) {
 			CubicMesh *fineMesh = new CubicMesh();
@@ -31,6 +31,7 @@ void Block::loadTask(const BlockProperties& prop) {
 			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]), 
 			                              fineMesh, prop.spatialStep);
 			meshes[i] = fineMesh;
+			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
 		}
 
 	} else if (prop.meshType == "TetrahedronMesh") {
@@ -47,11 +48,12 @@ void Block::addMesh(Mesh* mesh) {
 	meshes.push_back(mesh);
 }
 
-void Block::doNextTimeStep()
-{
+void Block::doNextTimeStep() {
+	int i = 0;
 	for(auto mesh = meshes.begin(); mesh != meshes.end(); mesh++) {
 		solver->doNextTimeStep(*mesh);
-		//(*mesh)->snapshot(1);
+		(*mesh)->snapshot(i);
+		i++;
 	}
 }
 

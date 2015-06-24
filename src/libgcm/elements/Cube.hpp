@@ -13,6 +13,7 @@ namespace gcm {
     public:
         Cube();
         Cube(uint n, uint v[8]);
+		bool operator<(const Cube& other) const;
         /*
          * List of tetr vertices.
          */
