@@ -72,6 +72,7 @@ void CubicMesh::preProcessGeometry()
 void CubicMesh::calcMinH()
 {
 	meshH = fabs(getNodeByLocalIndex(0).coords[0] - getNodeByLocalIndex(1).coords[0]);
+	std::cout << "meshH = " << meshH << std::endl;
 };
 
 real CubicMesh::getMinH()

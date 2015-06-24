@@ -82,8 +82,8 @@ namespace gcm
             //auto contact = vtkSmartPointer<vtkIntArray>::New();
             //contact->SetName("contact");
 
-            auto border = vtkSmartPointer<vtkIntArray>::New();
-            border->SetName("border");
+//            auto border = vtkSmartPointer<vtkIntArray>::New();
+//            border->SetName("border");
 
             /*auto used = vtkSmartPointer<vtkIntArray>::New();
             used->SetName("used");
@@ -175,7 +175,7 @@ namespace gcm
             {
                 auto& node = *it;
 
-                border->InsertNextValue(node.isBorder() ? 1 : 0);
+//                border->InsertNextValue(node.isBorder() ? 1 : 0);
                 /*used->InsertNextValue(node.isUsed() ? 1 : 0);
                 contact->InsertNextValue(node.isInContact() ? 1 : 0);
 
@@ -222,7 +222,7 @@ namespace gcm
            grid->SetPoints(points);
 
            //fd->AddArray(contact);
-           fd->AddArray(border);
+//           fd->AddArray(border);
            /*fd->AddArray(used);
            fd->AddArray(norm);
            fd->AddArray(crack);
