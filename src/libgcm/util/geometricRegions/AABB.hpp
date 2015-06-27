@@ -4,6 +4,7 @@
 #include <limits>
 
 #include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/util/Types.hpp"
 
 // TODO: should we replace it with CubicRegion? (Or make an alias.)
 // Does AABB have some unique properties compared with other geometric regions we use?
