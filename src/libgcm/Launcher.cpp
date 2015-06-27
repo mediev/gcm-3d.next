@@ -28,7 +28,6 @@ Launcher::Launcher(const uint taskNum)
 
 	blProp.modelType = "IdealElasticRheologyModel";
 	blProp.solverType = "IdealElasticGcmSolver";
-	blProp.spatialStep = 0.1;
 	blProp.coarseSpatialStep = 0.2;
 
 	BodyProperties boProp;

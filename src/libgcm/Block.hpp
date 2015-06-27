@@ -6,6 +6,7 @@
 #include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
 #include "libgcm/solvers/GcmSolver.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
+#include "libgcm/meshes/partitioners/MetisPartitioner.hpp"
 
 namespace gcm {
 	class Engine;

@@ -34,7 +34,7 @@ void Mesh::addNodeWithoutValues(const CalcNode& node) {
 
 	nodes.push_back(node);
 	nodesMap[node.number] = nodesNum;
-	outline.recalculate(node.coords);
+	//outline.recalculate(node.coords);
 }
 
 void Mesh::preProcess()
@@ -45,6 +45,34 @@ void Mesh::preProcess()
 }
 
 void Mesh::createOutline() {
+	uint nodesNumber = nodes.size();
+
+    if (nodesNumber > 0)
+    {
+        // Create outline
+        for(int j = 0; j < 3; j++)
+        {
+            outline.min_coords[j] = std::numeric_limits<real>::infinity();
+            outline.max_coords[j] = - std::numeric_limits<real>::infinity();
+        }
+
+        for(int i = 0; i < nodesNumber; i++)
+        {
+            CalcNode& node = getNodeByLocalIndex(i);
+            if( true /*node.isLocal()*/ )
+            {
+                for(int j = 0; j < 3; j++) {
+                    if(node.coords[j] > outline.max_coords[j])
+                        outline.max_coords[j] = node.coords[j];
+                    if(node.coords[j] < outline.min_coords[j])
+                        outline.min_coords[j] = node.coords[j];
+                }
+            }
+        }
+    } else
+    {
+        //LOG_DEBUG ("Mesh is empty, no outline to create");
+    }
 }
 
 void Mesh::initValuesInNodes(uint numberOfNodes) {

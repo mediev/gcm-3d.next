@@ -28,7 +28,7 @@ void Block::loadTask(const BlockProperties& prop) {
 		for(uint i = 0; i < meshes.size(); i++) {
 			CubicMesh *fineMesh = new CubicMesh();
 			fineMesh->setRheologyModel(model);
-			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]), 
+			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]),
 			                              fineMesh, prop.spatialStep);
 			meshes[i] = fineMesh;
 			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
@@ -40,7 +40,11 @@ void Block::loadTask(const BlockProperties& prop) {
 		mesh->setRheologyModel(model);
 
 		TetrahedronMeshLoader::getInstance().loadMesh(mesh, "models/cube.geo", prop.spatialStep);
-		meshes.push_back(mesh);
+
+		MetisPartitioner::getInstance().partMesh(mesh, 2, this);
+
+
+		delete mesh;
 	}
 }
 

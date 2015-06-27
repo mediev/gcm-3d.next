@@ -68,4 +68,5 @@ void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine,
 	
 	coarse->~Mesh();
 	fine->initValuesInNodes();
+	fine->preProcess();
 }
