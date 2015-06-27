@@ -10,7 +10,7 @@ Launcher::Launcher(const uint taskNum)
 	Geometry geom;
 	geom.x0 = geom.y0 = geom.z0 = 0;
 
-	geom.hx = 1;
+	geom.hx = 2;
 	geom.hy = 1;
 	geom.hz = 1;
 	

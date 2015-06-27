@@ -50,9 +50,9 @@ void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine,
 	CalcNode node1 = coarse->getNodeByLocalIndex(0);
 	
 	AABB outline = coarse->getOutline();
-	uint Nz = (uint) ((outline.maxZ - outline.minZ) / h);
-	uint Ny = (uint) ((outline.maxY - outline.minY) / h);
-	uint Nx = (uint) ((outline.maxX - outline.minX) / h);
+	uint Nz = (uint) ((outline.maxZ - outline.minZ) / h) + 1;
+	uint Ny = (uint) ((outline.maxY - outline.minY) / h) + 1;
+	uint Nx = (uint) ((outline.maxX - outline.minX) / h) + 1;
 	fine->initNodesWithoutValues( (Nx+1) * (Ny+1) * (Nz+1) );
 	for (uint k = 0; k <= Nz; k++)
 		for (uint j = 0; j <= Ny; j++)

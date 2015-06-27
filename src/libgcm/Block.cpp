@@ -26,6 +26,7 @@ void Block::loadTask(const BlockProperties& prop) {
 		proportions[4] = 4;
 		part.partMesh(this, coarseMesh, 5, proportions);
 		for(uint i = 0; i < meshes.size(); i++) {
+			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
 			CubicMesh *fineMesh = new CubicMesh();
 			fineMesh->setRheologyModel(model);
 			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]),

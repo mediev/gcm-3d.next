@@ -28,8 +28,8 @@ void AABB::recalculate(const vector3r &r) {
 	maxZ = (maxZ < r.z) ? r.z : maxZ;
 }
 
-bool AABB::isInAABB(const vector3r& r) {
-	return ( (r.x <= maxX) && (r.x >= minX) &&
-	         (r.y <= maxY) && (r.y >= minY) &&
-	         (r.z <= maxZ) && (r.z >= minZ) );
+bool AABB::isInAABB(const vector3r& r) { 
+	return ( (r.x <= maxX + EQUALITY_TOLERANCE) && (r.x >= minX - EQUALITY_TOLERANCE) &&
+	         (r.y <= maxY + EQUALITY_TOLERANCE) && (r.y >= minY - EQUALITY_TOLERANCE) &&
+	         (r.z <= maxZ + EQUALITY_TOLERANCE) && (r.z >= minZ - EQUALITY_TOLERANCE) );
 }
