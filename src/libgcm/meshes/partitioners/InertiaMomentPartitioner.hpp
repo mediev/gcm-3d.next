@@ -19,6 +19,13 @@ namespace gcm {
 	 */
 	class InertiaMomentPartitioner {
 	public:
+		/**
+		 * Divide mesh into N meshes with respect to proportions.
+         * @param block pointer to Block that owns the mesh
+         * @param mesh mesh to divide
+         * @param N number of parts to divide
+         * @param proportions relative weights of resulting meshes
+         */
 		void partMesh(Block *block, Mesh *mesh, int N, real *proportions);
 	private:
 		void findInertiaTensorMinAxis(Mesh *mesh, const vector3r &rC, 
@@ -26,6 +33,7 @@ namespace gcm {
 		void findBisectionParameters(Mesh *mesh, real p,
 		                             vector3r &normal, vector3r &r0);
 		void bisectMesh(Block *block, Mesh *mesh, int N, real* proportions);
+		void fractalBalance(real *arr, int N);
 
 	};
 }

@@ -1,5 +1,4 @@
 #include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
-#include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
 using namespace gcm;
 using std::string;

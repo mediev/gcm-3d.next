@@ -169,12 +169,16 @@ namespace gcm
 
             float _norm[3];
             */
+			
+			auto meshId = vtkSmartPointer<vtkIntArray>::New();
+            meshId->SetName("meshId");
+			
             dumpMeshSpecificData(_mesh, grid, points);
 
             for (auto it = MeshNodeIterator<MeshType, snapshotterId>(_mesh); it.hasNext(); it++)
             {
                 auto& node = *it;
-
+				meshId->InsertNextValue(std::stoi(_mesh->getId()));
 //                border->InsertNextValue(node.isBorder() ? 1 : 0);
                 /*used->InsertNextValue(node.isUsed() ? 1 : 0);
                 contact->InsertNextValue(node.isInContact() ? 1 : 0);
@@ -221,6 +225,7 @@ namespace gcm
 
            grid->SetPoints(points);
 
+		   fd->AddArray(meshId);
            //fd->AddArray(contact);
 //           fd->AddArray(border);
            /*fd->AddArray(used);

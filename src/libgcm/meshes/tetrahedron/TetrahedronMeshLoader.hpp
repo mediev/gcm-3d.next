@@ -7,6 +7,7 @@
 #include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
 #include "libgcm/meshes/tetrahedron/MshTetrFileReader.hpp"
 #include "libgcm/Launcher.hpp"
+#include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
 #include <gmsh/Gmsh.h>
 #include <gmsh/GModel.h>

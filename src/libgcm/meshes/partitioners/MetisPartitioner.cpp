@@ -70,7 +70,7 @@ void MetisPartitioner::partMesh(TetrMeshFirstOrder* mesh, const uint nparts, Blo
 
 	TetrMeshFirstOrder* fineMesh = new TetrMeshFirstOrder [nparts];
 
-	for(int i = 0; i < nparts; i++) {
+	for(uint i = 0; i < nparts; i++) {
 		fineMesh[i].setRheologyModel(mesh->getRheologyModel());
 		fineMesh[i].setId("TetrMesh" + to_string(i));
 		fineMesh[i].initValuesInNodes(nodesNum[i]);
@@ -85,7 +85,7 @@ void MetisPartitioner::partMesh(TetrMeshFirstOrder* mesh, const uint nparts, Blo
 		fineMesh[tetrPart.get()[i]].addTetr(mesh->getTetrByLocalIndex(i));
 
 
-	for(int i = 0; i < nparts; i++) {
+	for(uint i = 0; i < nparts; i++) {
 		//fineMesh[i].preProcess();
 		fineMesh[i].snapshot(i);
 		block->addMesh(&fineMesh[i]);

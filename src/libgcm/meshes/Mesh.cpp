@@ -56,7 +56,7 @@ void Mesh::createOutline() {
             outline.max_coords[j] = - std::numeric_limits<real>::infinity();
         }
 
-        for(int i = 0; i < nodesNumber; i++)
+        for(uint i = 0; i < nodesNumber; i++)
         {
             CalcNode& node = getNodeByLocalIndex(i);
             if( true /*node.isLocal()*/ )

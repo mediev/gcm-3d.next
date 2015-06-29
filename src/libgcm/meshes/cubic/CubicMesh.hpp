@@ -6,6 +6,7 @@
 #include "libgcm/meshes/Mesh.hpp"
 #include "libgcm/util/Math.hpp"
 #include "libgcm/elements/Cube.hpp"
+#include "libgcm/snapshotters/VTK2UnstructuredCubicSnapshotWriter.hpp"
 
 namespace gcm {
 	class CubicMesh : public Mesh {

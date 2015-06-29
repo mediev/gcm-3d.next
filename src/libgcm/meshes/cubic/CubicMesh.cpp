@@ -1,5 +1,4 @@
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
-#include "libgcm/snapshotters/VTKCubicSnapshotWriter.hpp"
 
 using namespace gcm;
 using std::numeric_limits;
@@ -111,5 +110,5 @@ void CubicMesh::checkTopology(float tau) {
 
 const SnapshotWriter& CubicMesh::getSnaphotter() const
 {
-    return VTKCubicSnapshotWriter::getInstance();
+    return VTK2UnstructuredCubicSnapshotWriter::getInstance();
 }

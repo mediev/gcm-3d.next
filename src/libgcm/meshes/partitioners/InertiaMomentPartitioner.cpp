@@ -4,6 +4,7 @@ using namespace gcm;
 
 void InertiaMomentPartitioner::partMesh(Block *block, Mesh* mesh, 
                                         int N, real* proportions) {
+	fractalBalance(proportions, N);
 	// partition is executed by recursive bisection
 	bisectMesh(block, mesh, N, proportions);
 }
@@ -113,3 +114,37 @@ void InertiaMomentPartitioner::bisectMesh(Block *block, Mesh* mesh,
 	bisectMesh(block, mesh1, N / 2, proportions);
 	bisectMesh(block, mesh2, (N + 1) / 2, &(proportions[N/2]));
 }
+
+void InertiaMomentPartitioner::fractalBalance(real* arr, int N) {
+	if (N == 1) return;
+	
+	real *tmp = new real[N];
+	int f = 0; // index of next cell of the first half
+	int s = N/2; // index of next cell of the second half
+	
+	for(int counter = 1; counter < N+1; counter++) {
+		real maxVal = 0;
+		int maxInd = 0;
+		for(int ind = 0; ind < N; ind++)
+			if (arr[ind] > maxVal) {
+				maxVal = arr[ind];
+				maxInd = ind;
+			}
+		arr[maxInd] = 0;
+		if ( (counter % 4 == 0) || (counter % 4 == 1) ) {
+			if (f < N/2) {tmp[f] = maxVal; f++;}
+			else         {tmp[s] = maxVal; s++;}
+		}
+		else {
+			if (s < N) {tmp[s] = maxVal; s++;}
+			else       {tmp[f] = maxVal; f++;}
+		}
+	}
+	
+	for(int i = 0; i < N; i++)
+		arr[i] = tmp[i];
+	
+	fractalBalance(arr, N/2);
+	fractalBalance(&(arr[N/2]), (N+1)/2);
+}
+
