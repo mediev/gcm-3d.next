@@ -110,5 +110,5 @@ void CubicMesh::checkTopology(float tau) {
 
 const SnapshotWriter& CubicMesh::getSnaphotter() const
 {
-    return VTK2UnstructuredCubicSnapshotWriter::getInstance();
+    return VTKCubicSnapshotWriter::getInstance();
 }
