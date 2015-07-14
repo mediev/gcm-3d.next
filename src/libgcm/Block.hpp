@@ -2,6 +2,7 @@
 #define	BLOCK_HPP
 
 #include "libgcm/Launcher.hpp"
+#include "libgcm/Dispatcher.hpp"
 #include "libgcm/meshes/cubic/CubicMeshLoader.hpp"
 #include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
 #include "libgcm/solvers/GcmSolver.hpp"
@@ -15,7 +16,7 @@ namespace gcm {
 	class Block
 	{
 	protected:
-		std::string name;
+		uint id;
 		GcmSolver* solver;
 		RheologyModel* model;
 		std::vector<Mesh*> meshes;
@@ -25,6 +26,8 @@ namespace gcm {
 		void addMesh(Mesh *mesh);
 		void doNextTimeStep();
 		void checkTopology(real tau);
+		void setId(uint _id);
+		uint getId();
 	};
 }
 #endif	/* BLOCK_HPP */

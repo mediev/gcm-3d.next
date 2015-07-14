@@ -63,10 +63,10 @@ void MshTetrFileReader::readFile(string file, TetrMeshFirstOrder* mesh)
         nodes->push_back( node );
     }
 
-    mesh->initValuesInNodes( number_of_nodes );
+    mesh->initNodesWithoutValues( number_of_nodes );
     for(unsigned int i = 0; i < nodes->size(); i++)
     {
-        mesh->addNode( nodes->at(i) );
+        mesh->addNodeWithoutValues( nodes->at(i) );
     }
 
     nodes->clear();

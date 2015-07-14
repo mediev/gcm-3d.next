@@ -178,7 +178,7 @@ namespace gcm
             for (auto it = MeshNodeIterator<MeshType, snapshotterId>(_mesh); it.hasNext(); it++)
             {
                 auto& node = *it;
-				meshId->InsertNextValue(std::stoi(_mesh->getId()));
+				meshId->InsertNextValue(_mesh->getId());
 //                border->InsertNextValue(node.isBorder() ? 1 : 0);
                 /*used->InsertNextValue(node.isUsed() ? 1 : 0);
                 contact->InsertNextValue(node.isInContact() ? 1 : 0);

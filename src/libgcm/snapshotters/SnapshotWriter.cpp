@@ -32,5 +32,7 @@ string SnapshotWriter::getFileName(int step, string meshId) const
 
 string SnapshotWriter::dump(Mesh* mesh, int step) const
 {
-    return dump(mesh, step, getFileName(step, mesh->getId()));
+	char meshId[9];
+	sprintf(meshId, "%06u", mesh->getId());
+    return dump(mesh, step, getFileName(step, meshId));
 }

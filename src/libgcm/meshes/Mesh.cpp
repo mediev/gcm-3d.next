@@ -75,7 +75,7 @@ void Mesh::createOutline() {
     }
 }
 
-void Mesh::initValuesInNodes(uint numberOfNodes) {
+/*void Mesh::initValuesInNodes(uint numberOfNodes) {
 	// TODO: Does we call this function once?
 	assert(valuesInNodes == NULL);
 
@@ -93,7 +93,7 @@ void Mesh::initValuesInNodes(uint numberOfNodes) {
 	nodesMap.reserve(numberOfNodes);
 
 	nodeStorageSize = numberOfNodes;
-}
+}*/
 
 void Mesh::initValuesInNodes() {
 	// TODO: Does we call this function once?
@@ -187,14 +187,22 @@ bool Mesh::hasNode(int index)
 	return itr != nodesMap.end();
 }
 
-void Mesh::setId(std::string _id)
+void Mesh::setId(uint _id)
 {
 	id = _id;
 }
 
-std::string Mesh::getId() const
+uint Mesh::getId() const
 {
 	return id;
+}
+
+void Mesh::setRank(uint _rank) {
+	rank = _rank;
+}
+
+uint Mesh::getRank() const {
+	return rank;
 }
 
 std::string Mesh::snapshot(int number)

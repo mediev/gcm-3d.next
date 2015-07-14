@@ -23,17 +23,23 @@ namespace gcm {
 		 * Divide mesh into N meshes with respect to proportions.
          * @param block pointer to Block that owns the mesh
          * @param mesh mesh to divide
-         * @param N number of parts to divide
-         * @param proportions relative weights of resulting meshes
+         * @param proportions map<processor's rank, processor's load>
+		 * with proportions to divide the mesh among workers
          */
-		void partMesh(Block *block, Mesh *mesh, int N, real *proportions);
+		void partMesh(Block *block, Mesh *mesh, const std::map<uint, real>& propsMap);
 	private:
 		void findInertiaTensorMinAxis(Mesh *mesh, const vector3r &rC, 
 		                              vector3r &minAxis);
 		void findBisectionParameters(Mesh *mesh, real p,
 		                             vector3r &normal, vector3r &r0);
-		void bisectMesh(Block *block, Mesh *mesh, int N, real* proportions);
-		void fractalBalance(real *arr, int N);
+		void bisectMesh(Block *block, Mesh *mesh, uint N, real* proportions, uint *ranks);
+		/**
+		 * Balance the array around its center N/2.
+		 * Then recursively balance two resulting arrays...
+         * @param arr array to balance
+         * @param N size of array
+         */
+		void fractalBalance(real *arr, uint *ranks, uint N);
 
 	};
 }

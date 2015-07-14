@@ -6,11 +6,11 @@ const std::string Engine::SNAPSHOT_OUTPUT_PATH_PATTERN = "snap_mesh_%{MESH}%{SUF
 
 Engine::Engine()
 {
-	//rank = MPI::COMM_WORLD.Get_rank();
-	//numberOfWorkers = MPI::COMM_WORLD.Get_size();
+	rank = MPI::COMM_WORLD.Get_rank();
+	numberOfWorkers = MPI::COMM_WORLD.Get_size();
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
-
+	
 	fixedTimeStep = -1;
 }
 
@@ -19,11 +19,14 @@ void Engine::loadTask(const Task &task)
 	currentTime = 0;
 	requiredTime = task.requiredTime;
 	tau = task.timeStep;
-	for(auto it = task.bodies.begin(); it != task.bodies.end(); it++) {
+	for(uint i = 0; i < task.bodies.size(); i++) {
 		Body *body = new Body();
-		body->loadTask(*it);
+		body->setId(task.bodies[i].id);
 		bodies.push_back(body);
-	}	
+	}
+	Dispatcher::getInstance().distributeProcessors(task, numberOfWorkers);
+	for(uint i = 0; i < task.bodies.size(); i++)
+		bodies[i]->loadTask(task.bodies[i]);
 }
 
 void Engine::setTimeStep(real dt)
@@ -35,6 +38,10 @@ void Engine::setTimeStep(real dt)
 real Engine::getTimeStep()
 {
 	return fixedTimeStep;
+}
+
+int Engine::getNumberOfWorkers() {
+	return numberOfWorkers;
 }
 
 void Engine::registerRheologyModel(RheologyModel* model)
