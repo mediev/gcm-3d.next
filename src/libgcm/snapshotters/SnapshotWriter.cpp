@@ -21,7 +21,7 @@ string SnapshotWriter::getFileName(int step, string meshId) const
         }
     };
 
-    replace("%{RANK}", to_string (0));
+    replace("%{RANK}", to_string (MPI::COMM_WORLD.Get_rank()));
     replace("%{STEP}", to_string (step));
     replace("%{MESH}", meshId);
     replace("%{SUFFIX}", suffix);

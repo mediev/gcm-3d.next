@@ -13,7 +13,7 @@ void Dispatcher::distributeProcessors(const Task &task, const uint numberOfWorke
 }
 
 void Dispatcher::getProportionsOfBlockDivision(const uint blockId, 
-                                               std::map<uint, real>& proportions) {
+                                               std::map<int, real>& proportions) {
 	proportions.clear();
 	assert( procVSblock.begin()->second.find(blockId)
 	                != procVSblock.begin()->second.end() );
@@ -45,7 +45,7 @@ void Dispatcher::initializeProcVSblock(const Task& task, const uint numberOfWork
 		std::map<uint, real> tmp;
 		for(auto block = blocks.begin(); block != blocks.end(); block++)
 			tmp.emplace(block->id, 0.0);
-		procVSblock.emplace(procId, tmp);
+		procVSblock.emplace((int) procId, tmp);
 	}
 	
 	real totalCost = 0;
@@ -59,7 +59,7 @@ void Dispatcher::initializeProcVSblock(const Task& task, const uint numberOfWork
 		                         blocks[i].computationalCost / totalCost);
 		if (procPerblock == 0) procPerblock = 1;
 		for (uint j = 0; j < procPerblock; j++) {
-			uint minLoadedProcId; uint number; real minLoad;
+			int minLoadedProcId; uint number; real minLoad;
 			findMinLoadedProcId(minLoadedProcId, number, minLoad);
 			procVSblock.at(minLoadedProcId).at(blocks[i].id) = 
 			                    blocks[i].computationalCost / procPerblock;
@@ -70,7 +70,7 @@ void Dispatcher::initializeProcVSblock(const Task& task, const uint numberOfWork
 int Dispatcher::correctMaxLoadedMostShared() {
 	uint numberOfWorkers = procVSblock.size();
 	
-	uint maxLoadedProcId; uint number; real maxProcLoad;
+	int maxLoadedProcId; uint number; real maxProcLoad;
 	findMaxLoadedProcId(maxLoadedProcId, number, maxProcLoad);
 	real averageProcLoad = 0;
 	for(auto p = procVSblock.begin(); p != procVSblock.end(); p++) {
@@ -129,15 +129,15 @@ int Dispatcher::correctMaxLoadedMostShared() {
 		if (p->second.at(mostSharedBlockId) != 0)
 			p->second.at(mostSharedBlockId) += x;
 	procVSblock.at(maxLoadedProcId).at(mostSharedBlockId) -= 
-	                                  maxNumberOfSharingProcessors * x;
+	                                   maxNumberOfSharingProcessors * x;
 	
 	return 1;
 }
 
 int Dispatcher::correctMaxLoadedMinLoaded() {
-	uint maxId; uint numberOfMaxLoaded; real maxLoad;
+	int maxId; uint numberOfMaxLoaded; real maxLoad;
 	findMaxLoadedProcId(maxId, numberOfMaxLoaded, maxLoad);
-	uint minId; uint numberOfMinLoaded; real minLoad;
+	int minId; uint numberOfMinLoaded; real minLoad;
 	findMinLoadedProcId(minId, numberOfMinLoaded, minLoad);
 	if (numberOfMinLoaded < numberOfMaxLoaded) return 0;
 	uint mostSuitableBlockId = -1;
@@ -166,7 +166,7 @@ int Dispatcher::correctMaxLoadedMinLoaded() {
 	return 1;
 }
 
-void Dispatcher::findMinLoadedProcId(uint &id, uint &number, real &minLoad) {
+void Dispatcher::findMinLoadedProcId(int &id, uint &number, real &minLoad) {
 	minLoad = std::numeric_limits<real>::infinity();
 	for(auto p = procVSblock.begin(); p != procVSblock.end(); p++) {
 		real load = 0;
@@ -181,7 +181,7 @@ void Dispatcher::findMinLoadedProcId(uint &id, uint &number, real &minLoad) {
 	}
 }
 
-void Dispatcher::findMaxLoadedProcId(uint &id, uint &number, real &maxLoad) {
+void Dispatcher::findMaxLoadedProcId(int &id, uint &number, real &maxLoad) {
 	maxLoad = - 1;
 	for(auto p = procVSblock.begin(); p != procVSblock.end(); p++) {
 		real load = 0;

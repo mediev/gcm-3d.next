@@ -11,7 +11,7 @@ void Block::loadTask(const BlockProperties& blProp) {
 	model = engine.getRheologyModel(blProp.modelType);
 	solver = engine.getSolver(blProp.solverType);
 	
-	std::map<uint, real> procLoad;
+	std::map<int, real> procLoad;
 	Dispatcher::getInstance().getProportionsOfBlockDivision(id, procLoad);
 	
 	if (blProp.meshType == "CubicMesh") {
@@ -24,13 +24,14 @@ void Block::loadTask(const BlockProperties& blProp) {
 		InertiaMomentPartitioner part;
 		part.partMesh(this, coarseMesh, procLoad);
 		for(uint i = 0; i < meshes.size(); i++) {
-			coarseMesh->setId(1000 * id + i);
+			meshes[i]->setId(1000 * id + i);
 			CubicMesh *fineMesh = new CubicMesh();
 			fineMesh->setRheologyModel(model);
-			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]),
-			                              fineMesh, blProp.spatialStep);
-			meshes[i] = fineMesh;
-			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
+			if( meshes[i]->getRank() == MPI::COMM_WORLD.Get_rank() ) {
+				loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]),
+				                              fineMesh, blProp.spatialStep);
+				meshes[i] = fineMesh;
+			}
 		}
 
 	} else if (blProp.meshType == "TetrahedronMesh") {
@@ -46,7 +47,6 @@ void Block::loadTask(const BlockProperties& blProp) {
 			meshes[i]->initValuesInNodes();
 			meshes[i]->preProcess();
 			meshes[i]->setId(1000 * id + i);
-			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
 		}
 	}
 }
@@ -56,10 +56,11 @@ void Block::addMesh(Mesh* mesh) {
 }
 
 void Block::doNextTimeStep() {
-	for(auto mesh = meshes.begin(); mesh != meshes.end(); mesh++) {
-		solver->doNextTimeStep(*mesh);
-		(*mesh)->snapshot(1);
-	}
+	for(auto mesh = meshes.begin(); mesh != meshes.end(); mesh++)
+		if( (*mesh)->getRank() == MPI::COMM_WORLD.Get_rank() ) {
+			solver->doNextTimeStep(*mesh);
+			(*mesh)->snapshot(1);
+		}
 }
 
 void Block::checkTopology(real tau)

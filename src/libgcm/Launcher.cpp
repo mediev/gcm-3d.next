@@ -37,33 +37,36 @@ Launcher::Launcher(const uint taskNum)
 	} else if (taskNum == 222) {
 		
 		Geometry geom;
-		geom.x0 = geom.y0 = geom.z0 = 6;
-		geom.hx = 2;
-		geom.hy = 1;
-		geom.hz = 1;
+		geom.x0 = geom.y0 = -5; geom.z0 = 7;
+		geom.hx = 10;
+		geom.hy = 10;
+		geom.hz = 20;
 		BlockProperties blProp1;
-		blProp1.computationalCost = 1;
+		blProp1.computationalCost = 2;
 		blProp1.geometry = geom;
 		blProp1.meshType = "CubicMesh";
-		blProp1.spatialStep = 0.1;
+		blProp1.spatialStep = 0.25;
 		blProp1.modelType = "IdealElasticRheologyModel";
 		blProp1.solverType = "IdealElasticGcmSolver";
-		blProp1.coarseSpatialStep = 0.1;
+		blProp1.coarseSpatialStep = 1;
 		blProp1.id = 00;
 
-		geom.x0 = geom.y0 = 6; geom.z0 = 7;
+		geom.x0 = geom.y0 = -5; geom.z0 = 27;
+		geom.hx = 10;
+		geom.hy = 10;
+		geom.hz = 10;
 		BlockProperties blProp2;
-		blProp2.computationalCost = 2;
+		blProp2.computationalCost = 1;
 		blProp2.geometry = geom;
 		blProp2.meshType = "CubicMesh";
-		blProp2.spatialStep = 0.05;
+		blProp2.spatialStep = 0.25;
 		blProp2.modelType = "IdealElasticRheologyModel";
 		blProp2.solverType = "IdealElasticGcmSolver";
-		blProp2.coarseSpatialStep = 0.2;
+		blProp2.coarseSpatialStep = 1;
 		blProp2.id = 01;
 		
 		BodyProperties boProp1;
-		boProp1.computationalCost = 1;
+		boProp1.computationalCost = 3;
 		boProp1.blocks.push_back(blProp1);
 		boProp1.blocks.push_back(blProp2);
 		boProp1.id = 0;
@@ -71,7 +74,7 @@ Launcher::Launcher(const uint taskNum)
 		task.bodies.push_back(boProp1);
 		
 		BlockProperties blProp3;
-		blProp3.computationalCost = 2;
+		blProp3.computationalCost = 1;
 		blProp3.modelType = "IdealElasticRheologyModel";
 		blProp3.solverType = "IdealElasticGcmSolver";
 		blProp3.meshType = "TetrahedronMesh";

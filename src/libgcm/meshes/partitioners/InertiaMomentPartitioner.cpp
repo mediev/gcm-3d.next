@@ -3,10 +3,10 @@
 using namespace gcm;
 
 void InertiaMomentPartitioner::partMesh(Block* block, Mesh* mesh, 
-                                        const std::map<uint, real>& propsMap) {
+                                        const std::map<int, real>& propsMap) {
 	uint N = propsMap.size();
 	real *proportions = new real[N];
-	uint *ranks = new uint[N];
+	int *ranks = new int[N];
 	uint counter = 0;
 	for(auto it = propsMap.begin(); it != propsMap.end(); it++) {
 		proportions[counter] = it->second;
@@ -78,7 +78,7 @@ void InertiaMomentPartitioner::findBisectionParameters(Mesh* mesh, real p,
 		ind = 1;
 	if (fabs(normal[ind]) < fabs(normal[2]))
 		ind = 2;
-	if (fabs(normal[ind]) > cos(M_PI/12)) {
+	if ( (fabs(normal[ind]) > cos(M_PI/12)) || (mesh->getType() == "CubicMesh") ) {
 		normal[ind] = 1;
 		normal[(ind+1)%3] = normal[(ind+2)%3] = 0;
 	}
@@ -95,7 +95,7 @@ void InertiaMomentPartitioner::findBisectionParameters(Mesh* mesh, real p,
 }
 
 void InertiaMomentPartitioner::bisectMesh(Block *block, Mesh* mesh, 
-                                          uint N, real* proportions, uint *ranks) {
+                                          uint N, real* proportions, int *ranks) {
 	// bottom of recursion
 	if (N == 1) {
 		mesh->setRank(*ranks);
@@ -143,11 +143,11 @@ void InertiaMomentPartitioner::bisectMesh(Block *block, Mesh* mesh,
 	bisectMesh(block, mesh2, (N + 1) / 2, &(proportions[N/2]), &(ranks[N/2]));
 }
 
-void InertiaMomentPartitioner::fractalBalance(real* arr, uint *ranks, uint N) {
+void InertiaMomentPartitioner::fractalBalance(real* arr, int *ranks, uint N) {
 	if (N == 1) return;
 	
 	real *tmpArr = new real[N];
-	uint *tmpRanks = new uint[N];
+	int *tmpRanks = new int[N];
 	uint f = 0; // index of next cell of the first half
 	uint s = N/2; // index of next cell of the second half
 	

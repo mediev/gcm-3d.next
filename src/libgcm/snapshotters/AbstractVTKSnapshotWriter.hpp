@@ -170,15 +170,15 @@ namespace gcm
             float _norm[3];
             */
 			
-			auto meshId = vtkSmartPointer<vtkIntArray>::New();
-            meshId->SetName("meshId");
+			auto worker_rank = vtkSmartPointer<vtkIntArray>::New();
+            worker_rank->SetName("worker_rank");
 			
             dumpMeshSpecificData(_mesh, grid, points);
 
             for (auto it = MeshNodeIterator<MeshType, snapshotterId>(_mesh); it.hasNext(); it++)
             {
                 auto& node = *it;
-				meshId->InsertNextValue(_mesh->getId());
+				worker_rank->InsertNextValue(_mesh->getRank());
 //                border->InsertNextValue(node.isBorder() ? 1 : 0);
                 /*used->InsertNextValue(node.isUsed() ? 1 : 0);
                 contact->InsertNextValue(node.isInContact() ? 1 : 0);
@@ -225,7 +225,7 @@ namespace gcm
 
            grid->SetPoints(points);
 
-		   fd->AddArray(meshId);
+		   fd->AddArray(worker_rank);
            //fd->AddArray(contact);
 //           fd->AddArray(border);
            /*fd->AddArray(used);

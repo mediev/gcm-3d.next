@@ -197,11 +197,11 @@ uint Mesh::getId() const
 	return id;
 }
 
-void Mesh::setRank(uint _rank) {
+void Mesh::setRank(int _rank) {
 	rank = _rank;
 }
 
-uint Mesh::getRank() const {
+int Mesh::getRank() const {
 	return rank;
 }
 

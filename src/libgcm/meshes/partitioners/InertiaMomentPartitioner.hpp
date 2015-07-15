@@ -26,20 +26,20 @@ namespace gcm {
          * @param proportions map<processor's rank, processor's load>
 		 * with proportions to divide the mesh among workers
          */
-		void partMesh(Block *block, Mesh *mesh, const std::map<uint, real>& propsMap);
+		void partMesh(Block *block, Mesh *mesh, const std::map<int, real>& propsMap);
 	private:
 		void findInertiaTensorMinAxis(Mesh *mesh, const vector3r &rC, 
 		                              vector3r &minAxis);
 		void findBisectionParameters(Mesh *mesh, real p,
 		                             vector3r &normal, vector3r &r0);
-		void bisectMesh(Block *block, Mesh *mesh, uint N, real* proportions, uint *ranks);
+		void bisectMesh(Block *block, Mesh *mesh, uint N, real* proportions, int *ranks);
 		/**
 		 * Balance the array around its center N/2.
 		 * Then recursively balance two resulting arrays...
          * @param arr array to balance
          * @param N size of array
          */
-		void fractalBalance(real *arr, uint *ranks, uint N);
+		void fractalBalance(real *arr, int *ranks, uint N);
 
 	};
 }

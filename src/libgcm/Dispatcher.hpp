@@ -18,11 +18,11 @@ namespace gcm {
 		// The sum of the string procId is total load on proc with procId.
 		// The sum of the column blockId is total computationalCost of 
 		// block with blockId.
-		std::map<uint, std::map<uint, real>> procVSblock;
+		std::map<int, std::map<uint, real>> procVSblock;
 		
 	public:
 		void distributeProcessors(const Task &task, const uint numberOfWorkers);
-		void getProportionsOfBlockDivision(const uint blockId, std::map<uint, real> &proportions);
+		void getProportionsOfBlockDivision(const uint blockId, std::map<int, real> &proportions);
 		
 	private:
 		void initializeProcVSblock(const Task &task, const uint numberOfWorkers);
@@ -61,13 +61,13 @@ namespace gcm {
          * @param number amount of processors with this minimal load
          * @param minLoad value of minimal load
          */
-		void findMinLoadedProcId(uint &id, uint &number, real &minLoad);
+		void findMinLoadedProcId(int &id, uint &number, real &minLoad);
 		/**
          * @param id rank of maximally loaded processor
          * @param number amount of processors with this maximal load
          * @param minLoad value of maximal load
          */
-		void findMaxLoadedProcId(uint &id, uint &number, real &maxLoad);
+		void findMaxLoadedProcId(int &id, uint &number, real &maxLoad);
 	public:
 		bool isLoadBalanced();
 		void printProcVSblock();

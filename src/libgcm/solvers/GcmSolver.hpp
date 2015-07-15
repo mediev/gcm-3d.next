@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <mpi.h>
 
 #include "libgcm/meshes/Mesh.hpp"
 

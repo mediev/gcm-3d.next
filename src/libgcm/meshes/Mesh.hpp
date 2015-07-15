@@ -28,7 +28,7 @@ namespace gcm {
         uint id;
 		// Rank of worker that computes mesh. 
 		// Mesh has only one worker.
-		uint rank;
+		int rank;
         // Type of mesh
 		std::string type;
 
@@ -228,8 +228,8 @@ namespace gcm {
 
         void setId(uint _id);
         uint getId() const;
-		void setRank(uint _rank);
-		uint getRank() const;
+		void setRank(int _rank);
+		int getRank() const;
         std::string getType();
 
         void setMovable(bool movable);

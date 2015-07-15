@@ -76,6 +76,7 @@ void Engine::calculate() {
 }
 
 void Engine::doNextTimeStep() {
+	MPI::COMM_WORLD.Barrier();
 	for( auto it = bodies.begin(); it != bodies.end(); ++it )
 		(*it)->doNextTimeStep();
 }
