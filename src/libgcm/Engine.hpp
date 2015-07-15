@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
-#include "mpi.h"
+#include <mpi.h>
 
 #include "libgcm/util/Singleton.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
@@ -14,29 +14,31 @@
 #include "libgcm/solvers/IdealElasticGcmSolver.hpp"
 #include "libgcm/rheologyModels/models/IdealElasticRheologyModel.hpp"
 #include "libgcm/Launcher.hpp"
+#include "libgcm/Dispatcher.hpp"
 #include "libgcm/Body.hpp"
 #include "libgcm/Block.hpp"
 
 namespace gcm {
 	class Body;
+	class Dispatcher;
 	struct Task;
 	
 	class Engine : public Singleton<Engine>
 	{
 	protected:
-		int rank;
-		int numberOfWorkers;
+		uint rank;
+		uint numberOfWorkers;
 		
 		real currentTime;
 		real requiredTime;
 		real tau;
+		// What is it? tau?
+		real fixedTimeStep;
 
 		std::map<std::string, RheologyModel*> rheologyModels;
 		std::map<std::string, GcmSolver*> gcmSolvers;
 
 		std::vector<Body*> bodies;
-
-		real fixedTimeStep;
 
 	public:
 		Engine();
@@ -48,6 +50,8 @@ namespace gcm {
 		void setTimeStep(real dt);
 		// Returns fixedTimeStep
 		real getTimeStep();
+		
+		int getNumberOfWorkers();
 
 		void registerRheologyModel(RheologyModel* model);
 		void registerGcmSolver(GcmSolver* solver);

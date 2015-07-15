@@ -11,5 +11,10 @@ IdealElasticGcmSolver::~IdealElasticGcmSolver() {
 }
 
 void IdealElasticGcmSolver::doNextTimeStep(Mesh *mesh) {
-	std::cout << type << " doNextTimeStep, meshType = " << mesh->getType() << std::endl;
+	std::cout << "doNextTimeStep. Worker: " << MPI::COMM_WORLD.Get_rank()
+	          << " type of solver: " << type 
+	          << " meshId: " << mesh->getId()
+	          << " meshRank: " << mesh->getRank()
+	          << " meshType: " << mesh->getType()
+	          << std::endl;
 }

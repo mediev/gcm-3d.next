@@ -6,11 +6,14 @@ Body::Body() {
 }
 
 void Body::loadTask(const BodyProperties& prop) {
-	for(auto it = prop.blocks.begin(); it != prop.blocks.end(); it++) {
+	printf("Loading task in body %d\n", id);
+	for(uint i = 0; i < prop.blocks.size(); i++) {
 		Block *block = new Block();
-		block->loadTask(*it);
+		block->setId(prop.blocks[i].id);
 		blocks.push_back(block);
 	}
+	for(uint i = 0; i < prop.blocks.size(); i++)
+		blocks[i]->loadTask(prop.blocks[i]);
 }
 
 void Body::doNextTimeStep()
@@ -26,3 +29,12 @@ void Body::checkTopology()
 		(*it)->checkTopology(tau);
 	}
 }
+
+void Body::setId(uint _id) {
+	id = _id;
+}
+
+uint Body::getId() {
+	return id;
+}
+

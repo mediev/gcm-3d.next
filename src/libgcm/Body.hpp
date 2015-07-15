@@ -11,12 +11,15 @@ namespace gcm {
 	
 	class Body {
 	protected:
+		uint id;
 		std::vector<Block*> blocks;
 	public:
 		Body();
 		void loadTask(const BodyProperties &prop);
 		void checkTopology();
 		void doNextTimeStep();
+		void setId(uint _id);
+		uint getId();
 	};
 }
 #endif	/* BODY_HPP */

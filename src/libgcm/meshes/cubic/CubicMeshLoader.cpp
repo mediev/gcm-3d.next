@@ -15,6 +15,7 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
 	RheologyModel* rModel = mesh->getRheologyModel();
 	
 	mesh->initNodesWithoutValues((numX+1)*(numY+1)*(numZ+1));
+	uint startGlobalIndex = globalIndexOfNodes;
     for( uint k = 0; k <= numZ; k++ )
         for( uint j = 0; j <= numY; j++ )
             for( uint i = 0; i <= numX; i++ ) {
@@ -23,7 +24,7 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
                 node.coords[0] = geom.x0 + i*h;
                 node.coords[1] = geom.y0 + j*h;
                 node.coords[2] = geom.z0 + k*h;
-                mesh->addNode(node);
+                mesh->addNodeWithoutValues(node);
 			}
 
 	mesh->initElements(numX * numY * numZ);
@@ -31,14 +32,14 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
         for( uint j = 0; j < numY; j++ )
             for( uint i = 0; i < numX; i++ ) {
 				uint vertices[8];
-				vertices[0] =  k      * (numX+1) * (numY+1) +  j      * (numX+1) +  i;
-				vertices[1] =  k      * (numX+1) * (numY+1) +  j      * (numX+1) + (i + 1);
-				vertices[2] =  k      * (numX+1) * (numY+1) + (j + 1) * (numX+1) +  i;
-				vertices[3] =  k      * (numX+1) * (numY+1) + (j + 1) * (numX+1) + (i + 1);
-				vertices[4] = (k + 1) * (numX+1) * (numY+1) +  j      * (numX+1) +  i;
-				vertices[5] = (k + 1) * (numX+1) * (numY+1) +  j      * (numX+1) + (i + 1);
-				vertices[6] = (k + 1) * (numX+1) * (numY+1) + (j + 1) * (numX+1) +  i;
-				vertices[7] = (k + 1) * (numX+1) * (numY+1) + (j + 1) * (numX+1) + (i + 1);
+				vertices[0] =  k      * (numX+1) * (numY+1) +  j      * (numX+1) +  i      + startGlobalIndex;
+				vertices[1] =  k      * (numX+1) * (numY+1) +  j      * (numX+1) + (i + 1) + startGlobalIndex;
+				vertices[2] =  k      * (numX+1) * (numY+1) + (j + 1) * (numX+1) +  i      + startGlobalIndex;
+				vertices[3] =  k      * (numX+1) * (numY+1) + (j + 1) * (numX+1) + (i + 1) + startGlobalIndex;
+				vertices[4] = (k + 1) * (numX+1) * (numY+1) +  j      * (numX+1) +  i      + startGlobalIndex;
+				vertices[5] = (k + 1) * (numX+1) * (numY+1) +  j      * (numX+1) + (i + 1) + startGlobalIndex;
+				vertices[6] = (k + 1) * (numX+1) * (numY+1) + (j + 1) * (numX+1) +  i      + startGlobalIndex;
+				vertices[7] = (k + 1) * (numX+1) * (numY+1) + (j + 1) * (numX+1) + (i + 1) + startGlobalIndex;
 				Cube cube = Cube(vertices[0], vertices);
 				mesh->addElement(cube);
 			}
@@ -47,6 +48,8 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
 
 void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine, 
                                              real h) {
+	fine->setRank(coarse->getRank());
+	fine->setId(coarse->getId());
 	CalcNode node1 = coarse->getNodeByLocalIndex(0);
 	
 	AABB outline = coarse->getOutline();

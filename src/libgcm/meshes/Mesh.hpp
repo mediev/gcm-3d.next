@@ -25,7 +25,10 @@ namespace gcm {
     class Mesh {
     protected:
     	// Id of mesh
-        std::string id;
+        uint id;
+		// Rank of worker that computes mesh. 
+		// Mesh has only one worker.
+		int rank;
         // Type of mesh
 		std::string type;
 
@@ -80,7 +83,7 @@ namespace gcm {
          * Nodal routines
          */
         // Allocate memory for values in nodes and reserve memory in mesh
-		void initValuesInNodes(uint numberOfNodes);
+		//void initValuesInNodes(uint numberOfNodes);
 		// Allocate memory for already stored nodes
 		void initValuesInNodes();
 		// Add node to storage
@@ -223,17 +226,10 @@ namespace gcm {
         // We do believe that all children classes will use the same node storage.
         // If it's not the case, we need to convert these functions into virtual.
 
-        /*
-         * Sets mesh id.
-         */
-        void setId(std::string _id);
-        /*
-         * Returns mesh id.
-         */
-        std::string getId() const;
-        /*
-         * Returns type of mesh.
-         */
+        void setId(uint _id);
+        uint getId() const;
+		void setRank(int _rank);
+		int getRank() const;
         std::string getType();
 
         void setMovable(bool movable);

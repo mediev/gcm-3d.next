@@ -25,19 +25,27 @@ namespace gcm {
 	struct BlockProperties {
 		// Relative to other blocks of this body computational cost of the block.
 		// Used to distribute processors of the body among blocks of the body.
-		int computationalCost; 
+		real computationalCost; 
+		uint id;
 		std::string meshType;
 		std::string modelType;
 		std::string solverType;
 		Geometry geometry;
 		real spatialStep;
 		real coarseSpatialStep;
+		bool operator<(const BlockProperties &other) const {
+			return computationalCost < other.computationalCost;
+		}
 	};
 	struct BodyProperties {
 		// Relative to other bodies of the task computational cost of the body.
 		// Used to distribute processors of the program among bodies.
-		int computationalCost;
+		real computationalCost;
+		uint id;
 		std::vector<BlockProperties> blocks; 
+		bool operator<(const BodyProperties &other) const {
+			return computationalCost < other.computationalCost;
+		}
 	};
 	struct Task {
 		real timeStep;

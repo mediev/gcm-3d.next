@@ -21,7 +21,7 @@ string SnapshotWriter::getFileName(int step, string meshId) const
         }
     };
 
-    replace("%{RANK}", to_string (0));
+    replace("%{RANK}", to_string (MPI::COMM_WORLD.Get_rank()));
     replace("%{STEP}", to_string (step));
     replace("%{MESH}", meshId);
     replace("%{SUFFIX}", suffix);
@@ -32,5 +32,7 @@ string SnapshotWriter::getFileName(int step, string meshId) const
 
 string SnapshotWriter::dump(Mesh* mesh, int step) const
 {
-    return dump(mesh, step, getFileName(step, mesh->getId()));
+	char meshId[9];
+	sprintf(meshId, "%06u", mesh->getId());
+    return dump(mesh, step, getFileName(step, meshId));
 }

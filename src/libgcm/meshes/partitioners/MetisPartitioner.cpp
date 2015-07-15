@@ -77,8 +77,8 @@ void MetisPartitioner::partMesh(TetrMeshFirstOrder* mesh, const uint nparts, Tet
 	// Creating meshes for each part
 	for(uint i = 0; i < nparts; i++) {
 		coarsePart[i].setRheologyModel(mesh->getRheologyModel());
-		coarsePart[i].setId(to_string(1000 + i));
-		coarsePart[i].initValuesInNodes(nodesNum[i] + (int)(objval / 2 + 1));
+		coarsePart[i].setId(1000 + i);
+		coarsePart[i].initNodesWithoutValues(nodesNum[i] + (int)(objval / 2 + 1));
 		coarsePart[i].createTetrs(tetrsNum[i]);
 	}
 
@@ -164,7 +164,7 @@ void MetisPartitioner::partMesh(CubicMesh* mesh, const uint nparts, CubicMesh* c
 	// Creating meshes for each part
 	for(uint i = 0; i < nparts; i++) {
 		coarsePart[i].setRheologyModel(mesh->getRheologyModel());
-		coarsePart[i].setId(to_string(1000 + i));
+		coarsePart[i].setId(1000 + i);
 		coarsePart[i].initNodesWithoutValues(nodesNum[i] + (int)(objval));
 		coarsePart[i].initElements(cubesNum[i]);
 	}
