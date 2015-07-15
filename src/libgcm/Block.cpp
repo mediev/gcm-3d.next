@@ -2,6 +2,8 @@
 
 using namespace gcm;
 
+using std::to_string;
+
 Block::Block() {
 }
 
@@ -31,37 +33,44 @@ void Block::loadTask(const BlockProperties& prop) {
 			fineMesh->setRheologyModel(model);
 			loader.loadFineMeshFromCoarse(static_cast<CubicMesh *> (meshes[i]),
 			                              fineMesh, prop.spatialStep);
-			fineMesh->setId(std::to_string(i));
+			fineMesh->setId(to_string(i));
 			meshes[i] = fineMesh;
 			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
 		}
 
 	} else if (prop.meshType == "TetrahedronMesh") {
+		uint nparts = 2;
 		TetrMeshFirstOrder* coarseMesh = new TetrMeshFirstOrder();
 		coarseMesh->setId("999");
 		coarseMesh->setRheologyModel(model);
-
 		TetrahedronMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", prop.spatialStep);
 
-//		MetisPartitioner::getInstance().partMesh(mesh, 2, this);
+		TetrMeshFirstOrder* coarsePart = new TetrMeshFirstOrder [nparts];
+		MetisPartitioner::getInstance().partMesh(coarseMesh, nparts, coarsePart);
 
-		InertiaMomentPartitioner part;
-		real *proportions = new real[8];
-		proportions[0] = 1;
-		proportions[1] = 1;
-		proportions[2] = 1;
-		proportions[3] = 1;
-		proportions[4] = 1;
-		proportions[5] = 1;
-		proportions[6] = 1;
-		proportions[7] = 1;
-		part.partMesh(this, coarseMesh, 8, proportions);
-		for(uint i = 0; i < meshes.size(); i++) {
-			meshes[i]->initValuesInNodes();
-			meshes[i]->preProcess();
-			meshes[i]->setId(std::to_string(i));
-			std::cout << meshes[i]->getOutline() << meshes[i]->getNodesNumber() << std::endl;
+		//delete[] coarsePart;
+		//delete coarseMesh;
+	} else if (prop.meshType == "CubicMesh_Metis") {
+		uint nparts = 2;
+		CubicMesh* coarseMesh = new CubicMesh();
+		coarseMesh->setId("666");
+		coarseMesh->setRheologyModel(model);
+
+		CubicMeshLoader& loader = CubicMeshLoader::getInstance();
+		loader.loadCoarseMesh(coarseMesh, prop.geometry, prop.coarseSpatialStep);
+
+		CubicMesh* coarsePart = new CubicMesh [nparts];
+		MetisPartitioner::getInstance().partMesh(coarseMesh, nparts, coarsePart);
+		for(uint i = 0; i < nparts; i++) {
+			CubicMesh* fineMesh = new CubicMesh();
+			fineMesh->setId(to_string(2000 + i));
+			fineMesh->setRheologyModel(model);
+			loader.loadFineMeshFromCoarse(&coarsePart[i], fineMesh, prop.spatialStep);
+
+			this->addMesh(fineMesh);
 		}
+
+		//delete[] coarsePart;
 	}
 }
 

@@ -24,6 +24,9 @@ Launcher::Launcher(const uint taskNum)
 	} else if(taskNum == 2) {
 		blProp.meshType = "TetrahedronMesh";
 		blProp.spatialStep = 1.0;
+	} else if(taskNum == 21) {
+		blProp.meshType = "CubicMesh_Metis";
+		blProp.spatialStep = 0.1;
 	}
 
 	blProp.modelType = "IdealElasticRheologyModel";

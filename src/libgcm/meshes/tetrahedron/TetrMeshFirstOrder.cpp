@@ -472,10 +472,10 @@ TetrahedronFirstOrder& TetrMeshFirstOrder::getTetrByLocalIndex(uint index)
 
 TetrahedronFirstOrder& TetrMeshFirstOrder::getTetr(uint index)
 {
-	assert(index >= 0);
+	assert_ge(index, 0);
 	MapIter itr;
     itr = tetrsMap.find(index);
-    assert( itr != tetrsMap.end() );
+    assert_ne( itr, tetrsMap.end() );
     return tetrs1[itr->second];
 }
 

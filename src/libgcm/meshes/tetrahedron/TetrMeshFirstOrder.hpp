@@ -102,10 +102,10 @@ namespace gcm {
 		void addElement(Element& element) override;
 		vector3r getCenterOfElement(uint index) override;
 		void addElementWithNodes(Element& element, Mesh* mesh) override;
-
-		
 		Mesh *getMeshOfTheSameType() override;
-
+		Element& getElementByLocalIndex(uint index) override;
+		uint getElementsNumber() override;
+		
 		/*
 		 * Tetrahedron's routines
 		 */
@@ -114,9 +114,6 @@ namespace gcm {
 		// Resizing of storage
 		void createTetrs(int number);
 		int getTetrsNumber();
-		
-		Element& getElementByLocalIndex(uint index) override;
-		uint getElementsNumber() override;
 
 		// Returns tetrahedron from tetrs1 by local index
 		TetrahedronFirstOrder& getTetrByLocalIndex(uint index);

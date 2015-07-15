@@ -77,10 +77,10 @@ void Mesh::createOutline() {
 
 void Mesh::initValuesInNodes(uint numberOfNodes) {
 	// TODO: Does we call this function once?
-	assert(valuesInNodes == NULL);
+	assert_eq(valuesInNodes, NULL);
 
 	// Preparing
-	assert(rheologyModel != NULL);
+	assert_ne(rheologyModel, NULL);
 	CalcNode tmpNode = newNode(rheologyModel->getNodeType());
 	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInPDE();
 	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInODE();
@@ -136,10 +136,10 @@ void Mesh::addNodeIfIsntAlreadyStored(const CalcNode& node) {
 
 CalcNode& Mesh::getNode(uint index)
 {
-	assert(index >= 0);
+	assert_ge(index, 0);
 	MapIter itr;
 	itr = nodesMap.find(index);
-	assert_false(itr != nodesMap.end());
+	assert_ne(itr, nodesMap.end());
 	return nodes[itr->second];
 }
 
