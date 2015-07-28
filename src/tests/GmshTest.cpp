@@ -25,7 +25,7 @@ void generateGeoFile(TetrMeshFirstOrder* mesh, string geoName, float spatialStep
 
 	geoFile << "meshPointDist = " << spatialStep << ";\n";
 	geoFile << "\n";
-
+/*
 	int nodesNum = mesh->getNodesNumber();
 	int counter = 0;
 	for(int i = 0; i < nodesNum; i++) {
@@ -60,11 +60,9 @@ void generateGeoFile(TetrMeshFirstOrder* mesh, string geoName, float spatialStep
 			*it = counter;
 		geoFile << "Line(" << counter << ") = {" << mesh->getNodeLocalIndex(tetr.vertices[0])+1 << ", " \\
 										   << mesh->
-
 	}
-
+*/
 	geoFile.close();
-	std::cout << mesh->getNodeByLocalIndex(0).coords << "\n";
 }
 
 int main(int argc, char* argv[])
