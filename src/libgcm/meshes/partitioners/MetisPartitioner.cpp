@@ -99,7 +99,7 @@ void MetisPartitioner::partMesh(TetrMeshFirstOrder* mesh, const uint nparts, Tet
 
 	for(uint i = 0; i < nparts; i++) {
 		coarsePart[i].preProcess();
-		coarsePart[i].snapshot(0);
+		//coarsePart[i].snapshot(0);
 	}
 }
 
@@ -185,7 +185,7 @@ void MetisPartitioner::partMesh(CubicMesh* mesh, const uint nparts, CubicMesh* c
 
 	for(uint i = 0; i < nparts; i++) {
 		coarsePart[i].preProcess();
-		coarsePart[i].snapshot(0);
+		//coarsePart[i].snapshot(0);
 	}
 }
 

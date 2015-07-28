@@ -122,7 +122,7 @@ public:
 	/**
 	 * Number of the node.
 	 */
-	int number;
+	uint number;
 	/**
 	 * Node coords.
 	 */
@@ -137,6 +137,10 @@ public:
 	 */
 	real *valuesInODE;
 
+	/**
+	 * Constructor for node only as a geometry point
+	 */
+	CalcNode();
 	/**
 	 * Default node constructor. Creates new node with all members
 	 * set to default values;

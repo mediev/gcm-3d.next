@@ -11,6 +11,8 @@ Engine::Engine()
 	registerRheologyModel( new IdealElasticRheologyModel() );
 	registerGcmSolver( new IdealElasticGcmSolver() );
 	
+	dataBus = new DataBus();
+
 	fixedTimeStep = -1;
 }
 
@@ -38,10 +40,6 @@ void Engine::setTimeStep(real dt)
 real Engine::getTimeStep()
 {
 	return fixedTimeStep;
-}
-
-int Engine::getNumberOfWorkers() {
-	return numberOfWorkers;
 }
 
 void Engine::registerRheologyModel(RheologyModel* model)
@@ -98,7 +96,23 @@ void Engine::clear() {
     rheologyModels.clear();
     gcmSolvers.clear();
 
+    delete dataBus;
+
     // clear state
     currentTime = 0;
     fixedTimeStep = -1;
+}
+
+uint Engine::getRank()
+{
+	return rank;
+}
+
+uint Engine::getNumberOfWorkers() {
+	return numberOfWorkers;
+}
+
+DataBus* Engine::getDataBus()
+{
+	return dataBus;
 }

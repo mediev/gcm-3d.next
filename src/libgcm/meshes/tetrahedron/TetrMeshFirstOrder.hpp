@@ -21,6 +21,9 @@
 namespace gcm {
 	
 	class TetrMeshFirstOrder : public TetrahedronMesh {
+
+	friend class DataBus;
+
 	protected:
 
 		// List of first order tetrahedrons (local indexation)

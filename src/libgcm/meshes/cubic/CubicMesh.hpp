@@ -10,6 +10,9 @@
 
 namespace gcm {
 	class CubicMesh : public Mesh {
+
+	friend class DataBus;
+
 	protected:
 		std::vector<Cube> cubes;
 		void calcMinH();

@@ -4,6 +4,10 @@
 using namespace gcm;
 using std::copy;
 
+CalcNode::CalcNode()
+{
+}
+
 CalcNode::CalcNode(uchar sizeOfValuesInPDE,
                    uchar sizeOfValuesInODE,
                    uchar nodeType) :

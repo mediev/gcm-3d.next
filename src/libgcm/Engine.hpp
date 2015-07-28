@@ -17,9 +17,11 @@
 #include "libgcm/Dispatcher.hpp"
 #include "libgcm/Body.hpp"
 #include "libgcm/Block.hpp"
+#include "libgcm/DataBus.hpp"
 
 namespace gcm {
 	class Body;
+	class DataBus;
 	class Dispatcher;
 	struct Task;
 	
@@ -40,6 +42,9 @@ namespace gcm {
 
 		std::vector<Body*> bodies;
 
+		// The entity to transfer data between cores with MPI
+		DataBus* dataBus;
+
 	public:
 		Engine();
 		~Engine();
@@ -50,8 +55,6 @@ namespace gcm {
 		void setTimeStep(real dt);
 		// Returns fixedTimeStep
 		real getTimeStep();
-		
-		int getNumberOfWorkers();
 
 		void registerRheologyModel(RheologyModel* model);
 		void registerGcmSolver(GcmSolver* solver);
@@ -63,6 +66,13 @@ namespace gcm {
 
 		// Pattern for name of snapshots
 		const static std::string SNAPSHOT_OUTPUT_PATH_PATTERN;
+
+		// Returns rank of performing core
+		uint getRank();
+		// Returns number of performing cores
+		uint getNumberOfWorkers();
+		// Returns pointer to DataBus
+		DataBus* getDataBus();
 
 		real getCurrentTime() const;
 
