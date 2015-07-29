@@ -7,6 +7,7 @@ using std::unordered_map;
 
 Mesh::Mesh() {
 	valuesInNodes = NULL;
+	valuesInNewNodes = NULL;
 	movable = false;
 	nodeStorageSize = 0;
 }
@@ -14,27 +15,63 @@ Mesh::Mesh() {
 Mesh::~Mesh() {
 	if(valuesInNodes != NULL)
 		delete[] valuesInNodes;
+		
+	if(valuesInNewNodes != NULL)
+		delete[] valuesInNewNodes;
 }
 
 // TODO rename and restructure initializing functions
 
 void Mesh::initNodesWithoutValues(uint numberOfNodes) {
 	assert(valuesInNodes == NULL);
+	assert(valuesInNewNodes == NULL);
 
 	nodes.reserve(numberOfNodes);
+	newNodes.reserve(numberOfNodes);
 	nodesMap.reserve(numberOfNodes);
 
 	nodeStorageSize = numberOfNodes;
 }
 
 void Mesh::addNodeWithoutValues(const CalcNode& node) {
-	int nodesNum = nodes.size();
+	uint nodesNum = nodes.size();
 	// TODO: What if we need more memory than we reserved
 	assert(nodesNum < nodeStorageSize);
+	assert_eq(nodes.size(), newNodes.size());
 
 	nodes.push_back(node);
+	newNodes.push_back(node);
 	nodesMap[node.number] = nodesNum;
-	//outline.recalculate(node.coords);
+	outline.recalculate(node.coords);
+}
+
+void Mesh::replaceNewAndCurrentNodes() {
+	std::vector<CalcNode> tmp = nodes;
+	nodes = newNodes;
+	newNodes = tmp;
+}
+
+void Mesh::setInitialState(const real* valuesInPDE, const AABB& area) {
+	for(auto node = nodes.begin(); node != nodes.end(); node++) {
+		if (area.isInAABB(node->coords)) {
+			for(int i = 0; i < node->getSizeOfValuesInPDE(); i++)
+				node->valuesInPDE[i] = valuesInPDE[i];
+		} else {
+			for(int i = 0; i < node->getSizeOfValuesInPDE(); i++)
+				node->valuesInPDE[i] = 0;
+		}
+	}
+	for(auto node = nodes.begin(); node != nodes.end(); node++) {
+		for(int i = 0; i < node->getSizeOfValuesInODE(); i++)
+			node->valuesInODE[i] = 0;
+	}
+	
+	for(auto newNode = newNodes.begin(); newNode != newNodes.end(); newNode++) {
+		for(int i = 0; i < newNode->getSizeOfValuesInODE(); i++)
+			newNode->valuesInODE[i] = 0;
+		for(int i = 0; i < newNode->getSizeOfValuesInPDE(); i++)
+			newNode->valuesInPDE[i] = 0;
+	}
 }
 
 void Mesh::preProcess()
@@ -75,62 +112,44 @@ void Mesh::createOutline() {
     }
 }
 
-/*void Mesh::initValuesInNodes(uint numberOfNodes) {
-	// TODO: Does we call this function once?
-	assert_eq(valuesInNodes, NULL);
-
-	// Preparing
-	assert_ne(rheologyModel, NULL);
-	CalcNode tmpNode = newNode(rheologyModel->getNodeType());
-	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInPDE();
-	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInODE();
-	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n",
-	       sizeOfValuesInODE + sizeOfValuesInPDE);
-
-	// Allocating
-	valuesInNodes = new real[numberOfNodes * (sizeOfValuesInODE + sizeOfValuesInPDE)];
-	nodes.reserve(numberOfNodes);
-	nodesMap.reserve(numberOfNodes);
-
-	nodeStorageSize = numberOfNodes;
-}*/
-
 void Mesh::initValuesInNodes() {
 	// TODO: Does we call this function once?
 	assert(valuesInNodes == NULL);
-
+	assert(valuesInNewNodes == NULL);
+	assert_eq(nodes.size(), newNodes.size());
+	
 	// Preparing
 	assert(rheologyModel != NULL);
 	CalcNode tmpNode = newNode(rheologyModel->getNodeType());
-	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInPDE();
-	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInODE();
+	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInODE();
+	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInPDE();
 	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n",
 	       sizeOfValuesInODE + sizeOfValuesInPDE);
 
 	// Allocating
-	valuesInNodes = new real[nodes.size() * (sizeOfValuesInODE + sizeOfValuesInPDE)];
+	
+	valuesInNodes = new real[nodes.size() * 2 * (sizeOfValuesInODE + sizeOfValuesInPDE)];
 	for(uint i = 0; i < nodes.size(); i++) {
 		nodes[i].initMemory(valuesInNodes, nodes.size());
+	}
+	valuesInNewNodes = new real[newNodes.size() * 2 * (sizeOfValuesInODE + sizeOfValuesInPDE)];
+	for(uint i = 0; i < newNodes.size(); i++) {
+		newNodes[i].initMemory(valuesInNewNodes, newNodes.size());
 	}
 }
 
 void Mesh::addNode(const CalcNode& node)
 {
-	int nodesNum = nodes.size();
+	uint nodesNum = nodes.size();
 	// TODO: What if we need more memory than we reserved
 	assert(nodesNum < nodeStorageSize);
+	assert_eq(nodes.size(), newNodes.size());
 
 	nodes.push_back(node);
+	newNodes.push_back(node);
 	nodes[nodesNum].initMemory(valuesInNodes, nodesNum);
+	newNodes[nodesNum].initMemory(valuesInNewNodes, nodesNum);
 	nodesMap[node.number] = nodesNum;
-	outline.recalculate(node.coords);
-}
-
-void Mesh::addNodeIfIsntAlreadyStored(const CalcNode& node) {
-	MapIter itr;
-	itr = nodesMap.find(node.number);
-	if (itr == nodesMap.end())
-		addNodeWithoutValues(node);
 	outline.recalculate(node.coords);
 }
 
@@ -160,6 +179,8 @@ uint Mesh::getNodeLocalIndex(uint index) const
 
 uint Mesh::getNodesNumber()
 {
+	assert_eq(nodes.size(), newNodes.size());
+	assert_eq(nodeStorageSize, nodes.size());
 	return nodes.size();
 }
 

@@ -9,7 +9,8 @@ Engine::Engine()
 	rank = MPI::COMM_WORLD.Get_rank();
 	numberOfWorkers = MPI::COMM_WORLD.Get_size();
 	registerRheologyModel( new IdealElasticRheologyModel() );
-	registerGcmSolver( new IdealElasticGcmSolver() );
+	registerRheologyModel( new IdealPlasticRheologyModel() );
+	registerGcmSolver( new FirstOrderSolver() );
 	
 	fixedTimeStep = -1;
 }
@@ -18,7 +19,7 @@ void Engine::loadTask(const Task &task)
 {
 	currentTime = 0;
 	requiredTime = task.requiredTime;
-	tau = task.timeStep;
+	fixedTimeStep = task.timeStep;
 	for(uint i = 0; i < task.bodies.size(); i++) {
 		Body *body = new Body();
 		body->setId(task.bodies[i].id);
@@ -52,7 +53,7 @@ void Engine::registerRheologyModel(RheologyModel* model)
 	}
 }
 
-void Engine::registerGcmSolver(GcmSolver* solver)
+void Engine::registerGcmSolver(Solver* solver)
 {
 	if(solver) {
 		gcmSolvers[solver->getType()] = solver;
@@ -64,21 +65,26 @@ RheologyModel *Engine::getRheologyModel(std::string type) const {
 	return rheologyModels.at(type);
 }
 
-GcmSolver *Engine::getSolver(std::string type) const {
+Solver *Engine::getSolver(std::string type) const {
 	return gcmSolvers.at(type);
 }
 
 void Engine::calculate() {
 	while(currentTime < requiredTime) {
+		
 		doNextTimeStep();
-		currentTime += tau;
+		currentTime += fixedTimeStep;
 	}
 }
 
 void Engine::doNextTimeStep() {
+	printf("Engine: starting next step: time = %f\n", getCurrentTime());
 	MPI::COMM_WORLD.Barrier();
 	for( auto it = bodies.begin(); it != bodies.end(); ++it )
 		(*it)->doNextTimeStep();
+	MPI::COMM_WORLD.Barrier();
+	for( auto it = bodies.begin(); it != bodies.end(); ++it )
+		(*it)->replaceNewAndCurrentNodes();
 }
 
 real Engine::getCurrentTime() const {

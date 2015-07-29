@@ -36,7 +36,7 @@ namespace gcm {
 		 * Change boundary values if vector r exceed them
          */
 		void recalculate(const vector3r &r);
-		bool isInAABB(const vector3r &r);
+		bool isInAABB(const vector3r &r) const;
 /*        bool isInAABB( real x, real y, real z ) const;
         bool isInAABB(const Node* node ) const;
         bool isInAABB(const Node& node) const;

@@ -1,11 +1,12 @@
-#ifndef GCM_SOLVER_H
-#define GCM_SOLVER_H
+#ifndef GCM_SOLVER_HPP
+#define GCM_SOLVER_HPP
 
 #include <string>
 #include <iostream>
 #include <mpi.h>
 
 #include "libgcm/meshes/Mesh.hpp"
+#include "libgcm/rheologyModels/models/RheologyModel.hpp"
 
 //#include "libgcm/calc/volume/VolumeCalculator.hpp"
 //#include "libgcm/calc/border/BorderCalculator.hpp"
@@ -20,18 +21,18 @@ namespace gcm {
     /*
      * Numerical method
      */
-    class GcmSolver {
+    class Solver {
 	protected:
 		std::string type;
     public:
         /*
          * Constructor
          */
-        GcmSolver();
+        Solver();
         /*
          * Destructor
          */
-        virtual ~GcmSolver() = 0;
+        virtual ~Solver() = 0;
 
         /*
          * Computes next state (after the next part step) for the given node
@@ -60,4 +61,4 @@ namespace gcm {
     };
 }
 
-#endif    /* GCM_SOLVER_H */
+#endif    /* GCM_SOLVER_HPP */

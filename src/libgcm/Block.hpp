@@ -5,7 +5,7 @@
 #include "libgcm/Dispatcher.hpp"
 #include "libgcm/meshes/cubic/CubicMeshLoader.hpp"
 #include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
-#include "libgcm/solvers/GcmSolver.hpp"
+#include "libgcm/solvers/Solver.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/meshes/partitioners/MetisPartitioner.hpp"
 
@@ -17,7 +17,7 @@ namespace gcm {
 	{
 	protected:
 		uint id;
-		GcmSolver* solver;
+		Solver* solver;
 		RheologyModel* model;
 		std::vector<Mesh*> meshes;
 	public:
@@ -25,6 +25,7 @@ namespace gcm {
 		void loadTask(const BlockProperties &prop);
 		void addMesh(Mesh *mesh);
 		void doNextTimeStep();
+		void replaceNewAndCurrentNodes();
 		void checkTopology(real tau);
 		void setId(uint _id);
 		uint getId();

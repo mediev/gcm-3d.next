@@ -45,8 +45,10 @@ vector3r TetrMeshFirstOrder::getCenterOfElement(uint index) {
 void TetrMeshFirstOrder::addElementWithNodes(Element& element, Mesh* mesh) {
 	addElement(element);
 	TetrahedronFirstOrder &tetr = static_cast<TetrahedronFirstOrder &> (element);
-	for (int i = 0; i < 4; i++)
-		addNodeIfIsntAlreadyStored(mesh->getNode(tetr.vertices[i]));
+	for (int i = 0; i < 4; i++) {
+		if( !hasNode(tetr.vertices[i]) )
+			addNodeWithoutValues(mesh->getNode(tetr.vertices[i]));
+	}
 }
 
 void TetrMeshFirstOrder::initElements(uint numberOfElements) {

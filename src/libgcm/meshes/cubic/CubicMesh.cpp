@@ -42,9 +42,11 @@ vector3r CubicMesh::getCenterOfElement(uint index) {
 
 void CubicMesh::addElementWithNodes(Element& element, Mesh* mesh) {
 	addElement(element);
-	Cube &cube = static_cast<Cube &> (element);
-	for (int i = 0; i < 8; i++)
-		addNodeIfIsntAlreadyStored(mesh->getNode(cube.vertices[i]));
+	Cube &cube = static_cast<Cube&>(element);
+	for (int i = 0; i < 8; i++) {
+		if( !hasNode(cube.vertices[i]) )
+			addNodeWithoutValues(mesh->getNode(cube.vertices[i]));
+	}
 }
 
 void CubicMesh::sortCubesInGlobalOrder() {

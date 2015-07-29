@@ -18,8 +18,8 @@ Launcher::Launcher(const uint taskNum)
 		blProp1.geometry = geom;
 		blProp1.meshType = "CubicMesh";
 		blProp1.spatialStep = 0.25;
-		blProp1.modelType = "IdealElasticRheologyModel";
-		blProp1.solverType = "IdealElasticGcmSolver";
+		blProp1.modelType = "IdealPlasticRheologyModel";
+		blProp1.solverType = "FirstOrderSolver";
 		blProp1.coarseSpatialStep = 1;
 		blProp1.id = 00;
 
@@ -33,7 +33,7 @@ Launcher::Launcher(const uint taskNum)
 		blProp2.meshType = "CubicMesh";
 		blProp2.spatialStep = 0.25;
 		blProp2.modelType = "IdealElasticRheologyModel";
-		blProp2.solverType = "IdealElasticGcmSolver";
+		blProp2.solverType = "FirstOrderSolver";
 		blProp2.coarseSpatialStep = 1;
 		blProp2.id = 01;
 
@@ -48,7 +48,7 @@ Launcher::Launcher(const uint taskNum)
 		BlockProperties blProp3;
 		blProp3.computationalCost = 1;
 		blProp3.modelType = "IdealElasticRheologyModel";
-		blProp3.solverType = "IdealElasticGcmSolver";
+		blProp3.solverType = "FirstOrderSolver";
 		blProp3.meshType = "TetrahedronMesh_IMP";
 		blProp3.spatialStep = 1.0;
 		blProp3.id = 10;
@@ -61,7 +61,7 @@ Launcher::Launcher(const uint taskNum)
 		task.bodies.push_back(boProp2);
 
 		task.timeStep = 0.1 / 1e+4;
-		task.requiredTime = task.timeStep;
+		task.requiredTime = 5 * task.timeStep;
 
 	} else {
 		Geometry geom;
@@ -89,8 +89,8 @@ Launcher::Launcher(const uint taskNum)
 			blProp.spatialStep = 0.1;
 		}
 
-		blProp.modelType = "IdealElasticRheologyModel";
-		blProp.solverType = "IdealElasticGcmSolver";
+		blProp.modelType = "IdealPlasticRheologyModel";
+		blProp.solverType = "FirstOrderSolver";
 		blProp.id = 00;
 
 		BodyProperties boProp;
@@ -100,6 +100,6 @@ Launcher::Launcher(const uint taskNum)
 
 		task.bodies.push_back(boProp);
 		task.timeStep = 0.1 / 1e+4;
-		task.requiredTime = task.timeStep;
+		task.requiredTime = 5 * task.timeStep;
 	}
 }

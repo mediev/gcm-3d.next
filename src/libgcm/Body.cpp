@@ -22,6 +22,12 @@ void Body::doNextTimeStep()
 		(*it)->doNextTimeStep();
 }
 
+void Body::replaceNewAndCurrentNodes()
+{
+	for( auto it = blocks.begin(); it != blocks.end(); ++it )
+		(*it)->replaceNewAndCurrentNodes();
+}
+
 void Body::checkTopology()
 {
 	for( auto it = blocks.begin(); it != blocks.end(); ++it ) {

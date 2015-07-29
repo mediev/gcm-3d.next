@@ -1,8 +1,11 @@
 #include "libgcm/nodes/CalcNode.hpp"
-#include "libgcm/util/Assertion.hpp"
 
 using namespace gcm;
 using std::copy;
+
+CalcNode::CalcNode() {
+	valuesInODE = valuesInPDE = NULL;
+}
 
 CalcNode::CalcNode(uchar sizeOfValuesInPDE,
                    uchar sizeOfValuesInODE,
@@ -11,6 +14,7 @@ CalcNode::CalcNode(uchar sizeOfValuesInPDE,
                    sizeOfValuesInODE(sizeOfValuesInODE),
                    nodeType(nodeType)
 {
+	valuesInODE = valuesInPDE = NULL;
 }
 
 CalcNode::~CalcNode()
@@ -33,7 +37,7 @@ void CalcNode::initMemory(real *buffer, int nodeNum) {
 void CalcNode::operator=(const CalcNode& orig) {
     assert_true(nodeType == orig.nodeType);
     assert_true(sizeOfValuesInPDE == orig.sizeOfValuesInPDE);
-    assert_true(sizeOfValuesInODE = orig.sizeOfValuesInODE);
+    assert_true(sizeOfValuesInODE == orig.sizeOfValuesInODE);
     assert_true(valuesInPDE != NULL);
     assert_true(valuesInODE != NULL);
     publicFlags = orig.publicFlags;

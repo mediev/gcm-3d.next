@@ -137,6 +137,7 @@ public:
 	 */
 	real *valuesInODE;
 
+	CalcNode();
 	/**
 	 * Default node constructor. Creates new node with all members
 	 * set to default values;
