@@ -142,7 +142,7 @@ namespace gcm {
         real getMaxEdge();
 		void checkTopology(real tau) override;
 
-		virtual const SnapshotWriter& getSnaphotter() const override;
+		virtual const SnapshotWriter& getSnapshotter() const override;
 	};
 	
 }

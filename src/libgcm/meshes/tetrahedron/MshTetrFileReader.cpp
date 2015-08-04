@@ -56,7 +56,7 @@ void MshTetrFileReader::readFile(string file, TetrMeshFirstOrder* mesh)
     	infile >> tmp_int;
     	assert_gt(tmp_int, 0);
     	infile >> coords[0] >> coords[1] >> coords[2];
-    	CalcNode node = newNode(rModel->getNodeType());
+    	CalcNode node = getNewNode(rModel->getNodeType());
         node.number = tmp_int - 1;
         node.coords = coords;
         //node->setPlacement(true);

@@ -61,7 +61,7 @@ Launcher::Launcher(const uint taskNum)
 		task.bodies.push_back(boProp2);
 
 		task.timeStep = 0.1 / 1e+4;
-		task.requiredTime = 5 * task.timeStep;
+		task.requiredTime = task.timeStep;
 
 	} else {
 		Geometry geom;
@@ -100,6 +100,6 @@ Launcher::Launcher(const uint taskNum)
 
 		task.bodies.push_back(boProp);
 		task.timeStep = 0.1 / 1e+4;
-		task.requiredTime = 5 * task.timeStep;
+		task.requiredTime = 2*task.timeStep;
 	}
 }

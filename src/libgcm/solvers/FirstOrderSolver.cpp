@@ -18,7 +18,7 @@ void FirstOrderSolver::doNextTimeStep(Mesh *mesh) {
 	          << " meshType: " << mesh->getType()
 	          << std::endl;
 	
-	GridCharacteristicMethod::getInstance().doNextTimeStep(mesh);
+	GridCharacteristicMethod::getInstance().stageX(mesh);
 	
 	auto correctors = mesh->getRheologyModel()->getCorrectors();
 	for(auto corrector = correctors.begin(); corrector != correctors.end(); corrector++) {

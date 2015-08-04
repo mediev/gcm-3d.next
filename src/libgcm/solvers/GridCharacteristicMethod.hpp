@@ -6,6 +6,7 @@
 #include <mpi.h>
 
 #include "libgcm/meshes/Mesh.hpp"
+#include "libgcm/Engine.hpp"
 #include "libgcm/util/Singleton.hpp"
 
 
@@ -13,7 +14,7 @@ namespace gcm {
     class GridCharacteristicMethod : public Singleton<GridCharacteristicMethod>
 	{
     public:
-        void doNextTimeStep(Mesh *mesh);
+		void stageX(Mesh* mesh);
     };
 }
 

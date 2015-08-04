@@ -66,11 +66,25 @@ void Mesh::setInitialState(const real* valuesInPDE, const AABB& area) {
 			node->valuesInODE[i] = 0;
 	}
 	
-	for(auto newNode = newNodes.begin(); newNode != newNodes.end(); newNode++) {
-		for(int i = 0; i < newNode->getSizeOfValuesInODE(); i++)
-			newNode->valuesInODE[i] = 0;
-		for(int i = 0; i < newNode->getSizeOfValuesInPDE(); i++)
-			newNode->valuesInPDE[i] = 0;
+	for(auto newnode = newNodes.begin(); newnode != newNodes.end(); newnode++) {
+		for(int i = 0; i < newnode->getSizeOfValuesInODE(); i++)
+			newnode->valuesInODE[i] = 0;
+		for(int i = 0; i < newnode->getSizeOfValuesInPDE(); i++)
+			newnode->valuesInPDE[i] = 0;
+	}
+}
+
+void Mesh::setMaterial(const MaterialPtr& material, const AABB& area) {
+	assert_eq(nodes.size(), newNodes.size());
+	int size = rheologyModel->getSizeOfValuesInPDE();
+	SetterPtr setter = rheologyModel->getRheologyMatrixSetter();
+	DecomposerPtr decomposer = rheologyModel->getRheologyMatrixDecomposer();
+	for(uint i = 0; i < nodes.size(); i++)
+		if( area.isInAABB(nodes[i].coords) ) {
+			nodes[i].setRheologyMatrix(makeRheologyMatrixPtr(size, material, 
+			                                                 setter, decomposer));
+			newNodes[i].setRheologyMatrix(makeRheologyMatrixPtr(size, material, 
+			                                                 setter, decomposer));
 	}
 }
 
@@ -120,7 +134,7 @@ void Mesh::initValuesInNodes() {
 	
 	// Preparing
 	assert(rheologyModel != NULL);
-	CalcNode tmpNode = newNode(rheologyModel->getNodeType());
+	CalcNode tmpNode = getNewNode(rheologyModel->getNodeType());
 	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInODE();
 	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInPDE();
 	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n",
@@ -128,13 +142,13 @@ void Mesh::initValuesInNodes() {
 
 	// Allocating
 	
-	valuesInNodes = new real[nodes.size() * 2 * (sizeOfValuesInODE + sizeOfValuesInPDE)];
+	valuesInNodes = new real[nodes.size() * (sizeOfValuesInODE + sizeOfValuesInPDE)];
 	for(uint i = 0; i < nodes.size(); i++) {
-		nodes[i].initMemory(valuesInNodes, nodes.size());
+		nodes[i].initMemory(valuesInNodes, i);
 	}
-	valuesInNewNodes = new real[newNodes.size() * 2 * (sizeOfValuesInODE + sizeOfValuesInPDE)];
+	valuesInNewNodes = new real[newNodes.size() * (sizeOfValuesInODE + sizeOfValuesInPDE)];
 	for(uint i = 0; i < newNodes.size(); i++) {
-		newNodes[i].initMemory(valuesInNewNodes, newNodes.size());
+		newNodes[i].initMemory(valuesInNewNodes, i);
 	}
 }
 
@@ -228,5 +242,5 @@ int Mesh::getRank() const {
 
 std::string Mesh::snapshot(int number)
 {
-    return getSnaphotter().dump(this, number);
+    return getSnapshotter().dump(this, number);
 }

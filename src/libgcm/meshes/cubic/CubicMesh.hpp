@@ -38,7 +38,7 @@ namespace gcm {
 		AABB cubeToAABB(const Cube &cube);
 		real getMinH();
 
-		virtual const SnapshotWriter& getSnaphotter() const override;
+		virtual const SnapshotWriter& getSnapshotter() const override;
 
 	private:
 

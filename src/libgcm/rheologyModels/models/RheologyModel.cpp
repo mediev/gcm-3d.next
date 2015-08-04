@@ -32,11 +32,11 @@ uchar RheologyModel::getNodeType() const {
 }
 
 uchar RheologyModel::getSizeOfValuesInPDE() const {
-    CalcNode tmpNode = newNode(nodeType);
+    CalcNode tmpNode = getNewNode(nodeType);
     return tmpNode.getSizeOfValuesInPDE();
 }
 
 uchar RheologyModel::getSizeOfValuesInODE() const {
-    CalcNode tmpNode = newNode(nodeType);
+    CalcNode tmpNode = getNewNode(nodeType);
     return tmpNode.getSizeOfValuesInODE();
 }

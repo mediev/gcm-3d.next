@@ -24,7 +24,6 @@ namespace gcm {
         uchar getNodeType() const;
         uchar getSizeOfValuesInPDE() const;
         uchar getSizeOfValuesInODE() const;
-        //const RheologyMatrixPtr getRheologyMatrix() const;
 
         // TODO: does it mean that we create Model for each body?
         // BTW, do we need a concept of 'Body' in new code structure?
@@ -43,8 +42,8 @@ namespace gcm {
         uchar nodeType;
         SetterPtr matrixSetter;
         DecomposerPtr matrixDecomposer;
+		RheologyMatrixPtr rheologyMatrix;
 		std::vector<Corrector*> correctors;
-        //RheologyMatrixPtr rheologyMatrix;
 
     private:
         USE_LOGGER;

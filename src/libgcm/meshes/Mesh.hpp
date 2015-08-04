@@ -54,7 +54,7 @@ namespace gcm {
 
         USE_LOGGER;
 
-        virtual const SnapshotWriter& getSnaphotter() const = 0;
+        virtual const SnapshotWriter& getSnapshotter() const = 0;
 
 		friend class GridCharacteristicMethod;
     public:
@@ -70,6 +70,7 @@ namespace gcm {
          */
 		void replaceNewAndCurrentNodes();
 		void setInitialState(const real* valuesInPDE, const AABB& area);
+		void setMaterial(const MaterialPtr& material, const AABB& area);
 
 		virtual Mesh *getMeshOfTheSameType() = 0;
 

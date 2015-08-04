@@ -3,6 +3,7 @@
 
 #include "libgcm/Engine.hpp"
 #include "libgcm/util/Types.hpp"
+#include "libgcm/rheologyModels/Material.hpp"
 
 
 namespace gcm {

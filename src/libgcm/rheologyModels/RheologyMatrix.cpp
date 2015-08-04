@@ -1,10 +1,6 @@
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
 
-#include "libgcm/util/Assertion.hpp"
-
 using namespace gcm;
-#include <iostream>
-#include <limits>
 
 RheologyMatrix::RheologyMatrix(uchar size, const MaterialPtr& material, 
 	const SetterPtr& setter, const DecomposerPtr& decomposer): 

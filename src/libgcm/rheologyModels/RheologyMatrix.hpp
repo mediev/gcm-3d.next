@@ -3,9 +3,11 @@
 
 #include <memory>
 #include <vector>
+#include <limits>
 
 #include "libgcm/rheologyModels/GcmMatrix.hpp"
 #include "libgcm/rheologyModels/Material.hpp"
+#include "libgcm/util/Assertion.hpp"
 #include "libgcm/rheologyModels/matrixSetters/RheologyMatrixSetter.hpp"
 #include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
 

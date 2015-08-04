@@ -53,21 +53,22 @@ void CubicMesh::sortCubesInGlobalOrder() {
 	std::sort(cubes.begin(), cubes.end());
 }
 
-void CubicMesh::preProcessGeometry()
-{
-	// TODO: Finish the function
-    /*for(int i = 0; i < getNodesNumber(); i++)
-    {
-        CalcNode& node = getNodeByLocalIndex(i);
-        for( int i = 0; i < 3; i ++)
-        {
-            if( ( fabs(node.coords[i] - outline.min_coords[i]) < EQUALITY_TOLERANCE )
-                || ( fabs(node.coords[i] - outline.max_coords[i]) < EQUALITY_TOLERANCE ) )
-            {
-                node.setBorder(true);
-            }
-        }
-    }*/
+void CubicMesh::preProcessGeometry() {
+	
+	// build border
+	std::cout << outline << std::endl;
+	for(uint i = 0; i < nodes.size(); i++) {
+		CalcNode& node = nodes[i];
+		if(  ( fabs(node.coords.x - outline.maxX) < EQUALITY_TOLERANCE * getMinH() ) ||
+			 ( fabs(node.coords.x - outline.minX) < EQUALITY_TOLERANCE * getMinH() ) ||
+			 ( fabs(node.coords.y - outline.maxY) < EQUALITY_TOLERANCE * getMinH() ) ||
+			 ( fabs(node.coords.y - outline.minY) < EQUALITY_TOLERANCE * getMinH() ) ||
+			 ( fabs(node.coords.z - outline.maxZ) < EQUALITY_TOLERANCE * getMinH() ) ||
+			 ( fabs(node.coords.z - outline.minZ) < EQUALITY_TOLERANCE * getMinH() )  )
+			{ node.setBorder(true); newNodes[i].setBorder(true); }
+		else
+			{ node.setBorder(false); newNodes[i].setBorder(false); }
+		}
 }
 
 void CubicMesh::calcMinH()
@@ -109,7 +110,7 @@ AABB CubicMesh::cubeToAABB(const Cube &cube) {
 void CubicMesh::checkTopology(float tau) {
 }
 
-const SnapshotWriter& CubicMesh::getSnaphotter() const
+const SnapshotWriter& CubicMesh::getSnapshotter() const
 {
     return VTKCubicSnapshotWriter::getInstance();
 }

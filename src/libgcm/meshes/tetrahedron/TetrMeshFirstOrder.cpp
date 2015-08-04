@@ -738,7 +738,7 @@ std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(uint index)
     return borderElements[localIndex];
 }
 
-const SnapshotWriter& TetrMeshFirstOrder::getSnaphotter() const
+const SnapshotWriter& TetrMeshFirstOrder::getSnapshotter() const
 {
     return VTK2SnapshotWriter::getInstance();
 }
