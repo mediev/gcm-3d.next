@@ -70,7 +70,6 @@ void Block::loadTask(const BlockProperties& blProp) {
 
 		} else {
 			TetrMeshFirstOrder* coarsePart = new TetrMeshFirstOrder();
-
 			DataBus* dataBus = engine.getDataBus();
 			dataBus->transferMesh(coarsePart, 0);
 			coarsePart->snapshot(0);

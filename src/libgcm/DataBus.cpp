@@ -2,6 +2,7 @@
 
 using namespace gcm;
 using namespace MPI;
+using std::vector;
 
 #define BARRIER(name) \
 do { \
@@ -116,17 +117,29 @@ void DataBus::transferMesh(TetrMeshFirstOrder* mesh, uint targetRank)
 		int size;
 		MPI_Status status;
 
+		vector<CalcNode> nodes;
+		vector<TetrahedronFirstOrder> tetrs;
+    
 		// Receiving nodes
 		MPI_Probe(targetRank, 0, MPI_COMM_WORLD, &status);
 		MPI_Get_count(&status, MPI_EMPTY_NODE, &size);
+		nodes.resize(size);
+		MPI_Recv(&nodes[0], size, MPI_EMPTY_NODE, targetRank, 0, MPI_COMM_WORLD, &status);
+		
 		mesh->initNodesWithoutValues(size);
-		MPI_Recv(&mesh->nodes[0], size, MPI_EMPTY_NODE, targetRank, 0, MPI_COMM_WORLD, &status);
+		for(int i = 0; i < size; i++)
+			mesh->addNode(nodes[i]);
 
 		// Receiving tetrahedrons
 		MPI_Probe(targetRank, 0, MPI_COMM_WORLD, &status);
 		MPI_Get_count(&status, MPI_TETR, &size);
+		tetrs.resize(size);
+		MPI_Recv(&tetrs[0], size, MPI_TETR, targetRank, 0, MPI_COMM_WORLD, &status);
+		
 		mesh->createTetrs(size);
-		MPI_Recv(&mesh->nodes[0], size, MPI_TETR, targetRank, 0, MPI_COMM_WORLD, &status);
+		for(int i = 0; i < size; i++)
+			mesh->addTetr(tetrs[i]);
+
 	}
 
 	BARRIER("DataBus: coarse meshes transfered!");
