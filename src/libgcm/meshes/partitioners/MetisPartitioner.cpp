@@ -95,12 +95,6 @@ void MetisPartitioner::partMesh(TetrMeshFirstOrder* mesh, const uint nparts, Tet
 
 		coarsePart[idx].addTetr(tetr);
 	}
-
-
-	for(uint i = 0; i < nparts; i++) {
-		coarsePart[i].preProcess();
-		//coarsePart[i].snapshot(0);
-	}
 }
 
 void MetisPartitioner::partMesh(CubicMesh* mesh, const uint nparts, CubicMesh* coarsePart)
@@ -181,11 +175,6 @@ void MetisPartitioner::partMesh(CubicMesh* mesh, const uint nparts, CubicMesh* c
 		}
 
 		coarsePart[idx].addElement(cube);
-	}
-
-	for(uint i = 0; i < nparts; i++) {
-		coarsePart[i].preProcess();
-		//coarsePart[i].snapshot(0);
 	}
 }
 

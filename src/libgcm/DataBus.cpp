@@ -3,6 +3,8 @@
 using namespace gcm;
 using namespace MPI;
 using std::vector;
+using std::cout;
+using std::endl;
 
 #define BARRIER(name) \
 do { \
@@ -14,6 +16,7 @@ do { \
 DataBus::DataBus()
 {
 	rank = COMM_WORLD.Get_rank();
+	numberOfWorkers = COMM_WORLD.Get_size();
 
 	createStaticTypes();
 }
@@ -101,17 +104,25 @@ void DataBus::createStaticTypes()
 
 }
 
-void DataBus::transferMesh(TetrMeshFirstOrder* mesh, uint targetRank)
+void DataBus::transferMesh(TetrMeshFirstOrder* mesh)
 {
 
 	BARRIER("DataBus: starting coarse meshes delivery!");
+
 	if(rank == 0) {
 
-		// Sending nodes
-		MPI_Send(&mesh->nodes[0], mesh->nodes.size(), MPI_EMPTY_NODE, targetRank, 0, MPI_COMM_WORLD);
+		for(uint i = 1; i < numberOfWorkers; i++)
+		{
+			// Sending nodes
+			MPI_Send(&mesh[i].nodes[0], mesh[i].nodes.size(), MPI_EMPTY_NODE, i, TAG_EMPTY_NODES + i, MPI_COMM_WORLD);
 
-		// Sending tetrahedrons
-		MPI_Send(&mesh->tetrs1[0], mesh->tetrs1.size(), MPI_TETR, targetRank, 0, MPI_COMM_WORLD);
+			std::cout << "Core#" << rank << ": " << mesh[i].nodes.size() << " nodes sent to Core#" << i << endl;
+
+			// Sending tetrahedrons
+			MPI_Send(&mesh[i].tetrs1[0], mesh[i].tetrs1.size(), MPI_TETR, i, TAG_TETRS + i, MPI_COMM_WORLD);
+
+			std::cout << "Core#" << rank << ": " << mesh[i].tetrs1.size() << " tetrahedrons sent to Core#" << i << endl;
+		}
 
 	} else {
 		int size;
@@ -121,25 +132,28 @@ void DataBus::transferMesh(TetrMeshFirstOrder* mesh, uint targetRank)
 		vector<TetrahedronFirstOrder> tetrs;
     
 		// Receiving nodes
-		MPI_Probe(targetRank, 0, MPI_COMM_WORLD, &status);
+		MPI_Probe(0, TAG_EMPTY_NODES + rank, MPI_COMM_WORLD, &status);
 		MPI_Get_count(&status, MPI_EMPTY_NODE, &size);
 		nodes.resize(size);
-		MPI_Recv(&nodes[0], size, MPI_EMPTY_NODE, targetRank, 0, MPI_COMM_WORLD, &status);
-		
+		MPI_Recv(&nodes[0], size, MPI_EMPTY_NODE, 0, TAG_EMPTY_NODES + rank, MPI_COMM_WORLD, &status);
+
 		mesh->initNodesWithoutValues(size);
 		for(int i = 0; i < size; i++)
 			mesh->addNode(nodes[i]);
 
+		std::cout << "Core#" << rank << ": " << size << " nodes received from Core#" << 0 << endl;
+
 		// Receiving tetrahedrons
-		MPI_Probe(targetRank, 0, MPI_COMM_WORLD, &status);
+		MPI_Probe(0, TAG_TETRS + rank, MPI_COMM_WORLD, &status);
 		MPI_Get_count(&status, MPI_TETR, &size);
 		tetrs.resize(size);
-		MPI_Recv(&tetrs[0], size, MPI_TETR, targetRank, 0, MPI_COMM_WORLD, &status);
+		MPI_Recv(&tetrs[0], size, MPI_TETR, 0, TAG_TETRS + rank, MPI_COMM_WORLD, &status);
 		
 		mesh->createTetrs(size);
 		for(int i = 0; i < size; i++)
 			mesh->addTetr(tetrs[i]);
 
+		std::cout << "Core#" << rank << ": " << size << " tetrahedrons received from Core#" << 0 << endl;
 	}
 
 	BARRIER("DataBus: coarse meshes transfered!");

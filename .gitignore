@@ -37,3 +37,4 @@ src/.project
 *.vtu
 *.vts
 gcm
+GmshTest

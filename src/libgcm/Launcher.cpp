@@ -81,7 +81,7 @@ Launcher::Launcher(const uint taskNum)
 			blProp.spatialStep = 0.1;
 		} else if(taskNum == 2) {
 			blProp.meshType = "TetrahedronMesh";
-			blProp.coarseSpatialStep = 2.0;
+			blProp.coarseSpatialStep = 5.0;
 			blProp.spatialStep = 1.0;
 		} else if(taskNum == 21) {
 			blProp.meshType = "CubicMesh_Metis";

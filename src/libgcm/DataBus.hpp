@@ -16,7 +16,8 @@ namespace gcm {
 		DataBus();
 		~DataBus();
 
-		void transferMesh(TetrMeshFirstOrder* mesh, uint targetRank);
+		// Transfer coarse mesh 0 -> all
+		void transferMesh(TetrMeshFirstOrder* mesh);
 
 		// Special types for MPI connection
 		MPI::Datatype MPI_EMPTY_NODE;
@@ -27,9 +28,18 @@ namespace gcm {
 
 		// Rank of current core
 		uint rank;
+		// Number of cores
+		uint numberOfWorkers;
 
 		// Creates MPI::Datatype for node, tetrahedron, cube
 		void createStaticTypes();
+
+
+		// MPI tags for different types of messages
+		static const int TAG_EMPTY_NODES = 1;
+		static const int TAG_TETRS = 1000;
+		static const int TAG_CUBES = 2000;
+
 	};
 }
 

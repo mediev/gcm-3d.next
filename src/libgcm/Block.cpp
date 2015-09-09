@@ -3,6 +3,7 @@
 using namespace gcm;
 using namespace MPI;
 
+using std::string;
 using std::to_string;
 
 Block::Block()
@@ -55,24 +56,59 @@ void Block::loadTask(const BlockProperties& blProp) {
 		if (engine.getRank() == 0) {
 			uint nparts = engine.getNumberOfWorkers();
 			TetrMeshFirstOrder* coarseMesh = new TetrMeshFirstOrder();
-			coarseMesh->setId(100);
+			coarseMesh->setId(999);
 			coarseMesh->setRheologyModel(model);
-			TetrahedronMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.spatialStep);
+			TetrahedronMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.coarseSpatialStep);
 
+			// Partitioning
 			TetrMeshFirstOrder* coarsePart = new TetrMeshFirstOrder [nparts];
 			MetisPartitioner::getInstance().partMesh(coarseMesh, nparts, coarsePart);
 
-			DataBus* dataBus = engine.getDataBus();
-			for(uint i = 1; i < nparts; i++)
-				dataBus->transferMesh(&coarsePart[i], i);
-
+			coarsePart[0].setId(engine.getRank() * 100);
 			coarsePart[0].snapshot(0);
 
+			// Distributing
+			DataBus* dataBus = engine.getDataBus();
+			dataBus->transferMesh(coarsePart);
+			coarsePart[0].preProcess();
+
+			// Writing *.geo file for part
+			string geoName = "models/parts/part_" + to_string(engine.getRank()) + ".geo";
+			Mesh2GeoLoader geoLoader;
+			geoLoader.writeGeoFile(geoName, &coarsePart[0]);
+
+			// Refinement
+			TetrMeshFirstOrder* fineMesh = new TetrMeshFirstOrder();
+			fineMesh->setRheologyModel(model);
+			fineMesh->setId(engine.getRank() * 100 + 1);
+			TetrahedronMeshLoader::getInstance().loadMesh(fineMesh, geoName, blProp.spatialStep);
+			fineMesh->snapshot(0);
+
+			this->addMesh(fineMesh);
+
 		} else {
+			// Distributing
 			TetrMeshFirstOrder* coarsePart = new TetrMeshFirstOrder();
 			DataBus* dataBus = engine.getDataBus();
-			dataBus->transferMesh(coarsePart, 0);
+			dataBus->transferMesh(coarsePart);
+			coarsePart->preProcess();
+
+			coarsePart->setId(engine.getRank() * 100);
 			coarsePart->snapshot(0);
+
+			// Writing *.geo file for part
+			string geoName = "models/parts/part_" + to_string(engine.getRank()) + ".geo";
+			Mesh2GeoLoader geoLoader;
+			geoLoader.writeGeoFile(geoName, coarsePart);
+
+			// Refinement
+			TetrMeshFirstOrder* fineMesh = new TetrMeshFirstOrder();
+			fineMesh->setRheologyModel(model);
+			fineMesh->setId(engine.getRank() * 100 + 1);
+			TetrahedronMeshLoader::getInstance().loadMesh(fineMesh, geoName, blProp.spatialStep);
+			fineMesh->snapshot(0);
+
+			this->addMesh(fineMesh);
 		}
 	} else if (blProp.meshType == "CubicMesh_Metis") {
 		if (engine.getRank() == 0) {
