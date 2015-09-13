@@ -1,5 +1,5 @@
 #include "libgcm/meshes/Mesh.hpp"
-
+#include "libgcm/Engine.hpp"
 
 using namespace gcm;
 using std::vector;
@@ -54,23 +54,23 @@ void Mesh::replaceNewAndCurrentNodes() {
 void Mesh::setInitialState(const real* valuesInPDE, const AABB& area) {
 	for(auto node = nodes.begin(); node != nodes.end(); node++) {
 		if (area.isInAABB(node->coords)) {
-			for(int i = 0; i < node->getSizeOfValuesInPDE(); i++)
-				node->valuesInPDE[i] = valuesInPDE[i];
+			for(int i = 0; i < node->getSizeOfPDE(); i++)
+				node->PDE[i] = valuesInPDE[i];
 		} else {
-			for(int i = 0; i < node->getSizeOfValuesInPDE(); i++)
-				node->valuesInPDE[i] = 0;
+			for(int i = 0; i < node->getSizeOfPDE(); i++)
+				node->PDE[i] = 0;
 		}
 	}
 	for(auto node = nodes.begin(); node != nodes.end(); node++) {
-		for(int i = 0; i < node->getSizeOfValuesInODE(); i++)
-			node->valuesInODE[i] = 0;
+		for(int i = 0; i < node->getSizeOfODE(); i++)
+			node->ODE[i] = 0;
 	}
 	
 	for(auto newnode = newNodes.begin(); newnode != newNodes.end(); newnode++) {
-		for(int i = 0; i < newnode->getSizeOfValuesInODE(); i++)
-			newnode->valuesInODE[i] = 0;
-		for(int i = 0; i < newnode->getSizeOfValuesInPDE(); i++)
-			newnode->valuesInPDE[i] = 0;
+		for(int i = 0; i < newnode->getSizeOfODE(); i++)
+			newnode->ODE[i] = 0;
+		for(int i = 0; i < newnode->getSizeOfPDE(); i++)
+			newnode->PDE[i] = 0;
 	}
 }
 
@@ -135,8 +135,8 @@ void Mesh::initValuesInNodes() {
 	// Preparing
 	assert(rheologyModel != NULL);
 	CalcNode tmpNode = getNewNode(rheologyModel->getNodeType());
-	uchar sizeOfValuesInODE = tmpNode.getSizeOfValuesInODE();
-	uchar sizeOfValuesInPDE = tmpNode.getSizeOfValuesInPDE();
+	uchar sizeOfValuesInODE = tmpNode.getSizeOfODE();
+	uchar sizeOfValuesInPDE = tmpNode.getSizeOfPDE();
 	printf("Mesh: init container for %d variables per node (both PDE and ODE)\n",
 	       sizeOfValuesInODE + sizeOfValuesInPDE);
 
@@ -220,6 +220,55 @@ bool Mesh::hasNode(int index)
 	MapIter itr;
 	itr = nodesMap.find(index);
 	return itr != nodesMap.end();
+}
+
+void Mesh::stageX() {
+	std::cout << "Mesh::stageX\n";
+	assert_eq(nodeStorageSize, nodes.size());
+	assert_eq(nodeStorageSize, newNodes.size());
+	real* dksi = new real [rheologyModel->getSizeOfValuesInPDE()];
+	real* RiemannSolvers = new real [rheologyModel->getSizeOfValuesInPDE()];
+	real tau = Engine::getInstance().getTimeStep();
+	for (uint itr = 0; itr < nodes.size(); itr++) {
+		CalcNode& node = nodes[itr];
+		CalcNode& newnode = newNodes[itr];
+		assert_eq(node.getSizeOfPDE(), newnode.getSizeOfPDE());
+
+		if (!node.isBorder()) { // inner nodes
+			RheologyMatrixPtr matrix = node.getRheologyMatrix();
+			matrix->decomposeX(node);
+
+			for (int j = 0; j < node.getSizeOfPDE(); j++) {
+				dksi[j] = -matrix->getL(j, j) * tau;
+				vector3r dx(dksi[j], 0, 0);
+				
+				CalcNode nodeForInterpolation = nodes[itr];
+				nodeForInterpolation.coords += dx;
+				interpolateNode(nodeForInterpolation);
+				
+				RiemannSolvers[j] = 0;
+				for(int i = 0; i < node.getSizeOfPDE(); i++) {
+					RiemannSolvers[j] += matrix->getU(j, i) * nodeForInterpolation.PDE[i];
+				}	
+			}
+
+			newnode = node;			
+			for(int i = 0; i < node.getSizeOfPDE(); i++) {
+				newnode.PDE[i] = 0;
+				for(int j = 0; j < node.getSizeOfPDE(); j++)
+					newnode.PDE[i] += matrix->getU1(i, j) * RiemannSolvers[j];
+			}
+			
+		} else { // border nodes
+			for (int j = 0; j < node.getSizeOfPDE(); j++) {
+				newnode.PDE[j] = 0;
+			}
+
+		}
+	}
+
+	delete [] dksi;
+	delete [] RiemannSolvers;
 }
 
 void Mesh::setId(uint _id)

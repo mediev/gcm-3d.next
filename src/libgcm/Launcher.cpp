@@ -77,8 +77,8 @@ Launcher::Launcher(const uint taskNum)
 
 		if(taskNum == 1) {
 			blProp.meshType = "CubicMesh";
-			blProp.coarseSpatialStep = 0.2;
-			blProp.spatialStep = 0.1;
+			blProp.coarseSpatialStep = 0.1;
+			blProp.spatialStep = 0.025;
 		} else if(taskNum == 2) {
 			blProp.meshType = "TetrahedronMesh";
 			blProp.coarseSpatialStep = 2.0;
@@ -99,7 +99,7 @@ Launcher::Launcher(const uint taskNum)
 		boProp.id = 0;
 
 		task.bodies.push_back(boProp);
-		task.timeStep = 0.1 / 1e+4;
-		task.requiredTime = 2*task.timeStep;
+		task.timeStep = blProp.spatialStep / 2;
+		task.requiredTime = 50*task.timeStep;
 	}
 }

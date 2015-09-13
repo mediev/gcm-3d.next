@@ -1,4 +1,4 @@
-#include "libgcm/meshes/tetrahedron/MshTetrFileReader.hpp"
+#include "libgcm/meshes/tetr/MshTetrFileReader.hpp"
 
 using namespace gcm;
 using std::string;

@@ -1,6 +1,7 @@
 #ifndef ABSTRACTVTKSNAPSHOTWRITER_HPP_
 #define ABSTRACTVTKSNAPSHOTWRITER_HPP_
 
+#include "libgcm/config.hpp"
 #include "libgcm/snapshotters/SnapshotWriter.hpp"
 #include "libgcm/util/Assertion.hpp"
 #include "libgcm/nodes/IdealElasticNode.hpp"
@@ -260,7 +261,11 @@ namespace gcm
            // Write file
            auto writer = vtkSmartPointer<GridWriterType>::New();
            writer->SetFileName(fileName.c_str());
-           writer->SetInputData(grid);
+#ifdef VTK_5_8
+           writer->SetInput(grid);
+#else 
+		   writer->SetInputData(grid);
+#endif
            writer->Write();
 
            return fileName;

@@ -11,10 +11,10 @@ FiniteStrainIdealElasticNode::FiniteStrainIdealElasticNode() :
 
 // Read-only get-ters
 real FiniteStrainIdealElasticNode::getRho() const {
-    return valuesInPDE[9];
+    return PDE[9];
 }
 
 // Read-write access
 real& FiniteStrainIdealElasticNode::rho() {
-    return valuesInPDE[9];
+    return PDE[9];
 }

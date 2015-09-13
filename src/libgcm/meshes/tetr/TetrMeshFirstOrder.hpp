@@ -8,7 +8,7 @@
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
 #include "libgcm/elements/TriangleFirstOrder.hpp"
 
-#include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
+#include "libgcm/meshes/tetr/TetrMesh.hpp"
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
 #include "libgcm/elements/TriangleFirstOrder.hpp"
 
@@ -20,7 +20,7 @@
 
 namespace gcm {
 	
-	class TetrMeshFirstOrder : public TetrahedronMesh {
+	class TetrMeshFirstOrder : public TetrMesh {
 	protected:
 
 		// List of first order tetrahedrons (local indexation)
@@ -93,6 +93,8 @@ namespace gcm {
         bool checkCharactCache(const CalcNode& node, const vector3r& dx, int& tetrNum);
         void updateCharactCache(const CalcNode& node, const vector3r& x, int tetrNum);
         int getCharactCacheIndex(const CalcNode& node, const vector3r& dx);
+		
+		void interpolateNode(CalcNode& nodeForInterpolation) override;
 
 	public:
 		TetrMeshFirstOrder();

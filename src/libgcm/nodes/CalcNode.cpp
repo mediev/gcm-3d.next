@@ -4,7 +4,7 @@ using namespace gcm;
 using std::copy;
 
 CalcNode::CalcNode() {
-	valuesInODE = valuesInPDE = NULL;
+	ODE = PDE = NULL;
 }
 
 CalcNode::CalcNode(uchar sizeOfValuesInPDE,
@@ -14,7 +14,7 @@ CalcNode::CalcNode(uchar sizeOfValuesInPDE,
                    sizeOfValuesInODE(sizeOfValuesInODE),
                    nodeType(nodeType)
 {
-	valuesInODE = valuesInPDE = NULL;
+	ODE = PDE = NULL;
 }
 
 CalcNode::~CalcNode()
@@ -23,14 +23,14 @@ CalcNode::~CalcNode()
 }
 
 void CalcNode::clear() {
-	memset(valuesInPDE, 0, sizeOfValuesInPDE * sizeof (gcm::real));
-	memset(valuesInODE, 0, sizeOfValuesInODE * sizeof (gcm::real));
+	memset(PDE, 0, sizeOfValuesInPDE * sizeof (gcm::real));
+	memset(ODE, 0, sizeOfValuesInODE * sizeof (gcm::real));
 }
 
 void CalcNode::initMemory(real *buffer, int nodeNum) {
     real* startAddr = buffer + nodeNum * (sizeOfValuesInPDE + sizeOfValuesInODE);
-    valuesInPDE = new (startAddr) real[sizeOfValuesInPDE];
-    valuesInODE = new (startAddr + sizeOfValuesInPDE) real[sizeOfValuesInODE];
+    PDE = new (startAddr) real[sizeOfValuesInPDE];
+    ODE = new (startAddr + sizeOfValuesInPDE) real[sizeOfValuesInODE];
 }
 
 
@@ -38,8 +38,8 @@ void CalcNode::operator=(const CalcNode& orig) {
     assert_true(nodeType == orig.nodeType);
     assert_true(sizeOfValuesInPDE == orig.sizeOfValuesInPDE);
     assert_true(sizeOfValuesInODE == orig.sizeOfValuesInODE);
-    assert_true(valuesInPDE != NULL);
-    assert_true(valuesInODE != NULL);
+    assert_true(PDE != NULL);
+    assert_true(ODE != NULL);
     publicFlags = orig.publicFlags;
     errorFlags = orig.errorFlags;
     borderConditionId = orig.borderConditionId;
@@ -50,9 +50,9 @@ void CalcNode::operator=(const CalcNode& orig) {
     number = orig.number;
     coords = orig.coords;
     for (int i = 0; i < sizeOfValuesInPDE; i++)
-        valuesInPDE[i] = orig.valuesInPDE[i];
+        PDE[i] = orig.PDE[i];
     for (int i = 0; i < sizeOfValuesInODE; i++)
-        valuesInODE[i] = orig.valuesInODE[i];
+        ODE[i] = orig.ODE[i];
 }
 
 uchar CalcNode::getType() const
@@ -60,12 +60,12 @@ uchar CalcNode::getType() const
     return nodeType;
 }
 
-uchar CalcNode::getSizeOfValuesInPDE() const
+uchar CalcNode::getSizeOfPDE() const
 {
     return sizeOfValuesInPDE;
 }
 
-uchar CalcNode::getSizeOfValuesInODE() const
+uchar CalcNode::getSizeOfODE() const
 {
     return sizeOfValuesInODE;
 }

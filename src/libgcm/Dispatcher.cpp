@@ -55,8 +55,8 @@ void Dispatcher::initializeProcVSblock(const Task& task, const uint numberOfWork
 	// share processors among blocks in the zeroth guess:
 	// divide every block among its workers equally
 	for (uint i = 0; i < numberOfblocks; i++) {
-		uint procPerblock = round(numberOfWorkers * 
-		                         blocks[i].computationalCost / totalCost);
+		uint procPerblock = realToInt(numberOfWorkers * 
+		                              blocks[i].computationalCost / totalCost);
 		if (procPerblock == 0) procPerblock = 1;
 		for (uint j = 0; j < procPerblock; j++) {
 			int minLoadedProcId; uint number; real minLoad;

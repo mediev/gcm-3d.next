@@ -12,7 +12,7 @@ Engine::Engine()
 	registerRheologyModel( new IdealPlasticRheologyModel() );
 	registerGcmSolver( new FirstOrderSolver() );
 	
-	fixedTimeStep = -1;
+	fixedTimeStep = std::numeric_limits<real>::infinity();
 }
 
 void Engine::loadTask(const Task &task)
@@ -28,11 +28,12 @@ void Engine::loadTask(const Task &task)
 	Dispatcher::getInstance().distributeProcessors(task, numberOfWorkers);
 	for(uint i = 0; i < task.bodies.size(); i++)
 		bodies[i]->loadTask(task.bodies[i]);
+	
 }
 
 void Engine::setTimeStep(real dt)
 {
-	if(dt > 0)
+	if( (dt > 0) && (dt < fixedTimeStep) )
 		fixedTimeStep = dt;
 }
 

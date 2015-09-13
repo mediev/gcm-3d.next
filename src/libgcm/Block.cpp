@@ -37,10 +37,11 @@ void Block::loadTask(const BlockProperties& blProp) {
 				real* valuesInPDE = new real[sizeOfValuesInPDE];
 				for(int j = 0; j < sizeOfValuesInPDE; j++)
 					valuesInPDE[j] = 0;
-				valuesInPDE[3] = 1;
-				AABB area = AABB(-10, 10, -10, 10, -10, 10);
+				valuesInPDE[3] = -1;
+				AABB area = AABB(0.1, 0.3, -10, 10, -10, 10);
 				meshes[i]->setInitialState(valuesInPDE, area);
 				MaterialPtr material = makeMaterialPtr("testMaterial", 1, 1, 1);
+				area.maxX = 10; area.minX = -10;
 				meshes[i]->setMaterial(material, area);
 				delete [] valuesInPDE;
 			}
@@ -50,7 +51,7 @@ void Block::loadTask(const BlockProperties& blProp) {
 		TetrMeshFirstOrder* coarseMesh = new TetrMeshFirstOrder();
 		coarseMesh->setId(-2);
 		coarseMesh->setRheologyModel(model);
-		TetrahedronMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.spatialStep);
+		TetrMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.spatialStep);
 
 		TetrMeshFirstOrder* coarsePart = new TetrMeshFirstOrder [nparts];
 		MetisPartitioner::getInstance().partMesh(coarseMesh, nparts, coarsePart);
@@ -79,7 +80,7 @@ void Block::loadTask(const BlockProperties& blProp) {
 		TetrMeshFirstOrder* coarseMesh = new TetrMeshFirstOrder();
 		coarseMesh->setId(-2);
 		coarseMesh->setRheologyModel(model);
-		TetrahedronMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.spatialStep);
+		TetrMeshLoader::getInstance().loadMesh(coarseMesh, "models/cube.geo", blProp.spatialStep);
 
 		InertiaMomentPartitioner part;
 		part.partMesh(this, coarseMesh, procLoad);

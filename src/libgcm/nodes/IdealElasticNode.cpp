@@ -15,77 +15,77 @@ IdealElasticNode::IdealElasticNode(uchar numOfPDE, uchar numOfODE, uchar type) :
 // Read-only get-ters
 
 real IdealElasticNode::getVx() const {
-    return valuesInPDE[0];
+    return PDE[0];
 }
 
 real IdealElasticNode::getVy() const {
-    return valuesInPDE[1];
+    return PDE[1];
 }
 
 real IdealElasticNode::getVz() const {
-    return valuesInPDE[2];
+    return PDE[2];
 }
 
 real IdealElasticNode::getSxx() const {
-    return valuesInPDE[3];
+    return PDE[3];
 }
 
 real IdealElasticNode::getSxy() const {
-    return valuesInPDE[4];
+    return PDE[4];
 }
 
 real IdealElasticNode::getSxz() const {
-    return valuesInPDE[5];
+    return PDE[5];
 }
 
 real IdealElasticNode::getSyy() const {
-    return valuesInPDE[6];
+    return PDE[6];
 }
 
 real IdealElasticNode::getSyz() const {
-    return valuesInPDE[7];
+    return PDE[7];
 }
 
 real IdealElasticNode::getSzz() const {
-    return valuesInPDE[8];
+    return PDE[8];
 }
 
 // Read-write access
 
 real& IdealElasticNode::vx() {
-    return valuesInPDE[0];
+    return PDE[0];
 }
 
 real& IdealElasticNode::vy() {
-    return valuesInPDE[1];
+    return PDE[1];
 }
 
 real& IdealElasticNode::vz() {
-    return valuesInPDE[2];
+    return PDE[2];
 }
 
 real& IdealElasticNode::sxx() {
-    return valuesInPDE[3];
+    return PDE[3];
 }
 
 real& IdealElasticNode::sxy() {
-    return valuesInPDE[4];
+    return PDE[4];
 }
 
 real& IdealElasticNode::sxz() {
-    return valuesInPDE[5];
+    return PDE[5];
 }
 
 real& IdealElasticNode::syy() {
-    return valuesInPDE[6];
+    return PDE[6];
 }
 
 real& IdealElasticNode::syz() {
-    return valuesInPDE[7];
+    return PDE[7];
 }
 
 real& IdealElasticNode::szz() {
-    return valuesInPDE[8];
+    return PDE[8];
 }
 
 // Density from material

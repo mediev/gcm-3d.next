@@ -2,7 +2,6 @@
 #define	GCM_FIRSTORDERSOLVER_HPP
 
 #include "libgcm/solvers/Solver.hpp"
-#include "libgcm/solvers/GridCharacteristicMethod.hpp"
 
 namespace gcm {
 	class FirstOrderSolver : public Solver

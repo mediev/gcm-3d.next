@@ -4,7 +4,7 @@
 #include "libgcm/Launcher.hpp"
 #include "libgcm/Dispatcher.hpp"
 #include "libgcm/meshes/cubic/CubicMeshLoader.hpp"
-#include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
+#include "libgcm/meshes/tetr/TetrMeshLoader.hpp"
 #include "libgcm/solvers/Solver.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 #include "libgcm/meshes/partitioners/MetisPartitioner.hpp"

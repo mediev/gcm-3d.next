@@ -20,6 +20,8 @@ typedef std::unordered_map<int, int>::const_iterator MapIter;
 
 namespace gcm {
 	class RheologyModel;
+	class Engine;
+	
     /*
      * Base class for all meshes
      */
@@ -56,7 +58,6 @@ namespace gcm {
 
         virtual const SnapshotWriter& getSnapshotter() const = 0;
 
-		friend class GridCharacteristicMethod;
     public:
         Mesh();
         // See http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors
@@ -125,6 +126,9 @@ namespace gcm {
 		virtual real getMinH() = 0;
 
 		bool hasNode(int index);
+		
+		void stageX();
+		virtual void interpolateNode(CalcNode& nodeForInterpolation) = 0;
 
         // Virtual functions to be implemented by children classes
 

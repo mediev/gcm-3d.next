@@ -1,4 +1,4 @@
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 
 using namespace gcm;
 using std::vector;
@@ -741,4 +741,8 @@ std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(uint index)
 const SnapshotWriter& TetrMeshFirstOrder::getSnapshotter() const
 {
     return VTK2SnapshotWriter::getInstance();
+}
+
+void TetrMeshFirstOrder::interpolateNode(CalcNode& nodeForInterpolation) {
+
 }

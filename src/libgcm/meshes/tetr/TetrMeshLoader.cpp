@@ -1,19 +1,19 @@
-#include "libgcm/meshes/tetrahedron/TetrahedronMeshLoader.hpp"
+#include "libgcm/meshes/tetr/TetrMeshLoader.hpp"
 
 using namespace gcm;
 using std::string;
 using std::map;
 using std::find;
 
-TetrahedronMeshLoader::TetrahedronMeshLoader()
+TetrMeshLoader::TetrMeshLoader()
 {
 }
 
-TetrahedronMeshLoader::~TetrahedronMeshLoader()
+TetrMeshLoader::~TetrMeshLoader()
 {
 }
 
-void TetrahedronMeshLoader::cleanUp()
+void TetrMeshLoader::cleanUp()
 {
     for( map<string, bool>::const_iterator itr = createdFiles.begin(); itr != createdFiles.end(); ++itr )
     {
@@ -25,22 +25,22 @@ void TetrahedronMeshLoader::cleanUp()
     createdFiles.clear();
 }
 
-bool TetrahedronMeshLoader::isMshFileCreated(string fileName)
+bool TetrMeshLoader::isMshFileCreated(string fileName)
 {
     return createdFiles.find(fileName) != createdFiles.end();
 }
 
-string TetrahedronMeshLoader::getMshFileName(string geoFile)
+string TetrMeshLoader::getMshFileName(string geoFile)
 {
     return geoFile + ".msh";
 }
 
-string TetrahedronMeshLoader::getVtkFileName(string geoFile)
+string TetrMeshLoader::getVtkFileName(string geoFile)
 {
     return geoFile + ".vtu";
 }
 
-void TetrahedronMeshLoader::createMshFile(string fileName, real tetrSize)
+void TetrMeshLoader::createMshFile(string fileName, real tetrSize)
 {
     /*Engine& engine = Engine::getInstance();
 
@@ -79,7 +79,7 @@ void TetrahedronMeshLoader::createMshFile(string fileName, real tetrSize)
     //    MPI::COMM_WORLD.Barrier();
 }
 
-void TetrahedronMeshLoader::loadMesh(TetrMeshFirstOrder* mesh, string fileName, real tetrSize)
+void TetrMeshLoader::loadMesh(TetrMeshFirstOrder* mesh, string fileName, real tetrSize)
 {
     if (!isMshFileCreated(fileName))
         createMshFile(fileName, tetrSize);

@@ -6,11 +6,12 @@
 #include <vector>
 #include <stdio.h>
 #include <mpi.h>
+#include <limits>
 
 #include "libgcm/util/Singleton.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
-#include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMesh.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/solvers/FirstOrderSolver.hpp"
 #include "libgcm/rheologyModels/models/IdealElasticRheologyModel.hpp"
 #include "libgcm/rheologyModels/models/IdealPlasticRheologyModel.hpp"

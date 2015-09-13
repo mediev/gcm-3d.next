@@ -10,7 +10,7 @@
 #include <vtkPointData.h>
 #include <vtkCellData.h>
 
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/nodes/CalcNode.hpp"
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
 

@@ -114,3 +114,23 @@ const SnapshotWriter& CubicMesh::getSnapshotter() const
 {
     return VTKCubicSnapshotWriter::getInstance();
 }
+
+void CubicMesh::interpolateNode(CalcNode& nodeForInterpolation) {
+	CalcNode& currNode = getNode(nodeForInterpolation.number);
+	vector3r dxCurr = currNode.coords - nodeForInterpolation.coords;
+	CalcNode& othrNode = getNode(nodeForInterpolation.number - signum(dxCurr.x));
+	vector3r dxOthr = othrNode.coords - nodeForInterpolation.coords;
+	assert_eq(getMinH(), dxOthr.length() + dxCurr.length());
+//	int Nx = realToInt((outline.maxX - outline.minX) / getMinH());
+//	int Ny = realToInt((outline.maxY - outline.minY) / getMinH());
+//	int Nz = realToInt((outline.maxZ - outline.minZ) / getMinH());
+	if( (dxCurr.y == 0) && (dxCurr.z == 0) ) {
+		// interpolation along x-axis
+		for(int i = 0; i < currNode.getSizeOfPDE(); i++)
+			nodeForInterpolation.PDE[i] = ( currNode.PDE[i] * dxCurr.length() 
+			                             +  othrNode.PDE[i] * dxOthr.length() )
+			                                                       / getMinH();
+	}
+	
+	
+}

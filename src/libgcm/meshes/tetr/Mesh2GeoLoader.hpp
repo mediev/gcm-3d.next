@@ -1,7 +1,7 @@
 #ifndef MESH2GEOLOADER_HPP_
 #define MESH2GEOLOADER_HPP_
 
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/util/Singleton.hpp"
 
 #include <fstream>

@@ -6,10 +6,10 @@
 #include "libgcm/elements/TriangleFirstOrder.hpp"
 
 namespace gcm {
-	class TetrahedronMesh : public Mesh {
+	class TetrMesh : public Mesh {
 	public:
-		TetrahedronMesh();
-		virtual ~TetrahedronMesh();
+		TetrMesh();
+		virtual ~TetrMesh();
         
         virtual int getTetrsNumber() = 0;
         virtual int getTriangleNumber() = 0;
