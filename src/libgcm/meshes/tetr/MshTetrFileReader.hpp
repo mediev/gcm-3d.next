@@ -5,7 +5,7 @@
 #include <fstream>
 #include <limits>
 
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/util/Assertion.hpp"
 
 namespace gcm {

@@ -1,9 +1,10 @@
 #ifndef ABSTRACTVTKSNAPSHOTWRITER_HPP_
 #define ABSTRACTVTKSNAPSHOTWRITER_HPP_
 
+#include "libgcm/config.hpp"
 #include "libgcm/snapshotters/SnapshotWriter.hpp"
 #include "libgcm/util/Assertion.hpp"
-#include "libgcm/nodes/CalcNode.hpp"
+#include "libgcm/nodes/IdealElasticNode.hpp"
 #include "libgcm/util/Logging.hpp"
 
 #include <vtkStdString.h>
@@ -82,23 +83,23 @@ namespace gcm
             //auto contact = vtkSmartPointer<vtkIntArray>::New();
             //contact->SetName("contact");
 
-//            auto border = vtkSmartPointer<vtkIntArray>::New();
-//            border->SetName("border");
+            auto border = vtkSmartPointer<vtkIntArray>::New();
+            border->SetName("border");
 
-            /*auto used = vtkSmartPointer<vtkIntArray>::New();
-            used->SetName("used");
-
-            auto norm = vtkSmartPointer<vtkDoubleArray>::New();
-            norm->SetName("norm");
-            norm->SetNumberOfComponents(3);
+//            auto used = vtkSmartPointer<vtkIntArray>::New();
+//            used->SetName("used");
+//
+//            auto norm = vtkSmartPointer<vtkDoubleArray>::New();
+//            norm->SetName("norm");
+//            norm->SetNumberOfComponents(3);
 
             auto vel = vtkSmartPointer<vtkDoubleArray>::New();
             vel->SetName("velocity");
             vel->SetNumberOfComponents(3);
 
-            auto crack = vtkSmartPointer<vtkDoubleArray>::New();
-            crack->SetName("crack");
-            crack->SetNumberOfComponents(3);
+//            auto crack = vtkSmartPointer<vtkDoubleArray>::New();
+//            crack->SetName("crack");
+//            crack->SetNumberOfComponents(3);
 
             auto sxx = vtkSmartPointer<vtkDoubleArray>::New();
             sxx->SetName("sxx");
@@ -118,57 +119,56 @@ namespace gcm
             auto szz = vtkSmartPointer<vtkDoubleArray>::New();
             szz->SetName("szz");
 
-            auto compression = vtkSmartPointer<vtkDoubleArray>::New();
-            compression->SetName("compression");
+//            auto compression = vtkSmartPointer<vtkDoubleArray>::New();
+//            compression->SetName("compression");
+//
+//            auto tension = vtkSmartPointer<vtkDoubleArray>::New();
+//            tension->SetName("tension");
+//
+//            auto shear = vtkSmartPointer<vtkDoubleArray>::New();
+//            shear->SetName("shear");
+//
+//            auto deviator = vtkSmartPointer<vtkDoubleArray>::New();
+//            deviator->SetName("deviator");
 
-            auto tension = vtkSmartPointer<vtkDoubleArray>::New();
-            tension->SetName("tension");
-
-            auto shear = vtkSmartPointer<vtkDoubleArray>::New();
-            shear->SetName("shear");
-
-            auto deviator = vtkSmartPointer<vtkDoubleArray>::New();
-            deviator->SetName("deviator");
-
-            auto matId = vtkSmartPointer<vtkIntArray>::New();
-            matId->SetName("materialID");
-
-            auto rho = vtkSmartPointer<vtkDoubleArray>::New();
-            rho->SetName("rho");
-
-            auto mpiState = vtkSmartPointer<vtkIntArray>::New();
-            mpiState->SetName("mpiState");
-
-            auto nodePublicFlags = vtkSmartPointer<vtkIntArray>::New ();
-            nodePublicFlags->SetName ("publicFlags");
-
-            auto nodePrivateFlags = vtkSmartPointer<vtkIntArray>::New ();
-            nodePrivateFlags->SetName ("privateFlags");
-
-            auto nodeErrorFlags = vtkSmartPointer<vtkIntArray>::New ();
-            nodeErrorFlags->SetName ("errorFlags");
-
-            auto nodeNumber = vtkSmartPointer<vtkIntArray>::New ();
-            nodeNumber->SetName ("nodeNumber");
-
-            auto nodeBorderConditionId = vtkSmartPointer<vtkIntArray>::New ();
-            nodeBorderConditionId->SetName ("borderConditionId");
-
-            auto nodeContactConditionId = vtkSmartPointer<vtkIntArray>::New();
-            nodeContactConditionId->SetName("contactState");
-
-            auto contactDestroyed = vtkSmartPointer<vtkIntArray>::New();
-            contactDestroyed->SetName("failedContacts");
-
-            auto nodeDestroyed = vtkSmartPointer<vtkIntArray>::New();
-            nodeDestroyed->SetName("failedNodes");
-
-            auto nodeFailureMeasure = vtkSmartPointer<vtkDoubleArray>::New();
-            nodeFailureMeasure->SetName("failureMeasure");
-
-
-            float _norm[3];
-            */
+//            auto matId = vtkSmartPointer<vtkIntArray>::New();
+//            matId->SetName("materialID");
+//
+//            auto rho = vtkSmartPointer<vtkDoubleArray>::New();
+//            rho->SetName("rho");
+//
+//            auto mpiState = vtkSmartPointer<vtkIntArray>::New();
+//            mpiState->SetName("mpiState");
+//
+//            auto nodePublicFlags = vtkSmartPointer<vtkIntArray>::New ();
+//            nodePublicFlags->SetName ("publicFlags");
+//
+//            auto nodePrivateFlags = vtkSmartPointer<vtkIntArray>::New ();
+//            nodePrivateFlags->SetName ("privateFlags");
+//
+//            auto nodeErrorFlags = vtkSmartPointer<vtkIntArray>::New ();
+//            nodeErrorFlags->SetName ("errorFlags");
+//
+//            auto nodeNumber = vtkSmartPointer<vtkIntArray>::New ();
+//            nodeNumber->SetName ("nodeNumber");
+//
+//            auto nodeBorderConditionId = vtkSmartPointer<vtkIntArray>::New ();
+//            nodeBorderConditionId->SetName ("borderConditionId");
+//
+//            auto nodeContactConditionId = vtkSmartPointer<vtkIntArray>::New();
+//            nodeContactConditionId->SetName("contactState");
+//
+//            auto contactDestroyed = vtkSmartPointer<vtkIntArray>::New();
+//            contactDestroyed->SetName("failedContacts");
+//
+//            auto nodeDestroyed = vtkSmartPointer<vtkIntArray>::New();
+//            nodeDestroyed->SetName("failedNodes");
+//
+//            auto nodeFailureMeasure = vtkSmartPointer<vtkDoubleArray>::New();
+//            nodeFailureMeasure->SetName("failureMeasure");
+//
+//
+//            float _norm[3];
 			
 			auto worker_rank = vtkSmartPointer<vtkIntArray>::New();
             worker_rank->SetName("worker_rank");
@@ -177,88 +177,95 @@ namespace gcm
 
             for (auto it = MeshNodeIterator<MeshType, snapshotterId>(_mesh); it.hasNext(); it++)
             {
-                auto& node = *it;
+                auto& node = static_cast<IdealElasticNode&>(*it);
 				worker_rank->InsertNextValue(_mesh->getRank());
-//                border->InsertNextValue(node.isBorder() ? 1 : 0);
-                /*used->InsertNextValue(node.isUsed() ? 1 : 0);
-                contact->InsertNextValue(node.isInContact() ? 1 : 0);
+                border->InsertNextValue(node.isBorder() ? 1 : 0);
+//                used->InsertNextValue(node.isUsed() ? 1 : 0);
+//                contact->InsertNextValue(node.isInContact() ? 1 : 0);
+//
+//                if (node.isUsed() && node.isBorder())
+//                    _mesh->findBorderNodeNormal(node, _norm, _norm+1, _norm+2, false);
+//                else
+//                    _norm[0] = _norm[1] = _norm[2] = 0.0;
+//                norm->InsertNextTuple(_norm);
+//                crack->InsertNextTuple(node.getCrackDirection().coords);
 
-                if (node.isUsed() && node.isBorder())
-                    _mesh->findBorderNodeNormal(node, _norm, _norm+1, _norm+2, false);
-                else
-                    _norm[0] = _norm[1] = _norm[2] = 0.0;
-                norm->InsertNextTuple(_norm);*/
-
-                /*vel->InsertNextTuple(node.velocity);
-                crack->InsertNextTuple(node.getCrackDirection().coords);
-                sxx->InsertNextValue(node.sxx);
-                sxy->InsertNextValue(node.sxy);
-                sxz->InsertNextValue(node.sxz);
-                syy->InsertNextValue(node.syy);
-                syz->InsertNextValue(node.syz);
-                szz->InsertNextValue(node.szz);
-                compression->InsertNextValue(node.getCompression());
-                tension->InsertNextValue(node.getTension());
-                shear->InsertNextValue(node.getShear());
-                deviator->InsertNextValue(node.getDeviator());
-                matId->InsertNextValue(node.getMaterialId());
-                rho->InsertNextValue(node.getRho());
-                mpiState->InsertNextValue(node.isRemote() ? 1 : 0);
-                nodePrivateFlags->InsertNextValue (node.getPrivateFlags());
-                nodePublicFlags->InsertNextValue (node.getPublicFlags());
-                nodeErrorFlags->InsertNextValue (node.getErrorFlags());
-                nodeBorderConditionId->InsertNextValue (node.getBorderConditionId());
-				nodeContactConditionId->InsertNextValue(node.getContactConditionId());
-                nodeNumber->InsertNextValue(node.number);
-                contactDestroyed->InsertNextValue(node.isContactDestroyed() ? 1 : 0);
-                nodeDestroyed->InsertNextValue(node.isDestroyed() ? 1 : 0);
-                nodeFailureMeasure->InsertNextValue(node.getDamageMeasure());
-                */
+				real velocity[3];
+				velocity[0] = node.getVx();
+				velocity[1] = node.getVy();
+				velocity[2] = node.getVz();
+                vel->InsertNextTuple(velocity);
+                sxx->InsertNextValue(node.getSxx());
+                sxy->InsertNextValue(node.getSxy());
+                sxz->InsertNextValue(node.getSxz());
+                syy->InsertNextValue(node.getSyy());
+                syz->InsertNextValue(node.getSyz());
+                szz->InsertNextValue(node.getSzz());
+//                compression->InsertNextValue(node.getCompression());
+//                tension->InsertNextValue(node.getTension());
+//                shear->InsertNextValue(node.getShear());
+//                deviator->InsertNextValue(node.getDeviator());
+//                matId->InsertNextValue(node.getMaterialId());
+//                rho->InsertNextValue(node.getRho());
+//                mpiState->InsertNextValue(node.isRemote() ? 1 : 0);
+//                nodePrivateFlags->InsertNextValue (node.getPrivateFlags());
+//                nodePublicFlags->InsertNextValue (node.getPublicFlags());
+//                nodeErrorFlags->InsertNextValue (node.getErrorFlags());
+//                nodeBorderConditionId->InsertNextValue (node.getBorderConditionId());
+//				nodeContactConditionId->InsertNextValue(node.getContactConditionId());
+//                nodeNumber->InsertNextValue(node.number);
+//                contactDestroyed->InsertNextValue(node.isContactDestroyed() ? 1 : 0);
+//                nodeDestroyed->InsertNextValue(node.isDestroyed() ? 1 : 0);
+//                nodeFailureMeasure->InsertNextValue(node.getDamageMeasure());
             }
 
-           vtkFieldData* fd;
+			vtkFieldData* fd;
 
-           if (useCells)
-               fd = grid->GetCellData();
-           else
-               fd = grid->GetPointData();
+			if (useCells)
+				fd = grid->GetCellData();
+			else
+				fd = grid->GetPointData();
 
-           grid->SetPoints(points);
+			grid->SetPoints(points);
 
-		   fd->AddArray(worker_rank);
-           //fd->AddArray(contact);
-//           fd->AddArray(border);
-           /*fd->AddArray(used);
-           fd->AddArray(norm);
-           fd->AddArray(crack);
-           fd->AddArray(sxx);
-           fd->AddArray(sxy);
-           fd->AddArray(sxz);
-           fd->AddArray(syy);
-           fd->AddArray(syz);
-           fd->AddArray(szz);
-           fd->AddArray(compression);
-           fd->AddArray(tension);
-           fd->AddArray(shear);
-           fd->AddArray(deviator);
-           fd->AddArray(matId);
-           fd->AddArray(rho);
-           fd->AddArray(mpiState);
-           fd->AddArray (nodePrivateFlags);
-           fd->AddArray (nodePublicFlags);
-           fd->AddArray (nodeErrorFlags);
-           fd->AddArray (nodeBorderConditionId);
-           fd->AddArray (nodeContactConditionId);
-           fd->AddArray(vel);
-           fd->AddArray(nodeNumber);
-           fd->AddArray(contactDestroyed);
-           fd->AddArray(nodeDestroyed);
-           fd->AddArray(nodeFailureMeasure);*/
+			fd->AddArray(worker_rank);
+			fd->AddArray(border);
+			//fd->AddArray(contact);
+//           fd->AddArray(used);
+//           fd->AddArray(norm);
+//           fd->AddArray(crack);
+			fd->AddArray(vel);
+			fd->AddArray(sxx);
+			fd->AddArray(sxy);
+			fd->AddArray(sxz);
+			fd->AddArray(syy);
+			fd->AddArray(syz);
+			fd->AddArray(szz);
+//           fd->AddArray(compression);
+//           fd->AddArray(tension);
+//           fd->AddArray(shear);
+//           fd->AddArray(deviator);
+//           fd->AddArray(matId);
+//           fd->AddArray(rho);
+//           fd->AddArray(mpiState);
+//           fd->AddArray (nodePrivateFlags);
+//           fd->AddArray (nodePublicFlags);
+//           fd->AddArray (nodeErrorFlags);
+//           fd->AddArray (nodeBorderConditionId);
+//           fd->AddArray (nodeContactConditionId);
+//           fd->AddArray(nodeNumber);
+//           fd->AddArray(contactDestroyed);
+//           fd->AddArray(nodeDestroyed);
+//           fd->AddArray(nodeFailureMeasure);
 
            // Write file
            auto writer = vtkSmartPointer<GridWriterType>::New();
            writer->SetFileName(fileName.c_str());
-           writer->SetInputData(grid);
+#ifdef VTK_5_8
+           writer->SetInput(grid);
+#else 
+		   writer->SetInputData(grid);
+#endif
            writer->Write();
 
            return fileName;

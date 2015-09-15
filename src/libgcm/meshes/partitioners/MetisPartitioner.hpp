@@ -3,7 +3,7 @@
 
 #include "libgcm/Block.hpp"
 #include "libgcm/util/Singleton.hpp"
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
 
 #include <memory>

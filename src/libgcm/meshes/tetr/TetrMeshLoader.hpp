@@ -4,8 +4,8 @@
 #include <string>
 #include <map>
 
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
-#include "libgcm/meshes/tetrahedron/MshTetrFileReader.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/MshTetrFileReader.hpp"
 #include "libgcm/Launcher.hpp"
 #include "libgcm/snapshotters/VTK2SnapshotWriter.hpp"
 
@@ -21,7 +21,7 @@ namespace gcm {
 	class CalcNode;
 	class TetrMeshFirstOrder;
 
-	class TetrahedronMeshLoader : public Singleton<TetrahedronMeshLoader>
+	class TetrMeshLoader : public Singleton<TetrMeshLoader>
 	{
 	protected:
 		USE_LOGGER;
@@ -37,8 +37,8 @@ namespace gcm {
 
 		std::map<std::string,bool> createdFiles;
 	public:
-		TetrahedronMeshLoader();
-		~TetrahedronMeshLoader();
+		TetrMeshLoader();
+		~TetrMeshLoader();
 
 		void loadMesh(TetrMeshFirstOrder* mesh, std::string fileName, real tetrSize);
         void cleanUp();

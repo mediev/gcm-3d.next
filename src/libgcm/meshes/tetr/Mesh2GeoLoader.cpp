@@ -1,4 +1,4 @@
-#include "libgcm/meshes/tetrahedron/Mesh2GeoLoader.hpp"
+#include "libgcm/meshes/tetr/Mesh2GeoLoader.hpp"
 
 using namespace gcm;
 using std::string;

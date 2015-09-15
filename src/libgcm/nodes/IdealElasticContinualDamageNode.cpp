@@ -11,10 +11,10 @@ IdealElasticContinualDamageNode::IdealElasticContinualDamageNode() :
 
 // Read-only get-ters
 real IdealElasticContinualDamageNode::getDamageMeasure() const {
-    return valuesInODE[0];
+    return ODE[0];
 }
 
 // Read-write access
 real& IdealElasticContinualDamageNode::damageMeasure() {
-    return valuesInODE[0];
+    return ODE[0];
 }

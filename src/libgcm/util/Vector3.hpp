@@ -54,6 +54,15 @@ namespace gcm
             
             return *this;
         }
+		
+		vector3<T>& operator-=(const vector3<T>& t)
+        {
+            this->x -= t.x;
+            this->y -= t.y;
+            this->z -= t.z;
+            
+            return *this;
+        }
 
         vector3<T>& operator/=(T val)
         {

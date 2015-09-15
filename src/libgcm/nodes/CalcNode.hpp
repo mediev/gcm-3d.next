@@ -131,12 +131,13 @@ public:
 	/**
 	 * Variables in main PDE (size of \vec{u}, >= 9)
 	 */
-	real *valuesInPDE;
+	real *PDE;
 	/**
 	 * Variables in supporting ODEs (may be empty)
 	 */
-	real *valuesInODE;
+	real *ODE;
 
+	CalcNode();
 	/**
 	 * Constructor for node only as a geometry point
 	 */
@@ -204,12 +205,12 @@ public:
 	/**
 	 * @return number of variables in main PDE (size of \vec{u}, >= 9)
 	 */
-	uchar getSizeOfValuesInPDE() const;
+	uchar getSizeOfPDE() const;
 
 	/**
 	 * @return number of variables in supporting ODEs (may be empty)
 	 */
-	uchar getSizeOfValuesInODE() const;
+	uchar getSizeOfODE() const;
 
 	/**
 	 * Sets node material id.  Sets material id and updates values for
@@ -442,11 +443,11 @@ inline std::ostream& operator<<(std::ostream &os, const gcm::CalcNode &node) {
 	for (int i = 0; i < 3; i++)
 		os << " " << node.coords[i];
 	os << "\n\tValues in PDE:";
-	for (int i = 0; i < node.getSizeOfValuesInPDE(); i++)
-		os << " " << node.valuesInPDE[i];
+	for (int i = 0; i < node.getSizeOfPDE(); i++)
+		os << " " << node.PDE[i];
 	os << "\n\tValues in ODE:";
-	for (int i = 0; i < node.getSizeOfValuesInODE(); i++)
-		os << " " << node.valuesInODE[i];
+	for (int i = 0; i < node.getSizeOfODE(); i++)
+		os << " " << node.ODE[i];
 	os << "\n\tFlags: " << node.getPublicFlags();
 	os << "\n\tErrors: " << node.getErrorFlags();
 	return os;

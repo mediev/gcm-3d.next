@@ -1,4 +1,4 @@
-#include "libgcm/meshes/tetrahedron/Mesh2MshLoader.hpp"
+#include "libgcm/meshes/tetr/Mesh2MshLoader.hpp"
 
 using namespace gcm;
 

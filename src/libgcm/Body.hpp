@@ -18,6 +18,7 @@ namespace gcm {
 		void loadTask(const BodyProperties &prop);
 		void checkTopology();
 		void doNextTimeStep();
+		void replaceNewAndCurrentNodes();
 		void setId(uint _id);
 		uint getId();
 	};

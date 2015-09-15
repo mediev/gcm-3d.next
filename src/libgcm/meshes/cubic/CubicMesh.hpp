@@ -21,6 +21,9 @@ namespace gcm {
 		real meshH;
 		// this variable is necessary to speed up search in function hasPoint
 		uint cubeLocalIndexToStartCheckingInHasPointFunction;
+		
+		void interpolateNode(CalcNode& nodeForInterpolation) override;
+		
 	public:
 		CubicMesh();
 		~CubicMesh();
@@ -41,7 +44,7 @@ namespace gcm {
 		AABB cubeToAABB(const Cube &cube);
 		real getMinH();
 
-		virtual const SnapshotWriter& getSnaphotter() const override;
+		virtual const SnapshotWriter& getSnapshotter() const override;
 
 	private:
 

@@ -6,13 +6,15 @@
 #include <vector>
 #include <stdio.h>
 #include <mpi.h>
+#include <limits>
 
 #include "libgcm/util/Singleton.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
-#include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
-#include "libgcm/solvers/IdealElasticGcmSolver.hpp"
+#include "libgcm/meshes/tetr/TetrMesh.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
+#include "libgcm/solvers/FirstOrderSolver.hpp"
 #include "libgcm/rheologyModels/models/IdealElasticRheologyModel.hpp"
+#include "libgcm/rheologyModels/models/IdealPlasticRheologyModel.hpp"
 #include "libgcm/Launcher.hpp"
 #include "libgcm/Dispatcher.hpp"
 #include "libgcm/Body.hpp"
@@ -33,12 +35,10 @@ namespace gcm {
 		
 		real currentTime;
 		real requiredTime;
-		real tau;
-		// What is it? tau?
 		real fixedTimeStep;
 
 		std::map<std::string, RheologyModel*> rheologyModels;
-		std::map<std::string, GcmSolver*> gcmSolvers;
+		std::map<std::string, Solver*> gcmSolvers;
 
 		std::vector<Body*> bodies;
 
@@ -57,9 +57,9 @@ namespace gcm {
 		real getTimeStep();
 
 		void registerRheologyModel(RheologyModel* model);
-		void registerGcmSolver(GcmSolver* solver);
+		void registerGcmSolver(Solver* solver);
 		RheologyModel* getRheologyModel(std::string type) const;
-		GcmSolver* getSolver(std::string type) const;
+		Solver* getSolver(std::string type) const;
 
 		void calculate();
 		void doNextTimeStep();

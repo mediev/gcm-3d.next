@@ -19,6 +19,9 @@
 typedef std::unordered_map<int, int>::const_iterator MapIter;
 
 namespace gcm {
+	class RheologyModel;
+	class Engine;
+	
     /*
      * Base class for all meshes
      */
@@ -31,30 +34,21 @@ namespace gcm {
 		int rank;
         // Type of mesh
 		std::string type;
-
-        // TODO - restructure it after we have a concept regarding parallel impl
 		// Rheology model used in the mesh
 		RheologyModel* rheologyModel;
-
-		/*
-		 * Basic nodal objects
-		 */
-        // List of mesh nodes (local indexation)
+        // List of mesh nodes on current time layer
         std::vector<CalcNode> nodes;
 		// Pointer to memory for nodal data
 		real *valuesInNodes;
+		// List of mesh nodes on next time layer
+        std::vector<CalcNode> newNodes;
+		// Pointer to memory for nodal data
+		real *valuesInNewNodes;
+		
 		// Map of <global, local> nodal index associations
 		std::unordered_map<int, int> nodesMap;
 		// Number of nodes for reserving
-		int nodeStorageSize;
-
-		/*
-		 * Basic objects for additional nodes
-		 */
-		// List of additional nodes
-        //std::vector<CalcNode> newNodes;
-        // Pointer to memory for new nodal data
-		//real *valuesInNewNodes;
+		uint nodeStorageSize;
 
         // If the mesh supports moving at all
 		bool movable;
@@ -62,7 +56,7 @@ namespace gcm {
 
         USE_LOGGER;
 
-        virtual const SnapshotWriter& getSnaphotter() const = 0;
+        virtual const SnapshotWriter& getSnapshotter() const = 0;
 
     public:
         Mesh();
@@ -71,6 +65,13 @@ namespace gcm {
 		void initNodesWithoutValues(uint numberOfNodes);
 		virtual void initElements(uint numberOfElements) = 0;
 		void addNodeWithoutValues(const CalcNode &node);
+		/**
+		 * TODO - it's a very stupid solution for change time layers.
+		 * How to do it right?
+         */
+		void replaceNewAndCurrentNodes();
+		void setInitialState(const real* valuesInPDE, const AABB& area);
+		void setMaterial(const MaterialPtr& material, const AABB& area);
 
 		virtual Mesh *getMeshOfTheSameType() = 0;
 
@@ -82,14 +83,10 @@ namespace gcm {
         /*
          * Nodal routines
          */
-        // Allocate memory for values in nodes and reserve memory in mesh
-		//void initValuesInNodes(uint numberOfNodes);
 		// Allocate memory for already stored nodes
 		void initValuesInNodes();
 		// Add node to storage
 		void addNode(const CalcNode& node);
-		// Add node to storage after checking if it isn't already stored
-		void addNodeIfIsntAlreadyStored(const CalcNode& node);
 		// Provide an access to node by global index with map
 		CalcNode& getNode(uint index);
 		// Provide an access to node by local index from vector directly
@@ -129,6 +126,9 @@ namespace gcm {
 		virtual real getMinH() = 0;
 
 		bool hasNode(int index);
+		
+		void stageX();
+		virtual void interpolateNode(CalcNode& nodeForInterpolation) = 0;
 
         // Virtual functions to be implemented by children classes
 

@@ -1,24 +1,25 @@
-#ifndef GCM_IDEALELASTICRHEOLOGYMODEL_HPP
-#define GCM_IDEALELASTICRHEOLOGYMODEL_HPP
+#ifndef GCM_IDEALPLASTICRHEOLOGYMODEL_HPP
+#define GCM_IDEALPLASTICRHEOLOGYMODEL_HPP
 
 #include <string>
 #include <vector>
 
 #include "libgcm/rheologyModels/matrixSetters/IsotropicElasticRheologyMatrixSetter.hpp"
 #include "libgcm/solvers/matrixDecomposers/IsotropicElasticRheologyMatrixDecomposer.hpp"
+#include "libgcm/solvers/correctors/IdealPlasticFlowCorrector.hpp"
 #include "libgcm/nodes/IdealElasticNode.hpp"
 #include "libgcm/util/Logging.hpp"
 #include "libgcm/rheologyModels/models/RheologyModel.hpp"
 
 namespace gcm {
 
-    class IdealElasticRheologyModel : public RheologyModel {
+    class IdealPlasticRheologyModel : public RheologyModel {
     public:
-        IdealElasticRheologyModel();
+        IdealPlasticRheologyModel();
 
     private:
         USE_LOGGER;
     };
 }
 
-#endif /* GCM_IDEALELASTICRHEOLOGYMODEL_HPP */ 
+#endif /* GCM_IDEALPLASTICRHEOLOGYMODEL_HPP */

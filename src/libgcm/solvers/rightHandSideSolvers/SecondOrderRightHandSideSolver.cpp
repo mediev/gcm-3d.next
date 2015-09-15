@@ -10,12 +10,12 @@ void SecondOrderRightHandSideSolver::solve(const CalcNode& curNode,
 	
 	// predictor
 	setter.setVector(f, curNode);
-	for (int i = 0; i < curNode.getSizeOfValuesInPDE(); i++)
-		newNode.valuesInPDE[i] = curNode.valuesInPDE[i]
-							   + tau / 2 * f.valuesInPDE[i];
+	for (int i = 0; i < curNode.getSizeOfPDE(); i++)
+		newNode.PDE[i] = curNode.PDE[i]
+							   + tau / 2 * f.PDE[i];
 	// corrector
 	setter.setVector(f, newNode);
-	for (int i = 0; i < curNode.getSizeOfValuesInPDE(); i++)
-		newNode.valuesInPDE[i] = curNode.valuesInPDE[i]
-							   + tau * f.valuesInPDE[i];
+	for (int i = 0; i < curNode.getSizeOfPDE(); i++)
+		newNode.PDE[i] = curNode.PDE[i]
+							   + tau * f.PDE[i];
 }

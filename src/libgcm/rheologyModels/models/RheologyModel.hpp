@@ -1,18 +1,22 @@
-#ifndef GCM_RheologyModel_H
-#define GCM_RheologyModel_H
+#ifndef GCM_RHEOLOGYMODEL_HPP
+#define GCM_RHEOLOGYMODEL_HPP
 
 #include <string>
 #include <vector>
 
+#include "libgcm/util/NodeTypes.hpp"
+#include "libgcm/util/Assertion.hpp"
 #include "libgcm/util/Logging.hpp"
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
 #include "libgcm/rheologyModels/matrixSetters/RheologyMatrixSetter.hpp"
 #include "libgcm/rheologyModels/rightHandSideSetters/RightHandSideSetter.hpp"
-#include "libgcm/rheologyModels/nodeStateCorrectors/NodeStateCorrector.hpp"
 #include "libgcm/solvers/matrixDecomposers/RheologyMatrixDecomposer.hpp"
+#include "libgcm/solvers/correctors/Corrector.hpp"
+
 
 namespace gcm {
-
+	class Corrector;
+	
     class RheologyModel {
     public:
         RheologyModel(std::string modelType, uchar nodeType, SetterPtr matrixSetter, DecomposerPtr matrixDecomposer);
@@ -21,7 +25,6 @@ namespace gcm {
         uchar getNodeType() const;
         uchar getSizeOfValuesInPDE() const;
         uchar getSizeOfValuesInODE() const;
-        //const RheologyMatrixPtr getRheologyMatrix() const;
 
         // TODO: does it mean that we create Model for each body?
         // BTW, do we need a concept of 'Body' in new code structure?
@@ -29,10 +32,10 @@ namespace gcm {
         // TODO: how do we identify required node type?
         const SetterPtr getRheologyMatrixSetter() const;
         const DecomposerPtr getRheologyMatrixDecomposer() const;
+		const std::vector<Corrector*>& getCorrectors() const;
 		
 		/*	Comment until it will be realized in derived classes
         virtual const RightHandSideSetter& getRightHandSideSetter() const = 0;
-        virtual const std::vector<NodeStateCorrector>& getNodeStateCorrectors() const = 0;
 		 */
 		
     protected:
@@ -40,11 +43,12 @@ namespace gcm {
         uchar nodeType;
         SetterPtr matrixSetter;
         DecomposerPtr matrixDecomposer;
-        //RheologyMatrixPtr rheologyMatrix;
+		RheologyMatrixPtr rheologyMatrix;
+		std::vector<Corrector*> correctors;
 
     private:
         USE_LOGGER;
     };
 }
 
-#endif
+#endif /* GCM_RHEOLOGYMODEL_HPP */ 

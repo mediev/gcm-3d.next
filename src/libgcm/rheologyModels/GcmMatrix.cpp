@@ -13,14 +13,24 @@
 
 using namespace gcm;
 
-GcmMatrix::GcmMatrix(uchar size)
-{
+GcmMatrix::GcmMatrix(uchar _size) {
     INIT_LOGGER("gcm.GcmMatrix");
-    this->size = size;
+    size = _size;
     p = new gcm::real*[size];
     for(int i = 0; i < size; i++) {
         p[i] = new gcm::real[size];
     }
+};
+
+GcmMatrix::GcmMatrix(const GcmMatrix& origin) {
+	size = origin.getSize();
+    p = new gcm::real*[size];
+    for(int i = 0; i < size; i++) {
+        p[i] = new gcm::real[size];
+    }
+	for (int i = 0; i < size; i++)
+        for (int j = 0; j < size; j++)
+            p[i][j] = origin.get(i, j);
 };
 
 GcmMatrix::~GcmMatrix()
@@ -153,9 +163,9 @@ GcmMatrix GcmMatrix::operator-(const GcmMatrix &A) const
     return res_matrix;
 };
 
-void GcmMatrix::clear()
-{
-    memset(p, 0, size * size * sizeof (gcm::real));
+void GcmMatrix::clear() {
+	for(int i = 0; i < size; i++)
+		memset(p[i], 0, size * sizeof (gcm::real));
 };
 
 void GcmMatrix::setColumn(double *Clmn, uchar numOfClmn, uchar numOfStrings)

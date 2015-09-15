@@ -7,8 +7,8 @@ void FirstOrderRightHandSideSolver::solve(const CalcNode& curNode,
                                           const gcm::real tau, 
                                           const RightHandSideSetter& setter) {
 	setter.setVector(f, curNode);
-	for (int i = 0; i < curNode.getSizeOfValuesInPDE(); i++)
+	for (int i = 0; i < curNode.getSizeOfPDE(); i++)
 		// usual first-order formula for ODE
-		newNode.valuesInPDE[i] = curNode.valuesInPDE[i]
-							   + tau * f.valuesInPDE[i];	
+		newNode.PDE[i] = curNode.PDE[i]
+							   + tau * f.PDE[i];	
 }

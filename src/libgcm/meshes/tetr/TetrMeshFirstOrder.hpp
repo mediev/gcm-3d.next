@@ -8,7 +8,7 @@
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
 #include "libgcm/elements/TriangleFirstOrder.hpp"
 
-#include "libgcm/meshes/tetrahedron/TetrahedronMesh.hpp"
+#include "libgcm/meshes/tetr/TetrMesh.hpp"
 #include "libgcm/elements/TetrahedronFirstOrder.hpp"
 #include "libgcm/elements/TriangleFirstOrder.hpp"
 
@@ -20,9 +20,8 @@
 
 namespace gcm {
 	
-	class TetrMeshFirstOrder : public TetrahedronMesh {
-
-	friend class DataBus;
+	class TetrMeshFirstOrder : public TetrMesh {
+		friend class DataBus;
 
 	protected:
 
@@ -96,6 +95,8 @@ namespace gcm {
         bool checkCharactCache(const CalcNode& node, const vector3r& dx, int& tetrNum);
         void updateCharactCache(const CalcNode& node, const vector3r& x, int tetrNum);
         int getCharactCacheIndex(const CalcNode& node, const vector3r& dx);
+		
+		void interpolateNode(CalcNode& nodeForInterpolation) override;
 
 	public:
 		TetrMeshFirstOrder();
@@ -145,7 +146,7 @@ namespace gcm {
         real getMaxEdge();
 		void checkTopology(real tau) override;
 
-		virtual const SnapshotWriter& getSnaphotter() const override;
+		virtual const SnapshotWriter& getSnapshotter() const override;
 	};
 	
 }

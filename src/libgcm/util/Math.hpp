@@ -168,10 +168,17 @@ inline real distance(const vector3r& a, const vector3r& b)
     return sqrt( a * b );
 };
 
-inline int round(const real &x)
+inline int realToInt(const real &x)
 {
 	if ( (x - (int) x) < 0.5 ) return (int) x;
 	return (int) x + 1;
+};
+
+inline char signum(const real& x)
+{
+	if (x < 0) return -1;
+	if (x == 0) return 0;
+	return 1;
 };
 
 #endif    /* GCM_MATH_H */

@@ -1,4 +1,4 @@
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 
 using namespace gcm;
 using std::vector;
@@ -45,8 +45,10 @@ vector3r TetrMeshFirstOrder::getCenterOfElement(uint index) {
 void TetrMeshFirstOrder::addElementWithNodes(Element& element, Mesh* mesh) {
 	addElement(element);
 	TetrahedronFirstOrder &tetr = static_cast<TetrahedronFirstOrder &> (element);
-	for (int i = 0; i < 4; i++)
-		addNodeIfIsntAlreadyStored(mesh->getNode(tetr.vertices[i]));
+	for (int i = 0; i < 4; i++) {
+		if( !hasNode(tetr.vertices[i]) )
+			addNodeWithoutValues(mesh->getNode(tetr.vertices[i]));
+	}
 }
 
 void TetrMeshFirstOrder::initElements(uint numberOfElements) {
@@ -736,7 +738,11 @@ std::vector<int>& TetrMeshFirstOrder::getBorderElementsForNode(uint index)
     return borderElements[localIndex];
 }
 
-const SnapshotWriter& TetrMeshFirstOrder::getSnaphotter() const
+const SnapshotWriter& TetrMeshFirstOrder::getSnapshotter() const
 {
     return VTK2SnapshotWriter::getInstance();
+}
+
+void TetrMeshFirstOrder::interpolateNode(CalcNode& nodeForInterpolation) {
+
 }

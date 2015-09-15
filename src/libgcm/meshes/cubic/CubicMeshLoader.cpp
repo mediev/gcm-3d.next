@@ -19,7 +19,7 @@ void CubicMeshLoader::loadCoarseMesh(CubicMesh* mesh, Geometry geom, real h)
     for( uint k = 0; k <= numZ; k++ )
         for( uint j = 0; j <= numY; j++ )
             for( uint i = 0; i <= numX; i++ ) {
-                CalcNode node = newNode(rModel->getNodeType());
+                CalcNode node = getNewNode(rModel->getNodeType());
                 node.number = globalIndexOfNodes; globalIndexOfNodes++;
                 node.coords[0] = geom.x0 + i*h;
                 node.coords[1] = geom.y0 + j*h;
@@ -57,6 +57,8 @@ void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine,
 	uint Ny = (uint) ((outline.maxY - outline.minY) / h) + 1;
 	uint Nx = (uint) ((outline.maxX - outline.minX) / h) + 1;
 	fine->initNodesWithoutValues( (Nx+1) * (Ny+1) * (Nz+1) );
+	// TODO - fix adequate global indexation
+	globalIndexOfNodes = MPI::COMM_WORLD.Get_rank() * 10000000;
 	for (uint k = 0; k <= Nz; k++)
 		for (uint j = 0; j <= Ny; j++)
 			for (uint i = 0; i <= Nx; i++) {
@@ -65,6 +67,7 @@ void CubicMeshLoader::loadFineMeshFromCoarse(CubicMesh* coarse, CubicMesh *fine,
 				real z = outline.minZ + k*h;
 				if ( coarse->hasPoint(vector3r(x, y, z)) ) {
 					node1.coords = vector3r(x, y, z);
+					node1.number = globalIndexOfNodes; globalIndexOfNodes++;
 					fine->addNodeWithoutValues(node1);
 				}
 			}

@@ -1,7 +1,7 @@
 #ifndef MESH2MSHLOADER_HPP_
 #define MESH2MSHLOADER_HPP_
 
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/util/Assertion.hpp"
 #include "libgcm/util/Singleton.hpp"
 

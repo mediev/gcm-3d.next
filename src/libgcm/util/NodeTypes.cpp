@@ -11,7 +11,7 @@
 
 namespace gcm
 {
-    CalcNode newNode(uchar nodeType)
+    CalcNode getNewNode(uchar nodeType)
     {
         switch (nodeType)
         {

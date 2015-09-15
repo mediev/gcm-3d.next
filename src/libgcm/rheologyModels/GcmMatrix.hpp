@@ -5,6 +5,7 @@
 
 #include "libgcm/util/Logging.hpp"
 #include "libgcm/util/Types.hpp"
+#include "libgcm/util/Assertion.hpp"
 
 namespace gcm {
 
@@ -12,7 +13,8 @@ namespace gcm {
     public:
         // Just a remark: we do not use templates here because of
         // http://stackoverflow.com/questions/1724036/splitting-templated-c-classes-into-hpp-cpp-files-is-it-possible
-        GcmMatrix(uchar size);
+        GcmMatrix(uchar _size);
+		GcmMatrix(const GcmMatrix& origin);
         ~GcmMatrix();
         
         // Basic operators

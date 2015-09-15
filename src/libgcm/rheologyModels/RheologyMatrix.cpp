@@ -1,16 +1,10 @@
 #include "libgcm/rheologyModels/RheologyMatrix.hpp"
 
-#include "libgcm/util/Assertion.hpp"
-
 using namespace gcm;
-#include <iostream>
-#include <limits>
 
-RheologyMatrix::RheologyMatrix(uchar size, const MaterialPtr& material, const SetterPtr& setter, const DecomposerPtr& decomposer): RheologyMatrix(size, material, setter, decomposer, nullptr)
-{
-}
-
-RheologyMatrix::RheologyMatrix(uchar size, const MaterialPtr& material, const SetterPtr& setter, const DecomposerPtr& decomposer, const CorrectorPtr& corrector): size(size), material(material), setter(setter), decomposer(decomposer), corrector(corrector)
+RheologyMatrix::RheologyMatrix(uchar size, const MaterialPtr& material, 
+	const SetterPtr& setter, const DecomposerPtr& decomposer): 
+	size(size), material(material), setter(setter), decomposer(decomposer)
 {
     auto n = setter->getNumberOfStates(); 
     if (n == 0)
@@ -151,10 +145,4 @@ void RheologyMatrix::decompose(const CalcNode& node, unsigned int direction)
 
     this->direction = direction;
     this->index = s;
-}
-
-void RheologyMatrix::applyCorrector(CalcNode& node)
-{
-    if( corrector != nullptr)
-        corrector->correctNodeState(node, material);
 }
