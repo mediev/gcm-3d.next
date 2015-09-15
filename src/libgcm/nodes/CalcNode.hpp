@@ -136,8 +136,6 @@ public:
 	 * Variables in supporting ODEs (may be empty)
 	 */
 	real *ODE;
-
-	CalcNode();
 	/**
 	 * Constructor for node only as a geometry point
 	 */

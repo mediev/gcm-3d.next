@@ -3,7 +3,7 @@
 
 #include "libgcm/util/Logging.hpp"
 #include "libgcm/nodes/CalcNode.hpp"
-#include "libgcm/meshes/tetrahedron/TetrMeshFirstOrder.hpp"
+#include "libgcm/meshes/tetr/TetrMeshFirstOrder.hpp"
 #include "libgcm/meshes/cubic/CubicMesh.hpp"
 
 namespace gcm {
