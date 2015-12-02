@@ -27,4 +27,8 @@
 *.mtc
 *.mtc0
 *.tdo
+*.o
+*.png
+*.jpeg
+*.msh
 nbproject/*
